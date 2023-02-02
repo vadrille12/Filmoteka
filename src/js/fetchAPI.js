@@ -1,6 +1,5 @@
 import { API_KEY, BASE_URL, TREND_URL } from './/api-vars.js';
 import showTrendingMovies from './/filmCard';
-
 export async function getTrendingMovies() {
   try {
     const options = {
