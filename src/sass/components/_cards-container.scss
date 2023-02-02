@@ -1,3 +1,117 @@
+// * {
+//   margin: 0px;
+//   padding: 0px;
+//   box-sizing: border-box;
+// }
+
+.movie__cards {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  padding: 20px;
+
+  @media screen and (min-width: 768px) {
+    flex-direction: column;
+    padding: 32px;
+    justify-content: space-around;
+  }
+
+  // @media screen and (min-width: 1280px) {
+  // }
+}
+
+.movie__card {
+  width: 280px;
+  //   margin: 20px;
+  @media screen and (min-width: 768px) {
+    width: 336px;
+  }
+
+  @media screen and (min-width: 1280px) {
+    width: 394px;
+  }
+}
+
+.movie__info {
+  padding: 10px 0 20px 0;
+}
+
+.movie__title {
+  display: flex;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: black;
+  text-transform: uppercase;
+
+  @media screen and (min-width: 1280px) {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
+.movie__category {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #ff6b08;
+
+  @media screen and (min-width: 1280px) {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+.movie__category::after {
+  content: ' | ';
+  margin-right: 5px;
+}
+
+.movie__item {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.movie__year {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #ff6b08;
+
+  @media screen and (min-width: 1280px) {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
+.movie__average {
+  display: none;
+
+  @media screen and (min-width: 768px) {
+    width: 36px;
+    height: 16px;
+    display: flex;
+    margin-left: 10px;
+    justify-content: center;
+    align-items: center;
+    background-color: orange;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  @media screen and (min-width: 1280px) {
+    width: 40px;
+    height: 20px;
+    display: flex;
+    margin-left: 10px;
+    justify-content: center;
+    align-items: center;
+    background-color: orange;
+    border-radius: 5px;
+    margin-top: 3px;
+    padding-top: 1px;
+    
 .cards__container {
   padding-top: 20px;
   padding-bottom: 40px;
@@ -38,4 +152,5 @@
   @media screen and (min-width: 1280px) {
     flex-basis: calc((100% - 2 * 16px) / 3);
   }
+}
 }
