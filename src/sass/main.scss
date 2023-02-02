@@ -2,7 +2,9 @@
 
 // base-styles
 
-@import './base-style.scss/index.scss';
+@import './base-style.scss/common';
+@import './base-style.scss/container';
+@import './base-style.scss/variables';
 
 //components
 
