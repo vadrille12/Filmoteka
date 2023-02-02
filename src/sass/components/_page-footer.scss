@@ -37,6 +37,10 @@
     margin-left: 10px;
     margin-right: 10px;
     fill: $main-accent-color;
+
+    animation: Heart;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
   }
 
   &__team {
