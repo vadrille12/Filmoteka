@@ -1,0 +1,10 @@
+import './js/fetchAPI';
+import './js/refs';
+import './js/storage';
+import './js/modalMovie';
+import './js/modalStudents';
+import './js/pagination';
+import './js/library';
+import './js/filmSearch';
+import './js/filmCard';
+import './js/popUpBtn';
