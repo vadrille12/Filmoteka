@@ -7,12 +7,13 @@
 .movie__cards {
   display: flex;
   flex-wrap: wrap;
-  //   justify-content: space-around;
+  position: relative;
   padding: 20px;
 
   @media screen and (min-width: 768px) {
-    display: block;
+    flex-direction: column;
     padding: 32px;
+    justify-content: space-around;
   }
 
   // @media screen and (min-width: 1280px) {
@@ -41,6 +42,12 @@
   font-size: 12px;
   line-height: 16px;
   color: black;
+  text-transform: uppercase;
+
+  @media screen and (min-width: 1280px) {
+    font-size: 20px;
+    line-height: 24px;
+  }
 }
 
 .movie__category {
@@ -48,6 +55,11 @@
   font-size: 12px;
   line-height: 16px;
   color: #ff6b08;
+
+  @media screen and (min-width: 1280px) {
+    font-size: 20px;
+    line-height: 24px;
+  }
 }
 .movie__category::after {
   content: ' | ';
@@ -63,7 +75,41 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
-  /* or 133% */
-
   color: #ff6b08;
+
+  @media screen and (min-width: 1280px) {
+    font-size: 20px;
+    line-height: 24px;
+  }
+}
+
+.movie__average {
+  display: none;
+
+  @media screen and (min-width: 768px) {
+    width: 36px;
+    height: 16px;
+    display: flex;
+    margin-left: 10px;
+    justify-content: center;
+    align-items: center;
+    background-color: orange;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    line-height: 14px;
+  }
+
+  @media screen and (min-width: 1280px) {
+    width: 40px;
+    height: 20px;
+    display: flex;
+    margin-left: 10px;
+    justify-content: center;
+    align-items: center;
+    background-color: orange;
+    border-radius: 5px;
+    margin-top: 3px;
+    padding-top: 1px;
+  }
 }
