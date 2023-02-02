@@ -1,0 +1,21 @@
+@import '~node_modules/modern-normalize/modern-normalize.css';
+
+// base-styles
+
+@import './base-style.scss/common';
+@import './base-style.scss/container';
+@import './base-style.scss/variables';
+
+//components
+
+@import './components/backdrop';
+@import './components/cards-container';
+@import './components/filter';
+@import './components/modal-movie';
+@import './components/modal-students';
+@import './components/page-footer';
+@import './components/page-header';
+@import './components/pagination';
+@import './components/pop-up-btn';
+@import './components/search-input';
+@import './components/settings';
