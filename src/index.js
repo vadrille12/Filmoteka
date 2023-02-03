@@ -9,3 +9,4 @@ import './js/filmSearch';
 import './js/filmCard';
 import './js/popUpBtn';
 import './js/api-vars';
+import './js/fetchGenres';
