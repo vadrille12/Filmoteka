@@ -7,7 +7,6 @@ getWatchedMovies();
 
 async function getWatchedMovies() {
   main.innerHTML = '';
-
   if (JSON.parse(localStorage.getItem('added-to-watched')) !== null) {
     let watchedMoviesNumber = JSON.parse(
       localStorage.getItem('added-to-watched')
@@ -51,5 +50,3 @@ watchedBtn.addEventListener('click', event => {
   event.preventDefault();
   getWatchedMovies();
 });
-
-
