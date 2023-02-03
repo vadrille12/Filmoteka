@@ -136,6 +136,21 @@
     fill: $main-title-color;
   }
 }
+.uncorrect-search {
+  text-align: center;
+  color: red;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.14;
+  margin-top: 20px;
+
+  @media screen and (max-width: 767px) {
+    margin-top: 5px;
+    text-align: left;
+    display: block;
+    width: 150px;
+  }
+}
 
 // ================ LIBRARY styles==================
 .header-library {

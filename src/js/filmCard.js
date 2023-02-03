@@ -16,6 +16,7 @@ export async function showTrendingMovies(page = 1) {
   }
 }
 
+
 showTrendingMovies().then(console.log);
 
 function renderTrendingMovies(data) {
@@ -34,6 +35,7 @@ function renderTrendingMovies(data) {
         const genresName = genres
           .map(genre => localStorage.getItem(genre))
           .join(', ');
+
         return `<li class="movie__card">
         <img
           src="${urlImage}${poster_path}"
@@ -45,13 +47,16 @@ function renderTrendingMovies(data) {
           <h3 class="movie__category">${genresName}</h3>
           <h3 class="movie__year">${release_date.slice(0, 4)}</h3>
           <div class="movie__average">${Math.ceil(vote_average)}</div>
+
         </div>
       </div>
       </li>
       `;
+
       }
     )
     .join('');
 
   moviesEl.innerHTML = cardMarkup;
+
 }
