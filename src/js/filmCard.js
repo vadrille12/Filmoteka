@@ -8,7 +8,7 @@ let page = 1;
 export async function showTrendingMovies(page = 1) {
   try {
     const data = await fetchTrendingMovies(page);
-    console.log(data);
+    // console.log(data);
     renderTrendingMovies(data.results);
   } catch (err) {
     console.error(err.message);
@@ -29,10 +29,17 @@ export function renderTrendingMovies(data) {
         release_date = '',
         vote_average = '',
       }) => {
-        const genresName = genres
+        let genresName = genres
           .map(genre => localStorage.getItem(genre))
           .join(', ');
 
+        if (genres.length > 2) {
+          genresName =
+            genres
+              .map(genre => localStorage.getItem(genre))
+              .slice(0, 2)
+              .join(', ') + ', Other';
+        }
         return `<li class="movie__card">
         <img
           src="${urlImage}${poster_path}"
