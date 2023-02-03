@@ -18,7 +18,7 @@ export async function showTrendingMovies(page = 1) {
 
 showTrendingMovies().then(console.log);
 
-function renderTrendingMovies(data) {
+export function renderTrendingMovies(data) {
   const urlImage = 'https://image.tmdb.org/t/p/w500/';
 
   const cardMarkup = data
@@ -53,5 +53,5 @@ function renderTrendingMovies(data) {
     )
     .join('');
 
-  moviesGallery.innerHTML = cardMarkup;
+  refs.moviesGallery.innerHTML = cardMarkup;
 }
