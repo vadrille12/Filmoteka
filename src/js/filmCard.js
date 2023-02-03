@@ -1,14 +1,14 @@
-import { getTrendingMovies } from './fetchAPI';
-import { getGenres } from './fetchGenres';
+import { fetchTrendingMovies } from './fetchAPI';
 
-const moviesEl = document.querySelector('.cards__list');
-const form = document.querySelector('.header-form');
+import { refs } from './refs';
+
+const moviesGallery = document.querySelector('.cards__list');
 
 let page = 1;
 
 export async function showTrendingMovies(page = 1) {
   try {
-    const data = await getTrendingMovies(page);
+    const data = await fetchTrendingMovies(page);
     console.log(data);
     renderTrendingMovies(data.results);
   } catch (err) {
@@ -16,11 +16,9 @@ export async function showTrendingMovies(page = 1) {
   }
 }
 
-
 showTrendingMovies().then(console.log);
 
 function renderTrendingMovies(data) {
-  // console.log(data);
   const urlImage = 'https://image.tmdb.org/t/p/w500/';
 
   const cardMarkup = data
@@ -29,8 +27,8 @@ function renderTrendingMovies(data) {
         poster_path,
         title,
         genre_ids: genres,
-        release_date,
-        vote_average,
+        release_date = '',
+        vote_average = '',
       }) => {
         const genresName = genres
           .map(genre => localStorage.getItem(genre))
@@ -46,17 +44,14 @@ function renderTrendingMovies(data) {
         <div class="movie__item">
           <h3 class="movie__category">${genresName}</h3>
           <h3 class="movie__year">${release_date.slice(0, 4)}</h3>
-          <div class="movie__average">${Math.ceil(vote_average)}</div>
-
+          <div class="movie__average">${vote_average.toFixed(1)}</div>
         </div>
       </div>
       </li>
       `;
-
       }
     )
     .join('');
 
-  moviesEl.innerHTML = cardMarkup;
-
+  moviesGallery.innerHTML = cardMarkup;
 }

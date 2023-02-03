@@ -1,6 +1,6 @@
 import { API_KEY, BASE_URL, TREND_URL } from './/api-vars.js';
 import showTrendingMovies from './/filmCard';
-export async function getTrendingMovies(page = 1) {
+export async function fetchTrendingMovies(page = 1) {
   try {
     const options = {
       headers: {
@@ -22,6 +22,6 @@ export async function getTrendingMovies(page = 1) {
 }
 
 (async function () {
-  const data = await getTrendingMovies();
+  const data = await fetchTrendingMovies();
   //   console.log(data);
 })();
