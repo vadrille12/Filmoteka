@@ -1,27 +1,50 @@
-.footer-wrap {
-  height: 100px;
+.footer__wrap {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: $footer-background-color;
-  color: $secondary-title-color;
+  height: 100px;
 
-  @media screen and (min-width: 480px) {
-  }
+  font-weight: 400;
+  font-size: 14px;
+  line-height: calc(16 / 14);
+  background-color: $footer-background-color;
+  color: $secondary-accent-color;
 
   @media screen and (min-width: 768px) {
-    height: 79px;
     flex-direction: row;
+    height: 79px;
+
+    font-size: 16px;
+    line-height: calc(19 / 16);
   }
 
   @media screen and (min-width: 1280px) {
     height: 77px;
+    // font-size: 16px;
+    // line-height: calc(19 / 16);
   }
 }
+.footer {
+  &__developed {
+    display: flex;
+    align-items: center;
+    @media screen and (max-width: 767px) {
+      margin-top: 10px;
+    }
+  }
+  &__heart-icon {
+    margin-left: 10px;
+    margin-right: 10px;
+    fill: $main-accent-color;
 
-.footer-heart-icon {
-  margin-left: 10px;
-  margin-right: 10px;
-  color: $main-accent-color;
+    animation: Heart;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+  }
+
+  &__team {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
