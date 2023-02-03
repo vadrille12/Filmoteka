@@ -49,37 +49,41 @@
 }
 
 .movie__info {
-  padding: 10px 0 20px 0;
+  padding-top: 8px;
 
   .movie__card:hover &,
   .movie__card:focus & {
     padding-left: 10px;
   }
+
+  @media screen and (min-width: 1280px) {
+    padding-top: 12px;
+  }
 }
 
 .movie__title {
-  display: flex;
-  font-weight: 500;
+  font-style: medium;
   font-size: 12px;
-  line-height: 16px;
-  color: black;
+  line-height: 1.33;
+  color: $secondary-title-color;
   text-transform: uppercase;
+  text-align: start;
 
   @media screen and (min-width: 1280px) {
     font-size: 20px;
-    line-height: 24px;
+    line-height: 1.2;
   }
 }
 
 .movie__category {
-  font-weight: 500;
+  font-style: medium;
   font-size: 12px;
-  line-height: 16px;
-  color: #ff6b08;
+  line-height: 1.33;
+  color: $main-accent-color;
 
   @media screen and (min-width: 1280px) {
     font-size: 20px;
-    line-height: 24px;
+    line-height: 1.2;
   }
 }
 .movie__category::after {
@@ -93,44 +97,31 @@
 }
 
 .movie__year {
-  font-weight: 500;
   font-size: 12px;
-  line-height: 16px;
-  color: #ff6b08;
+  line-height: 1.33;
+  color: $main-accent-color;
 
   @media screen and (min-width: 1280px) {
     font-size: 20px;
-    line-height: 24px;
+    line-height: 1.2;
   }
 }
 
 .movie__average {
-  display: none;
+  padding: 1px 6px;
+  margin-left: 9px;
+  background-color: $warning-color;
+  border-radius: 5px;
+  color: $main-title-color;
+  font-size: 12px;
+  line-height: 1.17;
 
   @media screen and (min-width: 768px) {
-    width: 36px;
-    height: 16px;
-    display: flex;
-    margin-left: 10px;
-    justify-content: center;
-    align-items: center;
-    background-color: orange;
-    border-radius: 5px;
-    color: white;
-    font-size: 12px;
-    line-height: 14px;
+    padding: 1px 9px;
   }
 
   @media screen and (min-width: 1280px) {
-    width: 40px;
-    height: 20px;
-    display: flex;
-    margin-left: 10px;
-    justify-content: center;
-    align-items: center;
-    background-color: orange;
-    border-radius: 5px;
-    margin-top: 3px;
-    padding-top: 1px;
+    font-style: medium;
+    padding: 3px 12px;
   }
 }
