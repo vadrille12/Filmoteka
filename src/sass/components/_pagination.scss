@@ -1,0 +1,69 @@
+#tui-pagination-container {
+  height: 100%;
+  margin-bottom: 40px;
+  margin-top: 40px;
+
+  @media (min-width: 768px) {
+    margin-bottom: 60px;
+  }
+
+  .tui-page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    border: none;
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: $secondary-title-color;
+
+    &:hover {
+      border-radius: 5px;
+    }
+
+    &.tui-is-selected {
+      width: 40px;
+      height: 40px;
+      color: $main-title-color;
+      background-color: $main-accent-color;
+      border: none;
+      border-radius: 5px;
+    }
+  }
+
+  .tui-prev,
+  .tui-next {
+    width: 40px;
+    height: 40px;
+    background-color: $footer-background-color;
+    border-radius: 5px;
+  }
+}
+
+// test styles
+
+// .list {
+//   display: flex;
+//   flex-wrap: wrap;
+//   align-items: center;
+//   justify-content: center;
+//   gap: 30px;
+//   padding: 10px;
+// }
+
+// .list__item {
+//   display: flex;
+//   row-gap: 10px;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   flex-basis: 31%;
+//   width: 100%;
+// }
+
+// .list__img {
+//   width: 100%;
+// }
