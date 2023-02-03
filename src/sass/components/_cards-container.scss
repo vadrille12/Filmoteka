@@ -1,28 +1,35 @@
-// * {
-//   margin: 0px;
-//   padding: 0px;
-//   box-sizing: border-box;
-// }
-
-.movie__cards {
-  display: flex;
-  flex-wrap: wrap;
-  position: relative;
-  padding: 20px;
+.cards__container {
+  padding-top: 20px;
+  padding-bottom: 40px;
+  margin-left: auto;
+  margin-right: auto;
 
   @media screen and (min-width: 768px) {
-    flex-direction: column;
-    padding: 32px;
-    justify-content: space-around;
+    padding-top: 60px;
+    padding-bottom: 60px;
   }
+}
 
-  // @media screen and (min-width: 1280px) {
-  // }
+.cards__list {
+  @media screen and (min-width: 768px) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+  @media screen and (min-width: 1280px) {
+    column-gap: 16px;
+    row-gap: 32px;
+  }
 }
 
 .movie__card {
   width: 280px;
-  //   margin: 20px;
+
+  &:hover,
+  &:focus {
+    box-shadow: 5px 5px 8px 1px rgba(0, 0, 0, 0.5);
+  }
+
   @media screen and (min-width: 768px) {
     width: 336px;
   }
@@ -32,8 +39,22 @@
   }
 }
 
+.movie__card:not(:last-child) {
+  margin-bottom: 20px;
+}
+@media screen and (min-width: 768px) {
+  .movie__card:not(:last-child) {
+    margin-bottom: 0px;
+  }
+}
+
 .movie__info {
   padding: 10px 0 20px 0;
+
+  .movie__card:hover &,
+  .movie__card:focus & {
+    padding-left: 10px;
+  }
 }
 
 .movie__title {
@@ -111,48 +132,5 @@
     border-radius: 5px;
     margin-top: 3px;
     padding-top: 1px;
-
-    .cards__container {
-      padding-top: 20px;
-      padding-bottom: 40px;
-      margin-left: auto;
-      margin-right: auto;
-
-      @media screen and (min-width: 768px) {
-        padding-top: 60px;
-        padding-bottom: 60px;
-      }
-    }
-
-    .cards__list {
-      @media screen and (min-width: 768px) {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 32px;
-      }
-      @media screen and (min-width: 1280px) {
-        column-gap: 16px;
-        row-gap: 32px;
-      }
-    }
-
-    .cards__item:not(:last-child) {
-      margin-bottom: 20px;
-    }
-    @media screen and (min-width: 768px) {
-      .cards__item:not(:last-child) {
-        margin-bottom: 0px;
-      }
-    }
-
-    .cards__item {
-      @media screen and (min-width: 768px) {
-        flex-basis: calc((100% - 2 * 32px) / 3);
-      }
-      @media screen and (min-width: 1280px) {
-        flex-basis: calc((100% - 2 * 16px) / 3);
-      }
-    }
-    }
-    }
-
+  }
+}
