@@ -1,5 +1,4 @@
 import { fetchTrendingMovies } from './fetchAPI';
-
 import { refs } from './refs';
 
 const moviesGallery = document.querySelector('.cards__list');
