@@ -10,3 +10,4 @@ import './js/filmCard';
 import './js/popUpBtn';
 import './js/api-vars';
 import './js/fetchGenres';
+import './js/localStorage';
