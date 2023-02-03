@@ -5,6 +5,6 @@ export const refs = {
   paginationEl: document.getElementById('tui-pagination-container'),
   moviesGallery: document.querySelector('.cards__list'),
 
-  //===== будет удален - после переименования moviesGallery в рабочем файле JS
+  //=====moviesEl будет удален - надо переименовать на -- moviesGallery в рабочем файле JS
   moviesEl: document.querySelector('.cards__list'),
 };
