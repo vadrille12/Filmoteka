@@ -413,8 +413,9 @@
   transition: 1s ease;
 }
 .header-logo__link:hover::before, .header-logo__link:focus::before {
-  background: $warning-color;
-  top: 30px;
+  background: $body-background-color;
+  top: 40px;
+  left: 30px;
 }
 
 .header-nav__link{
@@ -469,9 +470,12 @@
 }
 
 .hi-icon-wrap {
-  position:fixed;
-      top: 45px;
-      left: 230px;
+  position:absolute;
+      // top: 200px;
+      margin-left: 30px;
+      @media screen and (min-width: 768px) {
+        margin-left: 180px;
+      }
       
 }
 .theme-btn {
@@ -512,7 +516,7 @@
   opacity: 0;
   display: inline-block;
   text-align: center;
-  box-shadow: 3px 3px $warning-color;
+  box-shadow: 3px 3px $main-accent-color;
   -webkit-transform: rotate(-180deg);
   -moz-transform: rotate(-180deg);
   -ms-transform: rotate(-180deg);
