@@ -1,0 +1,56 @@
+.btn--to_top {
+  position: fixed;
+  display: inline-block;
+
+  top: 80%;
+  left: 70%;
+  z-index: 0;
+  cursor: pointer;
+  text-align: center;
+  opacity: 0;
+  visibility: hidden;
+
+  transition: all 0.3s ease-in-out;
+
+  @media screen and(min-width: $mobile) {
+    left: 80%;
+  }
+  @media screen and(min-width: $tablet) {
+    left: 89%;
+  }
+  @media screen and(min-width: $desktop) {
+    left: 91%;
+  }
+}
+
+.btn--to_top .icon--to_top {
+  position: relative;
+  fill: black;
+  stroke: $body-background-color;
+
+  transition: all 0.3s ease-in-out;
+
+  @media screen and(min-width: $tablet) {
+    width: 54px;
+    height: 54px;
+  }
+  @media screen and(min-width: $desktop) {
+    width: 81px;
+    height: 81px;
+  }
+}
+
+.btn--to_top:hover .icon--to_top {
+  cursor: pointer;
+  fill: rgb(100, 0, 0);
+  stroke: $warning-color;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.btn--to_top.show {
+  opacity: 1;
+  visibility: visible;
+  right: calc(8%);
+  bottom: calc(11%);
+}
