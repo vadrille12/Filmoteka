@@ -12,13 +12,14 @@
 
 .cards__list {
   @media screen and (min-width: 768px) {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 32px;
   }
   @media screen and (min-width: 1280px) {
-    column-gap: 16px;
+    grid-template-columns: repeat(3, 1fr);
     row-gap: 32px;
+    column-gap: 16px;
   }
 }
 
@@ -27,7 +28,7 @@
   border-radius: 5px;
   &:hover,
   &:focus {
-    box-shadow: 5px 5px 8px 1px rgba(0, 0, 0, 0.5);
+    cursor: pointer;
   }
 
   @media screen and (min-width: 768px) {
@@ -38,7 +39,14 @@
     width: 394px;
   }
 }
-
+.movie__card > img {
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  &:hover,
+  &:focus {
+    box-shadow: 1px -1px 40px -4px rgba(171, 171, 171, 1);
+  }
+}
 .movie__card:not(:last-child) {
   margin-bottom: 20px;
 }
@@ -53,8 +61,8 @@
 
   .movie__card:hover &,
   .movie__card:focus & {
-    padding-left: 5px;
-    padding-top: 5px;
+    // padding-left: 2px;
+    // padding-top: 2px;
   }
 
   @media screen and (min-width: 1280px) {
@@ -64,7 +72,7 @@
 
 .movie__title {
   white-space: nowrap;
-  font-style: medium;
+  font-weight: 500;
   font-size: 12px;
   line-height: 1.33;
   color: $secondary-title-color;
@@ -78,7 +86,7 @@
 }
 
 .movie__category {
-  font-style: medium;
+  font-weight: 500;
   font-size: 12px;
   line-height: 1.33;
   color: $main-accent-color;
@@ -95,10 +103,12 @@
 
 .movie__item {
   display: flex;
+  align-items: baseline;
   flex-wrap: wrap;
 }
 
 .movie__year {
+  font-weight: 500;
   font-size: 12px;
   line-height: 1.33;
   color: $main-accent-color;
@@ -110,16 +120,20 @@
 }
 
 .movie__average {
-  padding: 1px 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px 6px 0px;
   margin-left: 9px;
-  background-color: $warning-color;
+  background-color: $main-accent-color;
   border-radius: 5px;
   color: $main-title-color;
+  font-weight: 500;
   font-size: 12px;
   line-height: 1.17;
 
   @media screen and (min-width: 768px) {
-    padding: 1px 9px;
+    padding: 1px 9px 0px;
   }
 
   @media screen and (min-width: 1280px) {
