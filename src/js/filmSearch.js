@@ -1,9 +1,10 @@
 import { API_KEY, BASE_URL, TREND_URL, SEARCH_URL } from './api-vars.js';
-import { showTrendingMovies } from './filmCard';
+import {showTrendingMovies} from './filmCard'
 import { renderTrendingMovies } from './filmCard';
 import { makeTuiPagination } from './pagination.js';
 import { refs } from './refs';
 import { load, save, remove } from './localStorage';
+//import {fetchTrendingMovies} from './fetchAPI'
 
 
 export default async function fetchMovie(query, page) {
@@ -27,7 +28,6 @@ async function onFormSubmit(event) {
   try {
     event.preventDefault();
     page = 1;
-   
       const query = event.currentTarget.elements.searchQuery.value.trim();
     // console.log(query);
     if (query === '') {
@@ -36,24 +36,19 @@ async function onFormSubmit(event) {
         2000
       );
     }
-      
     const data = await fetchMovie(query, page);
-    console.log(data);
-
+    //console.log(data);
     renderTrendingMovies(data.results);
+    
     if (data.total_results === 0) {
       invalidSearch(
         'Search result not successful. Enter the correct movie name and try again',
         2000
         );
-       renderTrendingMovies();
-       return 
-      // вместо показа популярных фильмов
-      //- может заменить на постер с пустой пленкой ???
-      //как Алёна говорила
-       
-    }
-
+    showTrendingMovies()
+        return
+    } 
+        
     makeTuiPagination(data.total_results, data.total_pages).on(
       'afterMove',
       ({ page }) => {
