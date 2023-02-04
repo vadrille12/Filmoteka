@@ -1,6 +1,7 @@
 import { fetchTrendingMovies } from './fetchAPI';
 import { refs } from './refs';
 import { makeTuiPagination } from './pagination';
+import photo from '../images/header/photo.jpg';
 
 const moviesGallery = document.querySelector('.cards__list');
 
@@ -58,8 +59,8 @@ export function renderTrendingMovies(data) {
 
         if (!poster_path) {
           return `<li class="movie__card">
-        <img width="300"
-          src="./images/header/fotor.jpg"
+        <img width="100%"
+          src="${photo}"
           class="movie__cover"
         />
         <div class="movie__info">
