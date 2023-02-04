@@ -1,5 +1,6 @@
 import { fetchTrendingMovies } from './fetchAPI';
 import { refs } from './refs';
+import { makeTuiPagination } from './pagination';
 
 const moviesGallery = document.querySelector('.cards__list');
 
@@ -10,6 +11,15 @@ export async function showTrendingMovies(page = 1) {
     const data = await fetchTrendingMovies(page);
     // console.log(data);
     renderTrendingMovies(data.results);
+
+    makeTuiPagination(data.total_results, data.total_pages).on(
+      'afterMove',
+      ({ page }) => {
+        fetchTrendingMovies(page).then(data => {
+          renderTrendingMovies(data.results);
+        });
+      }
+    );
   } catch (err) {
     console.error(err.message);
   }
