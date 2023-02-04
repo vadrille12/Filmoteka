@@ -12,3 +12,4 @@ import './js/api-vars';
 import './js/fetchGenres';
 import './js/localStorage';
 import './js/backToTopBtn';
+import './js/switchDayNight';
