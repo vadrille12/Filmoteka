@@ -1,7 +1,8 @@
 import Pagination from 'tui-pagination';
 import 'tui-pagination/dist/tui-pagination.css';
+import { refs } from './refs';
 
-const paginationEl = document.getElementById('tui-pagination-container');
+//const paginationEl = document.getElementById('tui-pagination-container');
 
 export function makeTuiPagination(totalItems, totalPages) {
   const visiblePages = totalPages < 5 ? totalPages : 5;
@@ -13,12 +14,12 @@ export function makeTuiPagination(totalItems, totalPages) {
     centerAlign: true,
   };
 
-  const pagination = new Pagination(paginationEl, options);
+  const pagination = new Pagination(refs.paginationEl, options);
 
   if (visiblePages <= 1) {
-    paginationEl.style.display = 'none';
+    refs.paginationEl.style.display = 'none';
   } else {
-    paginationEl.style.display = 'block';
+    refs.paginationEl.style.display = 'block';
   }
 
   return pagination;

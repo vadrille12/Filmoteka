@@ -21,7 +21,7 @@ export async function fetchTrendingMovies(page = 1) {
   }
 }
 
-(async function () {
-  const data = await fetchTrendingMovies();
-  //   console.log(data);
-})();
+// (async function () {
+//   const data = await fetchTrendingMovies();
+//   //   console.log(data);
+// })();
