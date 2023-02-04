@@ -1,62 +1,116 @@
-
 import { API_KEY, BASE_URL, TREND_URL, SEARCH_URL } from './api-vars.js';
-import { showTrendingMovies } from './filmCard'
-import { renderTrendingMovies } from './filmCard'
+import { showTrendingMovies } from './filmCard';
+import { renderTrendingMovies } from './filmCard';
 import { refs } from './refs';
 
 export default async function fetchMovie(query, page) {
-    try {
-        const response = await fetch(`${SEARCH_URL}?api_key=${API_KEY}&page=${page}&include_adult=false&query=${query}`);
-        const data = await response.json();
-        return data
-    }catch(error) {
-        console.error(); 
-    }
+  try {
+    const response = await fetch(
+      `${SEARCH_URL}?api_key=${API_KEY}&page=${page}&include_adult=false&query=${query}`
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error();
+  }
 }
 
 refs.form.addEventListener('submit', onFormSubmit);
 let page = 1;
 let query = '';
-//const input = document.querySelector('header-form__input');
 
 async function onFormSubmit(event) {
-    try {
-        event.preventDefault();
-        page = 1;
-        query = event.currentTarget.elements.searchQuery.value.trim();
-        //console.log(query)
-        if (!query) {
-            moviesGallery.innerHTML = "";
-            return
-        }
-        
+  try {
+    event.preventDefault();
+    page = 1;
+    const query = event.currentTarget.elements.searchQuery.value.trim();
+    // console.log(query);
+    if (query === '') {
+      invalidSearch(
+        'Search for movies is empty! Enter movie name, please',
+        2000
+      );
+    }
+
     const data = await fetchMovie(query, page);
     console.log(data);
-        renderTrendingMovies(data.results);
-        if (data.total_results === 0) {
-        //console.log(data.total_results)
-            invalidSearch();
-            showTrendingMovies();
-           return;
-        } 
-    
-    } catch(error) {
-        console.error()
-        
-}
-} 
 
-const invalidSearch = function () {
-  const notification = `<p class="uncorrect-search">
-    Search result was NOT successful. Enter the correct movie name and try again!
-  </p>;`;
- refs.form.insertAdjacentHTML('beforeend', notification);
+    renderTrendingMovies(data.results);
+    if (data.total_results === 0) {
+      invalidSearch(
+        'Search result not successful. Enter the correct movie name and try again',
+        2000
+      );
+
+      // refs.moviesGallery.innerHTML = '';
+
+      // вместо показа популярных фильмов
+      //- может заменить на постер с пустой пленкой ???
+      //как Алёна говорила
+
+      //showTrendingMovies();
+      return;
+    }
+  } catch (error) {
+    console.error();
+    refs.form.reset();
+  }
+}
+
+export function invalidSearch(message, showTime) {
+  refs.form.insertAdjacentHTML(
+    'beforeend',
+    '<p class="form__uncorrect-search is-hidden"></p>'
+  );
+  const notification = document.querySelector('.form__uncorrect-search');
+  notification.textContent = `${message}`;
+  setTimeout(() => {
+    notification.classList.toggle('is-hidden');
+  }, showTime);
+
   const removeNotification = setTimeout(() => {
     refs.form.lastElementChild.remove();
-    //console.log(refs.form.lastElementChild)
-  }, 2000);
+  }, 5000);
   removeNotification();
-};
+}
 
+///****************************************** */
+//***ORIGINAL */
+// async function onFormSubmit(event) {
+//     try {
+//         event.preventDefault();
+//         page = 1;
+//         query = event.currentTarget.elements.searchQuery.value.trim();
+//         //console.log(query)
+//         if (!query) {
+//             moviesGallery.innerHTML = "";
+//             return
+//         }
 
+//     const data = await fetchMovie(query, page);
+//     console.log(data);
+//         renderTrendingMovies(data.results);
+//         if (data.total_results === 0) {
+//         //console.log(data.total_results)
+//             invalidSearch();
+//             showTrendingMovies();
+//            return;
+//         }
 
+//     } catch(error) {
+//         console.error()
+
+// }
+// }
+
+// const invalidSearch = function () {
+//   const notification = `<p class="uncorrect-search">
+//     Search result was NOT successful. Enter the correct movie name and try again!
+//   </p>;`;
+//  refs.form.insertAdjacentHTML('beforeend', notification);
+//   const removeNotification = setTimeout(() => {
+//     refs.form.lastElementChild.remove();
+//     //console.log(refs.form.lastElementChild)
+//   }, 2000);
+//   removeNotification();
+// };
