@@ -1,6 +1,7 @@
 import { API_KEY, BASE_URL, TREND_URL, SEARCH_URL } from './api-vars.js';
 import { showTrendingMovies } from './filmCard';
 import { renderTrendingMovies } from './filmCard';
+import { makeTuiPagination } from './pagination.js';
 import { refs } from './refs';
 
 export default async function fetchMovie(query, page) {
@@ -51,6 +52,15 @@ async function onFormSubmit(event) {
       //showTrendingMovies();
       return;
     }
+
+    makeTuiPagination(data.total_results, data.total_pages).on(
+      'afterMove',
+      ({ page }) => {
+        fetchMovie(query, page).then(data => {
+          renderTrendingMovies(data.results);
+        });
+      }
+    );
   } catch (error) {
     console.error();
     refs.form.reset();
