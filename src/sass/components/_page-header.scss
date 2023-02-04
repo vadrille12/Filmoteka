@@ -94,8 +94,9 @@
   &__input-wrap {
     position: relative;
     align-items: center;
-    height: 22px;
+    height: 40px;
     width: 280px;
+    padding-top: 18px;
     border-bottom: 0.5px solid $main-title-color;
     @media screen and (min-width: 768px) {
       width: 336px;
@@ -118,17 +119,21 @@
   }
 
   &__button {
+    position: absolute;
+    top: 25%;  
+    right: 2px;
     background-color: transparent;
     border: none;
-    width: 12px;
-    height: 12px;
+    width: 30px;
+    height: 40px;
+    
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
   }
 
   &__search-icon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 2px;
+    // transform: translateY(-50%);
     width: 15px;
     height: 15px;
     fill: $main-title-color;
