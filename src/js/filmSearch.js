@@ -3,6 +3,8 @@ import { showTrendingMovies } from './filmCard';
 import { renderTrendingMovies } from './filmCard';
 import { makeTuiPagination } from './pagination.js';
 import { refs } from './refs';
+import { load, save, remove } from './localStorage';
+
 
 export default async function fetchMovie(query, page) {
   try {
@@ -10,6 +12,7 @@ export default async function fetchMovie(query, page) {
       `${SEARCH_URL}?api_key=${API_KEY}&page=${page}&include_adult=false&query=${query}`
     );
     const data = await response.json();
+    save('search-storage', data)  
     return data;
   } catch (error) {
     console.error();
@@ -24,7 +27,8 @@ async function onFormSubmit(event) {
   try {
     event.preventDefault();
     page = 1;
-    const query = event.currentTarget.elements.searchQuery.value.trim();
+   
+      const query = event.currentTarget.elements.searchQuery.value.trim();
     // console.log(query);
     if (query === '') {
       invalidSearch(
@@ -32,7 +36,7 @@ async function onFormSubmit(event) {
         2000
       );
     }
-
+      
     const data = await fetchMovie(query, page);
     console.log(data);
 
@@ -41,16 +45,13 @@ async function onFormSubmit(event) {
       invalidSearch(
         'Search result not successful. Enter the correct movie name and try again',
         2000
-      );
-
-      // refs.moviesGallery.innerHTML = '';
-
+        );
+       renderTrendingMovies();
+       return 
       // вместо показа популярных фильмов
       //- может заменить на постер с пустой пленкой ???
       //как Алёна говорила
-
-      //showTrendingMovies();
-      return;
+       
     }
 
     makeTuiPagination(data.total_results, data.total_pages).on(
@@ -82,6 +83,7 @@ export function invalidSearch(message, showTime) {
     refs.form.lastElementChild.remove();
   }, 5000);
   removeNotification();
+
 }
 
 ///****************************************** */
@@ -106,10 +108,8 @@ export function invalidSearch(message, showTime) {
 //             showTrendingMovies();
 //            return;
 //         }
-
 //     } catch(error) {
 //         console.error()
-
 // }
 // }
 
