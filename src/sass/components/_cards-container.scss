@@ -24,7 +24,7 @@
 
 .movie__card {
   width: 280px;
-
+  border-radius: 5px;
   &:hover,
   &:focus {
     box-shadow: 5px 5px 8px 1px rgba(0, 0, 0, 0.5);
@@ -53,7 +53,8 @@
 
   .movie__card:hover &,
   .movie__card:focus & {
-    padding-left: 10px;
+    padding-left: 5px;
+    padding-top: 5px;
   }
 
   @media screen and (min-width: 1280px) {
@@ -62,6 +63,7 @@
 }
 
 .movie__title {
+  white-space: nowrap;
   font-style: medium;
   font-size: 12px;
   line-height: 1.33;
