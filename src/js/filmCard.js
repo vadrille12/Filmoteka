@@ -29,6 +29,7 @@ showTrendingMovies().then(console.log);
 
 export function renderTrendingMovies(data) {
   const urlImage = 'https://image.tmdb.org/t/p/w500/';
+  let genresName = '';
   const urlImgNotLoad =
     'https://media.istockphoto.com/id/473707170/photo/movie-clapper-on-two-35mm-cinema-reels-with-film-vertical.jpg?s=612x612&w=is&k=20&c=VDxLRrd4DzcU9C1CJvOpFjkyAnrZX_fIpg_1Pj_o9sg=';
   const cardMarkup = data
@@ -40,17 +41,21 @@ export function renderTrendingMovies(data) {
         release_date = '',
         vote_average = '',
       }) => {
-        let genresName = genres
-          .map(genre => localStorage.getItem(genre))
-          .join(', ');
-
         if (genres.length > 2) {
-          genresName =
-            genres
-              .map(genre => localStorage.getItem(genre))
-              .slice(0, 2)
-              .join(', ') + ', Other';
+          genres.splice(2, genres.length - 2);
+
+          genresName = genres
+            .map(genre => localStorage.getItem(genre))
+            .join(', ');
+
+          if (genresName.length > 17) {
+            genres.pop();
+
+            genresName = localStorage.getItem(genres[0]);
+          }
+          genresName = genresName + ', other';
         }
+
         if (!poster_path) {
           return `<li class="movie__card">
         <img width="300"
