@@ -1,66 +1,83 @@
 import { API_KEY, BASE_URL, TREND_URL, SEARCH_URL } from './api-vars.js';
-import {showTrendingMovies} from './filmCard'
+import { showTrendingMovies } from './filmCard';
 import { renderTrendingMovies } from './filmCard';
 import { makeTuiPagination } from './pagination.js';
 import { refs } from './refs';
 import { load, save, remove } from './localStorage';
 //import {fetchTrendingMovies} from './fetchAPI'
 
-
+refs.form.addEventListener('submit', onFormSubmit);
+let page = 1;
+let query = '';
 export default async function fetchMovie(query, page) {
   try {
     const response = await fetch(
       `${SEARCH_URL}?api_key=${API_KEY}&page=${page}&include_adult=false&query=${query}`
     );
     const data = await response.json();
-    save('search-storage', data)  
+    save('search-storage', data);
     return data;
   } catch (error) {
     console.error();
   }
 }
 
-refs.form.addEventListener('submit', onFormSubmit);
-let page = 1;
-let query = '';
-
 async function onFormSubmit(event) {
-  try {
-    event.preventDefault();
-    page = 1;
-      const query = event.currentTarget.elements.searchQuery.value.trim();
-    // console.log(query);
-    if (query === '') {
-      invalidSearch(
-        'Search for movies is empty! Enter movie name, please',
-        2000
-      );
-    }
-    const data = await fetchMovie(query, page);
-    //console.log(data);
-    renderTrendingMovies(data.results);
-    
-    if (data.total_results === 0) {
-      invalidSearch(
-        'Search result not successful. Enter the correct movie name and try again',
-        2000
-        );
-    showTrendingMovies()
-        return
-    } 
-        
-    makeTuiPagination(data.total_results, data.total_pages).on(
-      'afterMove',
-      ({ page }) => {
-        fetchMovie(query, page).then(data => {
-          renderTrendingMovies(data.results);
-        });
-      }
-    );
-  } catch (error) {
-    console.error();
-    refs.form.reset();
+  event.preventDefault();
+  page = 1;
+  refs.moviesGallery.innerHTML = '';
+  query = event.currentTarget.elements.searchQuery.value.trim();
+  console.log(query);
+
+  if (query === '') {
+    invalidSearch('Search for movies is empty! Enter movie name, please', 2000);
+    refs.paginationEl.style.display = 'none';
+    onErrorContainerSearch();
+    return;
   }
+  await fetchMovie(query, page)
+    .then(data => {
+      console.log(data);
+      const totalRes = data.total_results;
+      console.log(totalRes);
+      if (!totalRes) {
+        invalidSearch(
+          'Search result not successful. Enter the correct movie name and try again',
+          2000
+        );
+        refs.paginationEl.style.display = 'none';
+        onErrorContainerSearch();
+      }
+
+      if (totalRes >= 20) {
+        renderTrendingMovies(data.results);
+        page += 1;
+        makeTuiPagination(totalRes, data.total_pages).on(
+          'afterMove',
+          ({ page }) => {
+            fetchMovie(query, page).then(data => {
+              renderTrendingMovies(data.results);
+            });
+          }
+        );
+      }
+    })
+    .catch(error => console.log(error))
+    .finally(() => {
+      refs.form.reset();
+    });
+}
+
+export function onErrorContainerSearch() {
+  const section = document.querySelector('.cards__container');
+  // section.style.heigth = '100vh';
+  section.insertAdjacentHTML(
+    'beforeend',
+    '<img src="http://marathaudyojak.com/assets/web/images/no-results-found.png" width=1000/>'
+  );
+  setTimeout(() => {
+    section.lastElementChild.remove();
+  }, 2000);
 }
 
 export function invalidSearch(message, showTime) {
@@ -73,12 +90,13 @@ export function invalidSearch(message, showTime) {
   setTimeout(() => {
     notification.classList.toggle('is-hidden');
   }, showTime);
+  setTimeout(() => {
+    showTrendingMovies(page);
+  }, 2000);
 
   const removeNotification = setTimeout(() => {
     refs.form.lastElementChild.remove();
-  }, 5000);
-  removeNotification();
-
+  }, 2000);
 }
 
 ///****************************************** */
