@@ -12,13 +12,13 @@
 
   transition: all 0.3s ease-in-out;
 
-  @media screen and(min-width: $mobile) {
+  @media screen and (min-width: $mobile) {
     left: 80%;
   }
-  @media screen and(min-width: $tablet) {
+  @media screen and (min-width: $tablet) {
     left: 89%;
   }
-  @media screen and(min-width: $desktop) {
+  @media screen and (min-width: $desktop) {
     left: 91%;
   }
 }
@@ -30,11 +30,11 @@
 
   transition: all 0.3s ease-in-out;
 
-  @media screen and(min-width: $tablet) {
+  @media screen and (min-width: $tablet) {
     width: 54px;
     height: 54px;
   }
-  @media screen and(min-width: $desktop) {
+  @media screen and (min-width: $desktop) {
     width: 81px;
     height: 81px;
   }
