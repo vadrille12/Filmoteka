@@ -6,6 +6,9 @@ import { refs } from './refs';
 import { load, save, remove } from './localStorage';
 //import {fetchTrendingMovies} from './fetchAPI'
 
+const logo = document.querySelector(".header-logo__link");
+logo.addEventListener("click", onClickLogo);
+
 refs.form.addEventListener('submit', onFormSubmit);
 let page = 1;
 let query = '';
@@ -97,6 +100,11 @@ export function invalidSearch(message, showTime) {
   const removeNotification = setTimeout(() => {
     refs.form.lastElementChild.remove();
   }, 2000);
+}
+
+function onClickLogo(){
+  page = 1;
+  showTrendingMovies(page);
 }
 
 ///****************************************** */
