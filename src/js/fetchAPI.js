@@ -42,21 +42,3 @@ export async function fetchTrailer(filmId) {
     console.log(error.message);
   }
 }
-
-// export function getTrailer(id) {
-//   fetchTrailer(id).then(data => {
-//     console.log(data);
-//     console.log(data.results.length);
-
-//     if (data.results.length > 0) {
-//       window.open(
-//         `https://www.youtube.com/watch?v=${data.results[0].key}`,
-//         '_blank'
-//       );
-//     } else {
-//       console.log('Sorry, but there is no trailer for this movie');
-//     }
-//   });
-// }
-
-// getTrailer(346364);
