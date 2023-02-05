@@ -16,7 +16,7 @@ export async function fetchTrendingMovies(page = 1) {
       options
     );
     const respData = await resp.json();
-    save('trending-movies', respData);
+    // save('trending-movies', respData);
     // console.log(respData);
     return respData;
   } catch (error) {
