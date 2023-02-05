@@ -2,6 +2,7 @@ import { fetchTrendingMovies } from './fetchAPI';
 import { refs } from './refs';
 import { makeTuiPagination } from './pagination';
 import photo from '../images/header/photo.jpg';
+import { save } from './localStorage';
 
 const moviesGallery = document.querySelector('.cards__list');
 
@@ -12,7 +13,7 @@ export async function showTrendingMovies(page = 1) {
     const data = await fetchTrendingMovies(page);
     // console.log(data);
     renderTrendingMovies(data.results);
-
+    save('search-storage', data);
     makeTuiPagination(data.total_results, data.total_pages).on(
       'afterMove',
       ({ page }) => {
@@ -44,6 +45,7 @@ export function renderTrendingMovies(data) {
         genre_ids: genres,
         release_date = '',
         vote_average = '',
+        id,
       }) => {
         if (genres.length > 3) {
           genres.splice(3, genres.length - 3);
@@ -62,7 +64,7 @@ export function renderTrendingMovies(data) {
         }
 
         if (!poster_path) {
-          return `<li class="movie__card">
+          return `<li  id="${id}" class="movie__card">
         <img width="100%"
           src="${photo}"
           class="movie__cover"
@@ -77,7 +79,7 @@ export function renderTrendingMovies(data) {
       </div>
       </li>`;
         } else {
-          return `<li class="movie__card">
+          return `<li id="${id}" class="movie__card">
         <img
           src="${urlImage}${poster_path}"
           class="movie__cover"
