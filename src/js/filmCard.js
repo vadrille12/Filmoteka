@@ -28,11 +28,16 @@ export async function showTrendingMovies(page = 1) {
 
 showTrendingMovies().then(console.log);
 
+function getGenres(genresArr) {
+  return (genres = genresArr
+    .map(genre => localStorage.getItem(genre))
+    .join(', '));
+}
+
 export function renderTrendingMovies(data) {
   const urlImage = 'https://image.tmdb.org/t/p/w500/';
   let genresName = '';
-  const urlImgNotLoad =
-    'https://media.istockphoto.com/id/473707170/photo/movie-clapper-on-two-35mm-cinema-reels-with-film-vertical.jpg?s=612x612&w=is&k=20&c=VDxLRrd4DzcU9C1CJvOpFjkyAnrZX_fIpg_1Pj_o9sg=';
+
   const cardMarkup = data
     .map(
       ({
@@ -42,18 +47,18 @@ export function renderTrendingMovies(data) {
         release_date = '',
         vote_average = '',
       }) => {
-        if (genres.length > 2) {
-          genres.splice(2, genres.length - 2);
+        if (genres.length > 3) {
+          genres.splice(3, genres.length - 3);
 
-          genresName = genres
-            .map(genre => localStorage.getItem(genre))
-            .join(', ');
+          genresName = getGenres(genres);
+          genresName = genresName + ', other';
+        }
+        genresName = getGenres(genres);
 
-          if (genresName.length > 17) {
-            genres.pop();
+        if (genresName.length > 24) {
+          genres.pop();
 
-            genresName = localStorage.getItem(genres[0]);
-          }
+          genresName = getGenres(genres);
           genresName = genresName + ', other';
         }
 
