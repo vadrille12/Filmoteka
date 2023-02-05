@@ -47,9 +47,10 @@ async function onFormSubmit(event) {
         invalidSearch(
           'Search result not successful. Enter the correct movie name and try again',
           2000
-        );
-        refs.paginationEl.style.display = 'none';
+          );
         onErrorContainerSearch();
+        refs.paginationEl.style.display = 'none';
+        
       }
 
       if (totalRes >= 20) {
