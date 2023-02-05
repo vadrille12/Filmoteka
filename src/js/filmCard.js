@@ -29,9 +29,7 @@ export async function showTrendingMovies(page = 1) {
 showTrendingMovies().then(console.log);
 
 function getGenres(genresArr) {
-  return (genres = genresArr
-    .map(genre => localStorage.getItem(genre))
-    .join(', '));
+  return genresArr.map(genre => localStorage.getItem(genre)).join(', ');
 }
 
 export function renderTrendingMovies(data) {
@@ -53,6 +51,7 @@ export function renderTrendingMovies(data) {
           genresName = getGenres(genres);
           genresName = genresName + ', other';
         }
+
         genresName = getGenres(genres);
 
         if (genresName.length > 24) {
