@@ -209,3 +209,5 @@ function onCloseModayByEsc(e) {
 //   console.log(resultsSearch);
 //   resultsSearch.find(object => console.log(object.id));
 // }
+
+// some changes
