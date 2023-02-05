@@ -84,12 +84,6 @@
 .movie__info {
   padding-top: 8px;
 
-  .movie__card:hover &,
-  .movie__card:focus & {
-    // padding-left: 2px;
-    // padding-top: 2px;
-  }
-
   @media screen and (min-width: 1280px) {
     padding-top: 12px;
   }
