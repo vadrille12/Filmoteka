@@ -13,3 +13,4 @@ import './js/fetchGenres';
 import './js/localStorage';
 import './js/backToTopBtn';
 import './js/switchDayNight';
+import './js/trailer';
