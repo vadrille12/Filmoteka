@@ -1,6 +1,6 @@
 import photo from '../images/header/photo.jpg';
 
-refs = {
+const refs = {
   cardsList: document.querySelector('.cards__list'),
   backdrop: document.querySelector('.backdrop'),
   closeBtn: document.querySelector('.btn-modal-close'),
