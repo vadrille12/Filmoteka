@@ -1,5 +1,7 @@
 import { API_KEY, BASE_URL, TREND_URL, TRAILER_URL } from './/api-vars.js';
 import showTrendingMovies from './/filmCard';
+import { save } from './localStorage';
+
 export async function fetchTrendingMovies(page = 1) {
   try {
     const options = {
@@ -14,6 +16,7 @@ export async function fetchTrendingMovies(page = 1) {
       options
     );
     const respData = await resp.json();
+    save('trending-movies', respData);
     // console.log(respData);
     return respData;
   } catch (error) {
