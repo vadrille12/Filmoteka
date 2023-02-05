@@ -12,7 +12,7 @@ const refs = {
 refs.cardsList.addEventListener('click', onClickItem);
 // refs.watchedBtn.addEventListener('click', onClickWatched);
 
-arrWatchedMovies = [];
+const arrWatchedMovies = [];
 
 function renderCardOfMovie({
   title,
@@ -140,7 +140,7 @@ function onClickItem(e) {
     return;
   }
 
-  itemId = Number(e.target.parentNode.id);
+  const itemId = Number(e.target.parentNode.id);
 
   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
 
