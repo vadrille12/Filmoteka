@@ -33,7 +33,8 @@ function renderCardOfMovie({
     <div class='modal-movie'>
     <img
           class='modal-movie__img'
-          ${poster_path
+          ${
+            poster_path
               ? `
     srcset="
     https://image.tmdb.org/t/p/w300/${poster_path}      300w,
@@ -50,6 +51,8 @@ function renderCardOfMovie({
   `
           }
         />
+        
+         <button type="button" class="btn__open-trailer js-open-trailer"></button>
     </div>
     <div class='modal__content'>
         <h2 class='modal__title'>${title}</h2>
