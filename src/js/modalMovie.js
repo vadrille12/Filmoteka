@@ -1,13 +1,14 @@
 import photo from '../images/header/photo.jpg';
+import { refs } from '../js/refs';
 
-const refs = {
-  cardsList: document.querySelector('.cards__list'),
-  backdrop: document.querySelector('.backdrop'),
-  closeBtn: document.querySelector('.btn-modal-close'),
-  modal: document.querySelector('.modal'),
-  watchedBtn: document.querySelector('.btn-modal__watched'),
-  queueBtn: document.querySelector('.btn-modal__queue'),
-};
+// const refs = {
+//   cardsList: document.querySelector('.cards__list'),
+//   backdrop: document.querySelector('.backdrop'),
+//   closeBtn: document.querySelector('.btn-modal-close'),
+//   modal: document.querySelector('.modal'),
+//   watchedBtn: document.querySelector('.btn-modal__watched'),
+//   queueBtn: document.querySelector('.btn-modal__queue'),
+// };
 
 refs.cardsList.addEventListener('click', onClickItem);
 // refs.watchedBtn.addEventListener('click', onClickWatched);
@@ -32,9 +33,7 @@ function renderCardOfMovie({
     <div class='modal-movie'>
     <img
           class='modal-movie__img'
-
-          ${
-            poster_path
+          ${poster_path
               ? `
     srcset="
     https://image.tmdb.org/t/p/w300/${poster_path}      300w,
@@ -172,6 +171,7 @@ function onClickItem(e) {
 function onCloseModal(e) {
   if (
     e.target.classList.value === 'btn-modal-close' ||
+    e.target.classList.value === 'btn-modal__icon' ||
     e.target === e.currentTarget
   ) {
     refs.backdrop.classList.add('is-hidden');
