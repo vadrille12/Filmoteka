@@ -14,6 +14,7 @@ export const refs = {
   backdrop: document.querySelector('.backdrop'),
   closeBtn: document.querySelector('.btn-modal-close'),
   modal: document.querySelector('.modal'),
+  modalContent: document.querySelector('.modal__content'),
   wrapperForBtns: document.querySelector('.modal-movie-btn'),
   watchedBtn: document.querySelector('.btn-modal__watched'),
   queueBtn: document.querySelector('.btn-modal__queue'),
