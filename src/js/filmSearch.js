@@ -30,7 +30,6 @@ export default async function fetchMovie(query, page) {
 async function onFormSubmit(event) {
   event.preventDefault();
   page = 1;
-  refs.moviesGallery.innerHTML = '';
   query = event.currentTarget.elements.searchQuery.value.trim();
   console.log(query);
   refs.paginationEl.style.display = 'none';
@@ -38,7 +37,6 @@ async function onFormSubmit(event) {
   if (query === '') {
     invalidSearch('Search for movies is empty! Enter movie name, please', 2000);
     refs.paginationEl.style.display = 'none';
-    onErrorContainerSearch();
     return;
   }
   await fetchMovie(query, page)
@@ -51,8 +49,7 @@ async function onFormSubmit(event) {
           'Search result not successful. Enter the correct movie name and try again',
           2000
         );
-        onErrorContainerSearch();
-        refs.paginationEl.style.display = 'none';
+        //refs.paginationEl.style.display = 'none';
       }
 
       if (totalRes >= 1) {
@@ -76,18 +73,6 @@ async function onFormSubmit(event) {
     });
 }
 
-export function onErrorContainerSearch() {
-  const section = document.querySelector('.cards__container');
-  // section.style.heigth = '100vh';
-  section.insertAdjacentHTML(
-    'beforeend',
-    '<img src="http://marathaudyojak.com/assets/web/images/no-results-found.png" width=1000/>'
-  );
-  setTimeout(() => {
-    section.lastElementChild.remove();
-  }, 1000);
-}
-
 export function invalidSearch(message, showTime) {
   refs.form.insertAdjacentHTML(
     'beforeend',
@@ -98,13 +83,13 @@ export function invalidSearch(message, showTime) {
   setTimeout(() => {
     notification.classList.toggle('is-hidden');
   }, showTime);
-  setTimeout(() => {
+    
     showTrendingMovies(page);
-  }, 2000);
 
   const removeNotification = setTimeout(() => {
     refs.form.lastElementChild.remove();
   }, 2000);
+    
 }
 
 function onClickLogo() {
