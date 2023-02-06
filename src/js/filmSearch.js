@@ -12,6 +12,7 @@ logo.addEventListener("click", onClickLogo);
 refs.form.addEventListener('submit', onFormSubmit);
 let page = 1;
 let query = '';
+
 export default async function fetchMovie(query, page) {
   try {
     const response = await fetch(
@@ -31,6 +32,7 @@ async function onFormSubmit(event) {
   refs.moviesGallery.innerHTML = '';
   query = event.currentTarget.elements.searchQuery.value.trim();
   console.log(query);
+  refs.paginationEl.style.display = 'none';
 
   if (query === '') {
     invalidSearch('Search for movies is empty! Enter movie name, please', 2000);
@@ -81,7 +83,7 @@ export function onErrorContainerSearch() {
   );
   setTimeout(() => {
     section.lastElementChild.remove();
-  }, 2000);
+  }, 1000);
 }
 
 export function invalidSearch(message, showTime) {
