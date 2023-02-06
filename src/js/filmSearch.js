@@ -63,6 +63,7 @@ async function onFormSubmit(event) {
           ({ page }) => {
             fetchMovie(query, page).then(data => {
               renderTrendingMovies(data.results);
+              save('search-storage', data);
               scrollToTop();
             });
           }

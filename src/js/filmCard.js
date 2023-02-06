@@ -20,6 +20,7 @@ export async function showTrendingMovies(page = 1) {
       ({ page }) => {
         fetchTrendingMovies(page).then(data => {
           renderTrendingMovies(data.results);
+          save('search-storage', data);
           scrollToTop();
         });
       }
