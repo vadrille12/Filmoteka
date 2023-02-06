@@ -1,19 +1,22 @@
 import photo from '../images/header/photo.jpg';
 import { refs } from '../js/refs';
+import { save } from './localStorage';
 
 // const refs = {
 //   cardsList: document.querySelector('.cards__list'),
 //   backdrop: document.querySelector('.backdrop'),
 //   closeBtn: document.querySelector('.btn-modal-close'),
 //   modal: document.querySelector('.modal'),
+//   wrapperForBtns: document.querySelector('.modal-movie-btn'),
 //   watchedBtn: document.querySelector('.btn-modal__watched'),
 //   queueBtn: document.querySelector('.btn-modal__queue'),
 // };
 
 refs.cardsList.addEventListener('click', onClickItem);
-// refs.watchedBtn.addEventListener('click', onClickWatched);
+refs.watchedBtn.addEventListener('click', onClickWatched);
 
-const arrWatchedMovies = [];
+let arrWatchedMovies = [];
+const LOCAL_KEY = 'watched-movies';
 
 function renderCardOfMovie({
   title,
@@ -24,6 +27,7 @@ function renderCardOfMovie({
   original_title,
   genre_ids,
   overview,
+  id,
 }) {
   const arrGenres = genre_ids.map(genre => {
     return localStorage.getItem(genre);
@@ -33,6 +37,7 @@ function renderCardOfMovie({
     <div class='modal-movie'>
     <img
           class='modal-movie__img'
+
           ${
             poster_path
               ? `
@@ -51,8 +56,7 @@ function renderCardOfMovie({
   `
           }
         />
-        
-         <button type="button" class="btn__open-trailer js-open-trailer"></button>
+        <button type="button" class="btn__open-trailer js-open-trailer"></button>
     </div>
     <div class='modal__content'>
         <h2 class='modal__title'>${title}</h2>
@@ -119,14 +123,10 @@ function renderCardOfMovie({
             ${overview ? `<h3 class='modal-about__title'>About</h3>` : ''}
             ${overview ? `<p class='modal-about__desc'>${overview}</p>` : ''}
           </div>
-          <div class="modal-movie-btn">
-        <button class="btn-modal btn-modal__watched">add to Watched</button>
-        <button class="btn-modal btn-modal__queue">add to queue</button>
-</div>
           
     </div>
         `;
-
+  refs.wrapperForBtns.setAttribute('data-id', id);
   refs.modal.insertAdjacentHTML('afterbegin', markup);
 }
 
@@ -153,10 +153,9 @@ function onClickItem(e) {
     // console.log(object);
 
     if (object.id === itemId) {
-      arrWatchedMovies.push(object);
+      // arrWatchedMovies.push(object);
       // console.log(arrWatchedMovies);
-      localStorage.setItem('watched-movies', JSON.stringify(arrWatchedMovies));
-
+      // localStorage.setItem('watched-movies', JSON.stringify(arrWatchedMovies));
       // console.log(object);
       return object;
     }
@@ -168,13 +167,15 @@ function onClickItem(e) {
   refs.closeBtn.addEventListener('click', onCloseModal);
   refs.backdrop.addEventListener('click', onCloseModal);
   window.addEventListener('keydown', onCloseModayByEsc);
+  console.log(refs.watchedBtn);
+  refs.watchedBtn.addEventListener('click', onClickWatched);
+
   document.body.style.overflow = 'hidden';
 }
 
 function onCloseModal(e) {
   if (
     e.target.classList.value === 'btn-modal-close' ||
-    e.target.classList.value === 'btn-modal__icon' ||
     e.target === e.currentTarget
   ) {
     refs.backdrop.classList.add('is-hidden');
@@ -182,15 +183,20 @@ function onCloseModal(e) {
     refs.closeBtn.removeEventListener('click', onCloseModal);
     refs.backdrop.removeEventListener('click', onCloseModal);
     window.removeEventListener('keydown', onCloseModayByEsc);
-    refs.modal.innerHTML =
-      '<button type="button" class="btn-modal-close">Close</button>';
+
+    const markup = `<button class="btn-modal-close" type="button">
+    </button><div class="modal-movie-btn">
+      <button type="button" class="btn-modal btn-modal__watched">
+        add to Watched
+      </button>
+      <button type="button" class="btn-modal btn-modal__queue">
+        add to queue
+      </button>
+    </div>`;
+
+    refs.modal.innerHTML = markup;
   }
 }
-
-// `<button type="button" class="btn-modal-close">Close</button><div class="modal-movie-btn">
-//         <button class="btn-modal btn-modal__watched">add to Watched</button>
-//         <button class="btn-modal btn-modal__queue">add to queue</button>
-// </div>`
 
 function onCloseModayByEsc(e) {
   console.log(e.code);
@@ -200,17 +206,33 @@ function onCloseModayByEsc(e) {
     refs.closeBtn.removeEventListener('click', onCloseModal);
     refs.backdrop.removeEventListener('click', onCloseModal);
     window.removeEventListener('keydown', onCloseModayByEsc);
-    refs.modal.innerHTML =
-      '<button type="button" class="btn-modal-close">Close</button>';
+
+    const markup = `<button type="button" class="btn-modal-close">Close</button><div class="modal-movie-btn">
+      <button type="button" class="btn-modal btn-modal__watched">
+        add to Watched
+      </button>
+      <button type="button" class="btn-modal btn-modal__queue">
+        add to queue
+      </button>
+    </div>`;
+
+    refs.modal.innerHTML = markup;
   }
 }
 
-// function onClickWatched(e) {
-//   console.log(e.currentTarget);
-//   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
-//   const resultsSearch = parsedDataSearch.results;
-//   console.log(resultsSearch);
-//   resultsSearch.find(object => console.log(object.id));
-// }
+function onClickWatched(e) {
+  console.log('hello');
+  const watchedMoviesId = Number(e.target.parentNode.dataset.id);
+  const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
+  const resultsSearch = parsedDataSearch.results;
 
-// some changes
+  resultsSearch.find(object => {
+    if (object.id === watchedMoviesId) {
+      arrWatchedMovies.push(object);
+      console.log(arrWatchedMovies);
+
+      save(LOCAL_KEY, arrWatchedMovies);
+      console.log(object);
+    }
+  });
+}
