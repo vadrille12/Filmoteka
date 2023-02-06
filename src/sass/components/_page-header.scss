@@ -342,31 +342,31 @@
 .header-logo__link {
   position: relative;
 }
-.header-logo__link:hover,
-.header-logo__link:focus {
+.header-logo__text:hover,
+.header-logo__text:focus {
   color: $main-accent-color;
   transition: 1s ease;
   outline: none;
 }
-.header-logo__link::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 20px;
-  background: transparent;
-  height: 50%;
-  width: 100%;
-  transform: perspective(1em) rotateX(40deg) scale(1, 0.35);
-  filter: blur(8px);
-  transition: 1s ease;
-}
-.header-logo__link:hover::before,
-.header-logo__link:focus::before {
-  background: $body-background-color;
-  top: 40px;
-  left: 30px;
+// .header-logo__link::before {
+//   content: '';
+//   position: absolute;
+//   left: 0;
+//   top: 20px;
+//   background: transparent;
+//   height: 50%;
+//   width: 100%;
+//   transform: perspective(1em) rotateX(40deg) scale(1, 0.35);
+//   filter: blur(8px);
+//   transition: 1s ease;
+// }
+// .header-logo__link:hover::before,
+// .header-logo__link:focus::before {
+//   background: $body-background-color;
+//   top: 40px;
+//   left: 30px;
  
-}
+// }
 
 .header-nav__link {
   position: relative;
@@ -412,7 +412,7 @@
     margin-left: 680px;
   } 
   @media screen and (min-width: 1280px) {
-    margin-left: 1200px;
+    margin-left: 1150px;
   } 
 }
 .theme-btn {
