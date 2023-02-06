@@ -6,8 +6,8 @@ import { refs } from './refs';
 import { load, save, remove } from './localStorage';
 //import {fetchTrendingMovies} from './fetchAPI'
 
-const logo = document.querySelector(".header-logo__link");
-logo.addEventListener("click", onClickLogo);
+const logo = document.querySelector('.header-logo__link');
+logo.addEventListener('click', onClickLogo);
 
 refs.form.addEventListener('submit', onFormSubmit);
 let page = 1;
@@ -49,13 +49,12 @@ async function onFormSubmit(event) {
         invalidSearch(
           'Search result not successful. Enter the correct movie name and try again',
           2000
-          );
+        );
         onErrorContainerSearch();
         refs.paginationEl.style.display = 'none';
-        
       }
 
-      if (totalRes >= 20) {
+      if (totalRes >= 1) {
         renderTrendingMovies(data.results);
         page += 1;
         makeTuiPagination(totalRes, data.total_pages).on(
@@ -105,7 +104,7 @@ export function invalidSearch(message, showTime) {
   }, 2000);
 }
 
-function onClickLogo(){
+function onClickLogo() {
   page = 1;
   showTrendingMovies(page);
 }
