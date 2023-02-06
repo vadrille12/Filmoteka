@@ -403,14 +403,11 @@
 
 .hi-icon-wrap {
   position: absolute;
- 
-  // margin-left: 30px;
+ top: 210px;
+ margin-left: 250px;
   @media screen and (min-width: 768px) {
-    margin-left: 90px;
-    margin-top: 60px;
-  }
-  margin-top: 40px;
-  margin-left: 120px;
+    margin-left: 680px;
+  } 
 }
 .theme-btn {
   // display: inline-block;
@@ -420,6 +417,7 @@
   // position: relative;
   z-index: 1;
   color: $main-title-color;
+  
 }
 
 .theme-btn:after {
@@ -454,8 +452,11 @@
   -webkit-transition: opacity 0.2s;
   -moz-transition: opacity 0.2s;
   transition: opacity 0.2s, transform 0.2s;
+  
 }
-
+// .hi-icon-effect .theme-btn:active::after {
+//   opacity: 0;
+// }
 .hi-icon-effect .theme-btn:hover::after {
   opacity: 1;
   display: inline-block;
@@ -479,7 +480,7 @@
   transition: transform 0.2s, opacity 0.2s;
 }
 
-.hi-icon-effect .theme-btn:hover::before {
+.hi-icon-effect .theme-btn:hover::before  {
   display: inline-block;
   text-align: center;
   -webkit-transform: scale(1);
