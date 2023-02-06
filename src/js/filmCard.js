@@ -3,6 +3,7 @@ import { refs } from './refs';
 import { makeTuiPagination } from './pagination';
 import photo from '../images/header/photo.jpg';
 import { save } from './localStorage';
+import scrollToTop from './scrollToTop';
 
 const moviesGallery = document.querySelector('.cards__list');
 
@@ -19,6 +20,7 @@ export async function showTrendingMovies(page = 1) {
       ({ page }) => {
         fetchTrendingMovies(page).then(data => {
           renderTrendingMovies(data.results);
+          scrollToTop();
         });
       }
     );

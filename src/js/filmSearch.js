@@ -4,6 +4,7 @@ import { renderTrendingMovies } from './filmCard';
 import { makeTuiPagination } from './pagination.js';
 import { refs } from './refs';
 import { load, save, remove } from './localStorage';
+import scrollToTop from './scrollToTop.js';
 //import {fetchTrendingMovies} from './fetchAPI'
 
 const logo = document.querySelector('.header-logo__link');
@@ -62,6 +63,7 @@ async function onFormSubmit(event) {
           ({ page }) => {
             fetchMovie(query, page).then(data => {
               renderTrendingMovies(data.results);
+              scrollToTop();
             });
           }
         );
