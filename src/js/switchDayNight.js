@@ -1,8 +1,6 @@
 import { refs } from './refs';
 
-import './library';
-import { showLibrary } from './library';
-import { menuSwitcher } from './library';
+
 window.addEventListener('load', windowLoad);
 
 export function windowLoad() {
