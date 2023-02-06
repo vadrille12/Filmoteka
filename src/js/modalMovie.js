@@ -1,6 +1,6 @@
 import photo from '../images/header/photo.jpg';
 import { refs } from '../js/refs';
-import { save } from './localStorage';
+import { load, save } from './localStorage';
 
 // const refs = {
 //   cardsList: document.querySelector('.cards__list'),
@@ -15,7 +15,12 @@ import { save } from './localStorage';
 refs.cardsList.addEventListener('click', onClickItem);
 refs.watchedBtn.addEventListener('click', onClickWatched);
 
+console.log(refs.modalContent);
+
+// console.log(refs.wrapperForBtns);
+
 let arrWatchedMovies = [];
+
 const LOCAL_KEY = 'watched-movies';
 
 function renderCardOfMovie({
@@ -123,10 +128,11 @@ function renderCardOfMovie({
             ${overview ? `<h3 class='modal-about__title'>About</h3>` : ''}
             ${overview ? `<p class='modal-about__desc'>${overview}</p>` : ''}
           </div>
-          
+    
     </div>
         `;
-  refs.wrapperForBtns.setAttribute('data-id', id);
+  refs.watchedBtn.addEventListener('click', onClickWatched);
+  refs.modal.setAttribute('data-id', id);
   refs.modal.insertAdjacentHTML('afterbegin', markup);
 }
 
@@ -180,21 +186,22 @@ function onCloseModal(e) {
   ) {
     refs.backdrop.classList.add('is-hidden');
     document.body.style.overflow = '';
-    refs.closeBtn.removeEventListener('click', onCloseModal);
-    refs.backdrop.removeEventListener('click', onCloseModal);
+    // refs.closeBtn.removeEventListener('click', onCloseModal);
+    // refs.backdrop.removeEventListener('click', onCloseModal);
     window.removeEventListener('keydown', onCloseModayByEsc);
 
-    const markup = `<button class="btn-modal-close" type="button">
-    </button><div class="modal-movie-btn">
-      <button type="button" class="btn-modal btn-modal__watched">
-        add to Watched
-      </button>
-      <button type="button" class="btn-modal btn-modal__queue">
-        add to queue
-      </button>
-    </div>`;
+    // const markup = `<button class="btn-modal-close" type="button">
+    // </button><div class="modal-movie-btn">
+    //   <button type="button" class="btn-modal btn-modal__watched">
+    //     add to Watched
+    //   </button>
+    //   <button type="button" class="btn-modal btn-modal__queue">
+    //     add to queue
+    //   </button>
+    // </div>`;
 
-    refs.modal.innerHTML = markup;
+    // refs.modal.innerHTML = markup;
+    // refs.modal.innerHTML = '';
   }
 }
 
@@ -203,32 +210,42 @@ function onCloseModayByEsc(e) {
   if (e.code === 'Escape') {
     refs.backdrop.classList.add('is-hidden');
     document.body.style.overflow = '';
-    refs.closeBtn.removeEventListener('click', onCloseModal);
-    refs.backdrop.removeEventListener('click', onCloseModal);
+    // refs.closeBtn.removeEventListener('click', onCloseModal);
+    // refs.backdrop.removeEventListener('click', onCloseModal);
     window.removeEventListener('keydown', onCloseModayByEsc);
 
-    const markup = `<button type="button" class="btn-modal-close">Close</button><div class="modal-movie-btn">
-      <button type="button" class="btn-modal btn-modal__watched">
-        add to Watched
-      </button>
-      <button type="button" class="btn-modal btn-modal__queue">
-        add to queue
-      </button>
-    </div>`;
+    // const markup = `<button class="btn-modal-close" type="button">
+    //   <svg class="btn-modal__icon">
+    //     <use href="./images/icons.svg#icon-close"></use>
+    //   </svg>
+    // </button>
+    // <div class="modal-movie-btn">
+    //   <button type="button" class="btn-modal btn-modal__watched">
+    //     add to Watched
+    //   </button>
+    //   <button type="button" class="btn-modal btn-modal__queue">
+    //     add to queue
+    //   </button>`;
 
-    refs.modal.innerHTML = markup;
+    // refs.modal.innerHTML = '';
+    // refs.modal.innerHTML = '';
+    // refs.modalContentinnerHTML = '';
   }
 }
 
-function onClickWatched(e) {
-  console.log('hello');
-  const watchedMoviesId = Number(e.target.parentNode.dataset.id);
+function onClickWatched() {
+  // const watchedMoviesId = Number(e.target.parentNode.dataset.id);
+  const watchedMoviesId = Number(refs.modal.dataset.id);
+
   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
   const resultsSearch = parsedDataSearch.results;
 
   resultsSearch.find(object => {
     if (object.id === watchedMoviesId) {
+      arrWatchedMovies = load(LOCAL_KEY);
       arrWatchedMovies.push(object);
+      // console.log(load(LOCAL_KEY, arrWatchedMovies));
+
       console.log(arrWatchedMovies);
 
       save(LOCAL_KEY, arrWatchedMovies);
@@ -236,3 +253,5 @@ function onClickWatched(e) {
     }
   });
 }
+
+export { arrWatchedMovies };
