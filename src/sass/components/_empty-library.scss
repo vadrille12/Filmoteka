@@ -5,13 +5,27 @@
 .empty-library__title {
   font-family: 'Roboto';
   font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
+  font-weight: 700;
+  font-size: 30px;
   line-height: calc(22 / 20);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   text-transform: uppercase;
 }
 .empty-library__img {
   margin-left: auto;
   margin-right: auto;
+
+  width: 500px;
+  height: 490px;
+
+  transform: translateX(250%);
+  transition: 0.5s;
+  animation: animate 9s linear infinite;
+  animation-play-state: running;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateX(-250%);
+  }
 }
