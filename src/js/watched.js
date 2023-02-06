@@ -50,3 +50,35 @@ watchedBtn.addEventListener('click', event => {
   event.preventDefault();
   getWatchedMovies();
 });
+
+const options = document.querySelectorAll('.header-library__btn');
+const optionsActive = document.querySelectorAll('.header-library__activ');
+const queueBtn = document.querySelector('.queue-list-btn');
+
+// options.forEach(function(element) {
+//   element.addEventListener('click', activ);
+// });
+
+// function activ (event) {
+//   const targetElement = event.target;
+
+//   options.forEach(function(element) {
+//     element.classList.remove('active');
+//   });
+
+//   targetElement.classList.add('active');
+
+//   if (options !== optionsActive) {
+//     targetElement.classList.remove('active');
+//   }
+// }
+
+function getWatched() {
+    const fromLS = localStorage.getItem('watched');
+    queueBtn.classList.remove('btn-header--active');
+    watchedBtn.classList.add('btn-header--active');
+    // clear();
+    if (fromLS === '[]' || fromLS === null) {
+      clear();
+    }
+}
