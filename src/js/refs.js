@@ -8,4 +8,12 @@ export const refs = {
   moviesEl: document.querySelector('.cards__list'),
   //=====formFilm будет удален - надо переименовать на -- form в рабочем файле JS
   formFilm: document.querySelector('.header-form'),
+
+  //////    Modal movie   ////////
+  cardsList: document.querySelector('.cards__list'),
+  backdrop: document.querySelector('.backdrop'),
+  closeBtn: document.querySelector('.btn-modal-close'),
+  modal: document.querySelector('.modal'),
+  watchedBtn: document.querySelector('.btn-modal__watched'),
+  queueBtn: document.querySelector('.btn-modal__queue'),
 };
