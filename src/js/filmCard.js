@@ -39,6 +39,7 @@ function getGenres(genresArr) {
 export function renderTrendingMovies(data) {
   const urlImage = 'https://image.tmdb.org/t/p/w500/';
   let genresName = '';
+  let releaseYear = '';
 
   const cardMarkup = data
     .map(
@@ -66,6 +67,15 @@ export function renderTrendingMovies(data) {
           genresName = genresName + ', other';
         }
 
+        if (genres.length === 0) {
+          genresName = 'genre is unknown';
+        }
+
+        releaseYear = release_date.slice(0, 4);
+        if (releaseYear === '') {
+          releaseYear = 'release date unknown';
+        }
+
         if (!poster_path) {
           return `<li  id="${id}" class="movie__card">
         <img width="100%"
@@ -76,7 +86,7 @@ export function renderTrendingMovies(data) {
         <h2 class="movie__title">${title}</h2>
         <div class="movie__item">
           <h3 class="movie__category">${genresName}</h3>
-          <h3 class="movie__year">${release_date.slice(0, 4)}</h3>
+          <h3 class="movie__year">${releaseYear}</h3>
           <div class="movie__average">${vote_average.toFixed(1)}</div>
         </div>
       </div>
@@ -91,7 +101,7 @@ export function renderTrendingMovies(data) {
         <h2 class="movie__title">${title}</h2>
         <div class="movie__item">
           <h3 class="movie__category">${genresName}</h3>
-          <h3 class="movie__year">${release_date.slice(0, 4)}</h3>
+          <h3 class="movie__year">${releaseYear}</h3>
           <div class="movie__average">${vote_average.toFixed(1)}</div>
         </div>
       </div>
