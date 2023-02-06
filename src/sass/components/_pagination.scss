@@ -18,10 +18,11 @@
     font-weight: 500;
     font-size: 12px;
     line-height: 16px;
-    color: $secondary-title-color;
+    color: inherit;
 
     &:hover {
       border-radius: 5px;
+      background-color: inherit;
     }
 
     &.tui-is-selected {
@@ -36,34 +37,24 @@
 
   .tui-prev,
   .tui-next {
-    width: 40px;
-    height: 40px;
-    background-color: $footer-background-color;
+    width: 35px;
+    height: 35px;
+    filter: brightness(2);
     border-radius: 5px;
+    color: inherit;
+
+    &:hover {
+      filter: brightness(3);
+    }
+  }
+
+  .tui-first,
+  .tui-last,
+  .tui-ico-ellip {
+    filter: brightness(2);
+
+    &:hover {
+      filter: brightness(3);
+    }
   }
 }
-
-// test styles
-
-// .list {
-//   display: flex;
-//   flex-wrap: wrap;
-//   align-items: center;
-//   justify-content: center;
-//   gap: 30px;
-//   padding: 10px;
-// }
-
-// .list__item {
-//   display: flex;
-//   row-gap: 10px;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   flex-basis: 31%;
-//   width: 100%;
-// }
-
-// .list__img {
-//   width: 100%;
-// }

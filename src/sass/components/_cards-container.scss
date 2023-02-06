@@ -84,12 +84,6 @@
 .movie__info {
   padding-top: 8px;
 
-  .movie__card:hover &,
-  .movie__card:focus & {
-    // padding-left: 2px;
-    // padding-top: 2px;
-  }
-
   @media screen and (min-width: 1280px) {
     padding-top: 12px;
   }
@@ -99,7 +93,8 @@
   font-weight: 500;
   font-size: 12px;
   line-height: 1.33;
-  color: $secondary-title-color;
+  // color: $secondary-title-color;
+  color: inherit;
   text-transform: uppercase;
   text-align: start;
 

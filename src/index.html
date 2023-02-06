@@ -35,8 +35,10 @@
     <script type="module" src="./index.js"></script>
   </head>
   <body>
-    <!-- partials -->
-        <include src="./partials/page-header.html"></include>
+    <div class="wrapper">
+      <!-- partials -->
+      <include src="./partials/page-header.html"></include>
+      <div class="main">
         <include src="./partials/cards-container.html"></include>
         <include src="./partials/filter.html"></include>
         <include src="./partials/modal-movie.html"></include>
@@ -44,6 +46,8 @@
         <include src="./partials/pagination.html"></include>
         <include src="./partials/back-to-top-btn.html"></include>
         <include src="./partials/settings.html"></include>
-        <include src="./partials/page-footer.html"></include>
+      </div>
+      <include src="./partials/page-footer.html"></include>
+    </div>
   </body>
 </html>
