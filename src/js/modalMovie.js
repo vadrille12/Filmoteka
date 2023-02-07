@@ -1,6 +1,9 @@
 import photo from '../images/header/photo.jpg';
 import { refs } from '../js/refs';
 import { load, save } from './localStorage';
+import { fetchTrailer } from './fetchAPI';
+import { onClickTrailer } from './trailer';
+import { invalidSearchTrailer } from './trailer';
 
 // const refs = {
 //   cardsList: document.querySelector('.cards__list'),
@@ -177,6 +180,45 @@ function onClickItem(e) {
   refs.watchedBtn.addEventListener('click', onClickWatched);
 
   document.body.style.overflow = 'hidden';
+
+  // ************* show trailer on YouTube**start*****
+  const trailerButton = document.querySelector('.js-open-trailer');
+  trailerButton.addEventListener(`click`, onClickTrailer);
+  async function onClickTrailer(e) {
+    try {
+      const data = await fetchTrailer(itemId);
+      console.log(data.results.length);
+      if (data.results.length > 0) {
+        window.open(
+          `https://www.youtube.com/watch?v=${data.results[0].key}`,
+          '_blank'
+        );
+      } else {
+        function invalidSearchTrailer() {
+          const modalMovie = document.querySelector('.modal-movie');
+          modalMovie.insertAdjacentHTML(
+            'afterbegin',
+            '<p class="trailer-search form__uncorrect-search is-hidden"></p>'
+          );
+          const notification = document.querySelector(
+            '.form__uncorrect-search'
+          );
+          notification.textContent =
+            'Sorry, but there is no trailer for this movie';
+          setTimeout(() => {
+            notification.classList.toggle('is-hidden');
+          }, 1000);
+          const removeNotification = setTimeout(() => {
+            modalMovie.firstElementChild.remove();
+          }, 2000);
+        }
+        invalidSearchTrailer();
+      }
+    } catch (error) {
+      error.message;
+    }
+  }
+  // ************* show trailer on YouTube**END*****
 }
 
 function onCloseModal(e) {
