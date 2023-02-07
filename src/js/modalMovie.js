@@ -1,19 +1,19 @@
 import photo from '../images/header/photo.jpg';
-import { refs } from '../js/refs';
+// import { refs } from '../js/refs';
 import { load, save } from './localStorage';
 import { fetchTrailer } from './fetchAPI';
 import { onClickTrailer } from './trailer';
 import { invalidSearchTrailer } from './trailer';
 
-// const refs = {
-//   cardsList: document.querySelector('.cards__list'),
-//   backdrop: document.querySelector('.backdrop'),
-//   closeBtn: document.querySelector('.btn-modal-close'),
-//   modal: document.querySelector('.modal'),
-//   wrapperForBtns: document.querySelector('.modal-movie-btn'),
-//   watchedBtn: document.querySelector('.btn-modal__watched'),
-//   queueBtn: document.querySelector('.btn-modal__queue'),
-// };
+const refs = {
+  cardsList: document.querySelector('.cards__list'),
+  backdrop: document.querySelector('.backdrop'),
+  closeBtn: document.querySelector('.btn-modal-close'),
+  modal: document.querySelector('.modal'),
+  wrapperForBtns: document.querySelector('.modal-movie-btn'),
+  watchedBtn: document.querySelector('.btn-modal__watched'),
+  queueBtn: document.querySelector('.btn-modal__queue'),
+};
 
 refs.cardsList.addEventListener('click', onClickItem);
 refs.watchedBtn.addEventListener('click', onClickWatched);
