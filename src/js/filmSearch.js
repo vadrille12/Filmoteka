@@ -83,13 +83,12 @@ export function invalidSearch(message, showTime) {
   setTimeout(() => {
     notification.classList.toggle('is-hidden');
   }, showTime);
-    
-    showTrendingMovies(page);
+
+  showTrendingMovies(page);
 
   const removeNotification = setTimeout(() => {
     refs.form.lastElementChild.remove();
   }, 2000);
-    
 }
 
 function onClickLogo() {

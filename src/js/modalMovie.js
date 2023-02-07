@@ -5,11 +5,23 @@ import { fetchTrailer } from './fetchAPI';
 import { onClickTrailer } from './trailer';
 import { invalidSearchTrailer } from './trailer';
 
-refs.cardsList.addEventListener('click', onClickItem);
+// refs.cardsList.addEventListener('click', onClickItem);
+// const movieCard = document.querySelector('.movie__card');
+
+export function waitingLi() {
+  setTimeout(() => {
+    refs.cardsList.childNodes.forEach(card => {
+      card.addEventListener('click', onClickItem);
+      console.log(card);
+    });
+  }, 200);
+}
+
+const movieCard = document.querySelector('.movie__card');
+console.log(movieCard);
 
 let arrWatchedMovies = [];
 const LOCAL_KEY = 'watched-movies';
-save(LOCAL_KEY, []);
 
 function renderCardOfMovie({
   title,
@@ -118,15 +130,20 @@ function renderCardOfMovie({
   refs.modalMovie.insertAdjacentHTML('afterbegin', markupForModalMovie);
   refs.modalContent.insertAdjacentHTML('afterbegin', markupForModalContent);
 }
+// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export function onClickItem(e) {
+  // if (e.target.parentNode.nodeName != 'LI') {
+  //   console.log('not li');
+  //   return;
+  // }
+  console.log(e.currentTarget.id);
+  // refs.cardsList.childNodes.forEach(card => {
+  //   card.addEventListener('click', onClickItem);
+  //   console.log(card);
+  // });
 
-function onClickItem(e) {
-  if (e.target.parentNode.nodeName != 'LI') {
-    console.log('not li');
-    return;
-  }
-
-  const itemId = Number(e.target.parentNode.id);
-
+  const itemId = Number(e.currentTarget.id);
+  console.log(itemId);
   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
   const resultsSearch = parsedDataSearch.results;
   const cardSearch = resultsSearch.find(object => {
