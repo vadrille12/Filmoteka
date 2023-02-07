@@ -1,6 +1,6 @@
 import './switchDayNight';
 import './watched';
-import fotoUrl from '../images/movies.jpg';
+import fotoUrl from '../images/movies.png';
 
 const container = document.querySelector('.empty-library');
 emptyLibrary();
