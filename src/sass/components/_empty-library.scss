@@ -15,13 +15,17 @@
   margin-left: auto;
   margin-right: auto;
 
-  width: 500px;
-  height: 490px;
+  width: 290px;
+  height: 280px;
 
   transform: translateX(250%);
   transition: 0.5s;
   animation: animate 9s linear infinite;
   animation-play-state: running;
+  @media screen and (min-width: 768px) {
+    width: 500px;
+    height: 490px;
+  }
 }
 
 @keyframes animate {
