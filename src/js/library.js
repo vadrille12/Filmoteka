@@ -1,3 +1,4 @@
+import './switchDayNight';
 import './watched';
 import fotoUrl from '../images/movies.jpg';
 

@@ -348,25 +348,7 @@
   transition: 1s ease;
   outline: none;
 }
-// .header-logo__link::before {
-//   content: '';
-//   position: absolute;
-//   left: 0;
-//   top: 20px;
-//   background: transparent;
-//   height: 50%;
-//   width: 100%;
-//   transform: perspective(1em) rotateX(40deg) scale(1, 0.35);
-//   filter: blur(8px);
-//   transition: 1s ease;
-// }
-// .header-logo__link:hover::before,
-// .header-logo__link:focus::before {
-//   background: $body-background-color;
-//   top: 40px;
-//   left: 30px;
- 
-// }
+
 
 .header-nav__link {
   position: relative;
@@ -406,7 +388,7 @@
 
 .hi-icon-wrap {
   position: absolute;
- top: 210px;
+ top: 200px;
  margin-left: 250px;
   @media screen and (min-width: 768px) {
     margin-left: 680px;
