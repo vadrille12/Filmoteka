@@ -18,4 +18,5 @@ export const refs = {
   closeBtn: document.querySelector('.btn-modal__icon'),
   addWatchedBtn: document.querySelector('.btn-modal__watched'),
   addQueueBtn: document.querySelector('.btn-modal__queue'),
+  modalText: document.querySelector('.modal__text'),
 };
