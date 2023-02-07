@@ -14,7 +14,7 @@ import './js/backToTopBtn';
 import './js/switchDayNight';
 import './js/scrollToTop';
 import './js/trailer';
-import './js/watched';
+// import './js/watched';
 import './js/AddToWatched';
 // import './js/library';
 
