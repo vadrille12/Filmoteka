@@ -12,9 +12,10 @@ export const refs = {
   //////    Modal movie   ////////
   cardsList: document.querySelector('.cards__list'),
   backdrop: document.querySelector('.backdrop'),
-  closeBtn: document.querySelector('.btn-modal__icon'),
   modal: document.querySelector('.modal'),
   modalMovie: document.querySelector('.modal-movie'),
   modalContent: document.querySelector('.modal__content'),
-  queueBtn: document.querySelector('.btn-modal__queue'),
+  closeBtn: document.querySelector('.btn-modal__icon'),
+  addWatchedBtn: document.querySelector('.btn-modal__watched'),
+  addQueueBtn: document.querySelector('.btn-modal__queue'),
 };
