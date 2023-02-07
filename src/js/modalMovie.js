@@ -5,23 +5,11 @@ import { fetchTrailer } from './fetchAPI';
 import { onClickTrailer } from './trailer';
 import { invalidSearchTrailer } from './trailer';
 
-// refs.cardsList.addEventListener('click', onClickItem);
-// const movieCard = document.querySelector('.movie__card');
-
-export function waitingLi() {
-  setTimeout(() => {
-    refs.cardsList.childNodes.forEach(card => {
-      card.addEventListener('click', onClickItem);
-      console.log(card);
-    });
-  }, 200);
-}
-
-const movieCard = document.querySelector('.movie__card');
-console.log(movieCard);
+const LOCAL_KEY_WATCHED = 'watched-movies';
+const LOCAL_KEY_QUEUE = 'queue-movies';
 
 let arrWatchedMovies = [];
-const LOCAL_KEY = 'watched-movies';
+let arrQueueMovies = [];
 
 function renderCardOfMovie({
   title,
@@ -132,16 +120,6 @@ function renderCardOfMovie({
 }
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function onClickItem(e) {
-  // if (e.target.parentNode.nodeName != 'LI') {
-  //   console.log('not li');
-  //   return;
-  // }
-  console.log(e.currentTarget.id);
-  // refs.cardsList.childNodes.forEach(card => {
-  //   card.addEventListener('click', onClickItem);
-  //   console.log(card);
-  // });
-
   const itemId = Number(e.currentTarget.id);
   console.log(itemId);
   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
@@ -153,21 +131,32 @@ export function onClickItem(e) {
   });
 
   renderCardOfMovie(cardSearch);
-  arrWatchedMovies = load(LOCAL_KEY);
+  arrWatchedMovies = load(LOCAL_KEY_WATCHED);
 
   refs.backdrop.classList.remove('is-hidden');
   refs.closeBtn.addEventListener('click', onCloseModal);
   refs.backdrop.addEventListener('click', onCloseModal);
   window.addEventListener('keydown', onCloseModayByEsc);
-  const addWatchedBtn = document.querySelector('.btn-modal__watched');
-  addWatchedBtn.addEventListener('click', onClickWatched);
+  refs.addWatchedBtn.addEventListener('click', onClickWatched);
+  refs.addQueueBtn.addEventListener('click', onClickQueue);
 
-  const isFilmInLocalStorage = arrWatchedMovies.some(
-    film => film.id === itemId
-  );
-  if (isFilmInLocalStorage) {
-    addWatchedBtn.textContent = 'remove from watched';
-    addWatchedBtn.classList.add('active');
+  const isFilmInWatched = arrWatchedMovies.some(film => film.id === itemId);
+
+  if (isFilmInWatched) {
+    refs.addWatchedBtn.textContent = 'remove from watched';
+    refs.addWatchedBtn.classList.add('active');
+  } else {
+    refs.addWatchedBtn.textContent = 'add to watched';
+    refs.addWatchedBtn.classList.remove('active');
+  }
+
+  const isFilmInQueue = arrQueueMovies.some(film => film.id === itemId);
+  if (isFilmInQueue) {
+    refs.addQueueBtn.textContent = 'remove from queue';
+    refs.addQueueBtn.classList.add('active');
+  } else {
+    refs.addQueueBtn.textContent = 'add to queue';
+    refs.addQueueBtn.classList.remove('active');
   }
 
   document.body.style.overflow = 'hidden';
@@ -221,6 +210,8 @@ function onCloseModal(e) {
     document.body.style.overflow = '';
     refs.closeBtn.removeEventListener('click', onCloseModal);
     refs.backdrop.removeEventListener('click', onCloseModal);
+    refs.addWatchedBtn.removeEventListener('click', onClickWatched);
+    refs.addQueueBtn.removeEventListener('click', onClickQueue);
     window.removeEventListener('keydown', onCloseModayByEsc);
 
     refs.modalMovie.innerHTML = '';
@@ -236,6 +227,8 @@ function onCloseModayByEsc(e) {
     refs.closeBtn.removeEventListener('click', onCloseModal);
     refs.backdrop.removeEventListener('click', onCloseModal);
     window.removeEventListener('keydown', onCloseModayByEsc);
+    refs.addWatchedBtn.removeEventListener('click', onClickWatched);
+    refs.addQueueBtn.removeEventListener('click', onClickQueue);
 
     refs.modalMovie.innerHTML = '';
     refs.modalContent.innerHTML = '';
@@ -243,20 +236,20 @@ function onCloseModayByEsc(e) {
 }
 
 function onClickWatched(e) {
-  const removeBtn = document.querySelector('.active');
-  e.target.classList.toggle('active');
+  const removeBtn = document.querySelector('.active-watched');
+  e.target.classList.toggle('active-watched');
 
   const currentMoviesId = Number(refs.modal.dataset.id);
 
   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
   const resultsSearch = parsedDataSearch.results;
-  arrWatchedMovies = load(LOCAL_KEY);
+  arrWatchedMovies = load(LOCAL_KEY_WATCHED);
 
   if (removeBtn) {
     const newMoviesArr = arrWatchedMovies.filter(
       film => film.id != currentMoviesId
     );
-    save(LOCAL_KEY, newMoviesArr);
+    save(LOCAL_KEY_WATCHED, newMoviesArr);
     e.target.textContent = 'add to watched';
   }
   if (!removeBtn) {
@@ -264,7 +257,7 @@ function onClickWatched(e) {
       if (object.id === currentMoviesId) {
         arrWatchedMovies.push(object);
         console.log(arrWatchedMovies);
-        save(LOCAL_KEY, arrWatchedMovies);
+        save(LOCAL_KEY_WATCHED, arrWatchedMovies);
         console.log(object);
       }
     });
@@ -272,4 +265,42 @@ function onClickWatched(e) {
   }
 }
 
-export { arrWatchedMovies };
+function onClickQueue(e) {
+  const removeBtn = document.querySelector('.active-queue');
+  e.target.classList.toggle('active-queue');
+
+  const currentMoviesId = Number(refs.modal.dataset.id);
+
+  const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
+  const resultsSearch = parsedDataSearch.results;
+  arrQueueMovies = load(LOCAL_KEY_QUEUE);
+
+  if (removeBtn) {
+    const newMoviesArr = arrQueueMovies.filter(
+      film => film.id != currentMoviesId
+    );
+    save(LOCAL_KEY_QUEUE, newMoviesArr);
+    e.target.textContent = 'add to queue';
+  }
+  if (!removeBtn) {
+    resultsSearch.find(object => {
+      if (object.id === currentMoviesId) {
+        arrQueueMovies.push(object);
+        console.log(arrQueueMovies);
+        save(LOCAL_KEY_QUEUE, arrQueueMovies);
+        console.log(object);
+      }
+    });
+    e.target.textContent = 'remove from queue';
+  }
+}
+
+function waitingLi() {
+  setTimeout(() => {
+    refs.cardsList.childNodes.forEach(card => {
+      card.addEventListener('click', onClickItem);
+    });
+  }, 200);
+}
+
+export { arrWatchedMovies, arrQueueMovies, waitingLi };
