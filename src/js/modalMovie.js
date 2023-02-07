@@ -1,21 +1,29 @@
 import photo from '../images/header/photo.jpg';
-import { refs } from '../js/refs';
-import { save } from './localStorage';
+// import { refs } from '../js/refs';
+import { load, save } from './localStorage';
+import { fetchTrailer } from './fetchAPI';
+import { onClickTrailer } from './trailer';
+import { invalidSearchTrailer } from './trailer';
 
-// const refs = {
-//   cardsList: document.querySelector('.cards__list'),
-//   backdrop: document.querySelector('.backdrop'),
-//   closeBtn: document.querySelector('.btn-modal-close'),
-//   modal: document.querySelector('.modal'),
-//   wrapperForBtns: document.querySelector('.modal-movie-btn'),
-//   watchedBtn: document.querySelector('.btn-modal__watched'),
-//   queueBtn: document.querySelector('.btn-modal__queue'),
-// };
+const refs = {
+  cardsList: document.querySelector('.cards__list'),
+  backdrop: document.querySelector('.backdrop'),
+  closeBtn: document.querySelector('.btn-modal-close'),
+  modal: document.querySelector('.modal'),
+  wrapperForBtns: document.querySelector('.modal-movie-btn'),
+  watchedBtn: document.querySelector('.btn-modal__watched'),
+  queueBtn: document.querySelector('.btn-modal__queue'),
+};
 
 refs.cardsList.addEventListener('click', onClickItem);
 refs.watchedBtn.addEventListener('click', onClickWatched);
 
+console.log(refs.modalContent);
+
+// console.log(refs.wrapperForBtns);
+
 let arrWatchedMovies = [];
+
 const LOCAL_KEY = 'watched-movies';
 
 function renderCardOfMovie({
@@ -123,10 +131,11 @@ function renderCardOfMovie({
             ${overview ? `<h3 class='modal-about__title'>About</h3>` : ''}
             ${overview ? `<p class='modal-about__desc'>${overview}</p>` : ''}
           </div>
-          
+    
     </div>
         `;
-  refs.wrapperForBtns.setAttribute('data-id', id);
+  refs.watchedBtn.addEventListener('click', onClickWatched);
+  refs.modal.setAttribute('data-id', id);
   refs.modal.insertAdjacentHTML('afterbegin', markup);
 }
 
@@ -171,6 +180,45 @@ function onClickItem(e) {
   refs.watchedBtn.addEventListener('click', onClickWatched);
 
   document.body.style.overflow = 'hidden';
+
+  // ************* show trailer on YouTube**start*****
+  const trailerButton = document.querySelector('.js-open-trailer');
+  trailerButton.addEventListener(`click`, onClickTrailer);
+  async function onClickTrailer(e) {
+    try {
+      const data = await fetchTrailer(itemId);
+      console.log(data.results.length);
+      if (data.results.length > 0) {
+        window.open(
+          `https://www.youtube.com/watch?v=${data.results[0].key}`,
+          '_blank'
+        );
+      } else {
+        function invalidSearchTrailer() {
+          const modalMovie = document.querySelector('.modal-movie');
+          modalMovie.insertAdjacentHTML(
+            'afterbegin',
+            '<p class="trailer-search form__uncorrect-search is-hidden"></p>'
+          );
+          const notification = document.querySelector(
+            '.form__uncorrect-search'
+          );
+          notification.textContent =
+            'Sorry, but there is no trailer for this movie';
+          setTimeout(() => {
+            notification.classList.toggle('is-hidden');
+          }, 1000);
+          const removeNotification = setTimeout(() => {
+            modalMovie.firstElementChild.remove();
+          }, 2000);
+        }
+        invalidSearchTrailer();
+      }
+    } catch (error) {
+      error.message;
+    }
+  }
+  // ************* show trailer on YouTube**END*****
 }
 
 function onCloseModal(e) {
@@ -180,21 +228,22 @@ function onCloseModal(e) {
   ) {
     refs.backdrop.classList.add('is-hidden');
     document.body.style.overflow = '';
-    refs.closeBtn.removeEventListener('click', onCloseModal);
-    refs.backdrop.removeEventListener('click', onCloseModal);
+    // refs.closeBtn.removeEventListener('click', onCloseModal);
+    // refs.backdrop.removeEventListener('click', onCloseModal);
     window.removeEventListener('keydown', onCloseModayByEsc);
 
-    const markup = `<button class="btn-modal-close" type="button">
-    </button><div class="modal-movie-btn">
-      <button type="button" class="btn-modal btn-modal__watched">
-        add to Watched
-      </button>
-      <button type="button" class="btn-modal btn-modal__queue">
-        add to queue
-      </button>
-    </div>`;
+    // const markup = `<button class="btn-modal-close" type="button">
+    // </button><div class="modal-movie-btn">
+    //   <button type="button" class="btn-modal btn-modal__watched">
+    //     add to Watched
+    //   </button>
+    //   <button type="button" class="btn-modal btn-modal__queue">
+    //     add to queue
+    //   </button>
+    // </div>`;
 
-    refs.modal.innerHTML = markup;
+    // refs.modal.innerHTML = markup;
+    // refs.modal.innerHTML = '';
   }
 }
 
@@ -203,32 +252,42 @@ function onCloseModayByEsc(e) {
   if (e.code === 'Escape') {
     refs.backdrop.classList.add('is-hidden');
     document.body.style.overflow = '';
-    refs.closeBtn.removeEventListener('click', onCloseModal);
-    refs.backdrop.removeEventListener('click', onCloseModal);
+    // refs.closeBtn.removeEventListener('click', onCloseModal);
+    // refs.backdrop.removeEventListener('click', onCloseModal);
     window.removeEventListener('keydown', onCloseModayByEsc);
 
-    const markup = `<button type="button" class="btn-modal-close">Close</button><div class="modal-movie-btn">
-      <button type="button" class="btn-modal btn-modal__watched">
-        add to Watched
-      </button>
-      <button type="button" class="btn-modal btn-modal__queue">
-        add to queue
-      </button>
-    </div>`;
+    // const markup = `<button class="btn-modal-close" type="button">
+    //   <svg class="btn-modal__icon">
+    //     <use href="./images/icons.svg#icon-close"></use>
+    //   </svg>
+    // </button>
+    // <div class="modal-movie-btn">
+    //   <button type="button" class="btn-modal btn-modal__watched">
+    //     add to Watched
+    //   </button>
+    //   <button type="button" class="btn-modal btn-modal__queue">
+    //     add to queue
+    //   </button>`;
 
-    refs.modal.innerHTML = markup;
+    // refs.modal.innerHTML = '';
+    // refs.modal.innerHTML = '';
+    // refs.modalContentinnerHTML = '';
   }
 }
 
-function onClickWatched(e) {
-  console.log('hello');
-  const watchedMoviesId = Number(e.target.parentNode.dataset.id);
+function onClickWatched() {
+  // const watchedMoviesId = Number(e.target.parentNode.dataset.id);
+  const watchedMoviesId = Number(refs.modal.dataset.id);
+
   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
   const resultsSearch = parsedDataSearch.results;
 
   resultsSearch.find(object => {
     if (object.id === watchedMoviesId) {
+      arrWatchedMovies = load(LOCAL_KEY);
       arrWatchedMovies.push(object);
+      // console.log(load(LOCAL_KEY, arrWatchedMovies));
+
       console.log(arrWatchedMovies);
 
       save(LOCAL_KEY, arrWatchedMovies);
@@ -236,3 +295,5 @@ function onClickWatched(e) {
     }
   });
 }
+
+export { arrWatchedMovies };

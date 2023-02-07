@@ -9,21 +9,55 @@ import {
 import { refs } from './refs';
 import { fetchTrailer } from './fetchAPI.js';
 
-export async function getTrailer(id) {
+// export async function getTrailer(id) {
+//   try {
+//     const data = await fetchTrailer(id);
+//     // console.log(data);
+//     // console.log(data.results.length);
+//     if (data.results.length > 0) {
+//       window.open(
+//         `https://www.youtube.com/watch?v=${data.results[0].key}`,
+//         '_blank'
+//       );
+//     } else {
+//       console.log('Sorry, but there is no trailer for this movie');
+//     }
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+// }
+// // getTrailer(4564);
+
+export async function onClickTrailer(e) {
   try {
-    const data = await fetchTrailer(id);
-    // console.log(data);
-    // console.log(data.results.length);
+    const data = await fetchTrailer(itemId);
+    console.log(data.results.length);
     if (data.results.length > 0) {
       window.open(
         `https://www.youtube.com/watch?v=${data.results[0].key}`,
         '_blank'
       );
     } else {
-      console.log('Sorry, but there is no trailer for this movie');
+      function invalidSearchTrailer() {
+        const modalMovie = document.querySelector('.modal-movie');
+        //console.log(modalMovie);
+        modalMovie.insertAdjacentHTML(
+          'afterbegin',
+          '<p class="trailer-search form__uncorrect-search is-hidden"></p>'
+        );
+        const notification = document.querySelector('.form__uncorrect-search');
+        notification.textContent =
+          'Sorry, but there is no trailer for this movie';
+        setTimeout(() => {
+          notification.classList.toggle('is-hidden');
+        }, 1000);
+        const removeNotification = setTimeout(() => {
+          modalMovie.firstElementChild.remove();
+        }, 2000);
+      }
+      invalidSearchTrailer();
     }
-  } catch (err) {
-    console.error(err.message);
+  } catch (error) {
+    error.message;
   }
 }
-// getTrailer(4564);

@@ -4,7 +4,6 @@ import './js/storage';
 import './js/modalMovie';
 import './js/modalStudents';
 import './js/pagination';
-import './js/library';
 import './js/filmSearch';
 import './js/filmCard';
 import './js/popUpBtn';
@@ -13,5 +12,9 @@ import './js/fetchGenres';
 import './js/localStorage';
 import './js/backToTopBtn';
 import './js/switchDayNight';
+import './js/scrollToTop';
 import './js/trailer';
 import './js/watched';
+import './js/AddToWatched';
+// import './js/library';
+
