@@ -116,7 +116,7 @@ function renderCardOfMovie({
 
   refs.modal.setAttribute('data-id', id);
   refs.modalMovie.insertAdjacentHTML('afterbegin', markupForModalMovie);
-  refs.modalContent.insertAdjacentHTML('afterbegin', markupForModalContent);
+  refs.modalText.insertAdjacentHTML('afterbegin', markupForModalContent);
 }
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function onClickItem(e) {
@@ -159,7 +159,7 @@ export function onClickItem(e) {
     refs.addQueueBtn.classList.remove('active');
   }
 
-  document.body.style.overflow = 'hidden';
+  document.body.style.overflowY = 'scroll';
 
   // ************* show trailer on YouTube**start*****
   const trailerButton = document.querySelector('.js-open-trailer');
@@ -215,7 +215,7 @@ function onCloseModal(e) {
     window.removeEventListener('keydown', onCloseModayByEsc);
 
     refs.modalMovie.innerHTML = '';
-    refs.modalContent.innerHTML = '';
+    refs.modalText.innerHTML = '';
   }
 }
 
@@ -231,7 +231,7 @@ function onCloseModayByEsc(e) {
     refs.addQueueBtn.removeEventListener('click', onClickQueue);
 
     refs.modalMovie.innerHTML = '';
-    refs.modalContent.innerHTML = '';
+    refs.modalText.innerHTML = '';
   }
 }
 
