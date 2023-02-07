@@ -6,7 +6,6 @@ import { refs } from './refs';
 
 export function makeTuiPagination(totalItems, totalPages) {
   const visiblePages = totalPages < 5 ? totalPages : 5;
-
   const options = {
     totalItems,
     itemsPerPage: 20,
