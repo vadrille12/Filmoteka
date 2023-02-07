@@ -160,6 +160,7 @@ export function onClickItem(e) {
   }
 
   document.body.style.overflowY = 'scroll';
+  refs.body.classList.add('body-lock');
 
   // ************* show trailer on YouTube**start*****
   const trailerButton = document.querySelector('.js-open-trailer');

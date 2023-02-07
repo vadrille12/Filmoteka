@@ -5,6 +5,11 @@
   --accent-color: #ff6b01;
 }
 
+.body-lock {
+  overflow-y: scroll;
+  position: fixed;
+}
+
 .backdrop {
   position: fixed;
   width: 100vw;

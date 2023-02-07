@@ -1,4 +1,5 @@
 export const refs = {
+  body: document.querySelector('body'),
   form: document.querySelector('.header-form'),
   watchedBtn: document.querySelector('.watched-list-btn'),
   paginationEl: document.getElementById('tui-pagination-container'),
