@@ -16,7 +16,7 @@ const refs = {
 };
 
 refs.cardsList.addEventListener('click', onClickItem);
-refs.watchedBtn.addEventListener('click', onClickWatched);
+// refs.watchedBtn.addEventListener('click', onClickWatched);
 
 console.log(refs.modalContent);
 
@@ -131,10 +131,13 @@ function renderCardOfMovie({
             ${overview ? `<h3 class='modal-about__title'>About</h3>` : ''}
             ${overview ? `<p class='modal-about__desc'>${overview}</p>` : ''}
           </div>
-    
+          <div class="modal-movie-btn">
+          <button class="btn-modal btn-modal__watched">add to Watched</button>
+          <button class="btn-modal btn-modal__queue">add to queue</button>
+        </div>
     </div>
         `;
-  refs.watchedBtn.addEventListener('click', onClickWatched);
+  // refs.watchedBtn.addEventListener('click', onClickWatched);
   refs.modal.setAttribute('data-id', id);
   refs.modal.insertAdjacentHTML('afterbegin', markup);
 }
@@ -171,13 +174,24 @@ function onClickItem(e) {
   });
 
   renderCardOfMovie(cardSearch);
+  arrWatchedMovies = load(LOCAL_KEY);
+  
+  
+
 
   refs.backdrop.classList.remove('is-hidden');
   refs.closeBtn.addEventListener('click', onCloseModal);
   refs.backdrop.addEventListener('click', onCloseModal);
   window.addEventListener('keydown', onCloseModayByEsc);
   console.log(refs.watchedBtn);
-  refs.watchedBtn.addEventListener('click', onClickWatched);
+  const addWatchedBtn = document.querySelector(".btn-modal__watched");
+  addWatchedBtn.addEventListener('click', onClickWatched);
+  // refs.watchedBtn.addEventListener('click', onClickWatched);
+  const isFilmInLocalStorage = arrWatchedMovies.some(film => film.id === itemId);
+  if (isFilmInLocalStorage){
+    addWatchedBtn.textContent = "remove from watched";
+    addWatchedBtn.classList.add("active");
+  } 
 
   document.body.style.overflow = 'hidden';
 
@@ -228,8 +242,8 @@ function onCloseModal(e) {
   ) {
     refs.backdrop.classList.add('is-hidden');
     document.body.style.overflow = '';
-    // refs.closeBtn.removeEventListener('click', onCloseModal);
-    // refs.backdrop.removeEventListener('click', onCloseModal);
+    refs.closeBtn.removeEventListener('click', onCloseModal);
+    refs.backdrop.removeEventListener('click', onCloseModal);
     window.removeEventListener('keydown', onCloseModayByEsc);
 
     // const markup = `<button class="btn-modal-close" type="button">
@@ -243,7 +257,7 @@ function onCloseModal(e) {
     // </div>`;
 
     // refs.modal.innerHTML = markup;
-    // refs.modal.innerHTML = '';
+    refs.modal.innerHTML = '';
   }
 }
 
@@ -275,25 +289,36 @@ function onCloseModayByEsc(e) {
   }
 }
 
-function onClickWatched() {
+function onClickWatched(e) {
   // const watchedMoviesId = Number(e.target.parentNode.dataset.id);
-  const watchedMoviesId = Number(refs.modal.dataset.id);
+  const removeBtn = document.querySelector(".active");
+  e.target.classList.toggle("active");
+ 
+  const currentMoviesId = Number(refs.modal.dataset.id);
 
   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
   const resultsSearch = parsedDataSearch.results;
+  arrWatchedMovies = load(LOCAL_KEY);
 
-  resultsSearch.find(object => {
-    if (object.id === watchedMoviesId) {
-      arrWatchedMovies = load(LOCAL_KEY);
-      arrWatchedMovies.push(object);
-      // console.log(load(LOCAL_KEY, arrWatchedMovies));
+  if (removeBtn){ 
+    const newMoviesArr = arrWatchedMovies.filter(film => film.id != currentMoviesId);    
+    save(LOCAL_KEY, newMoviesArr);
+    e.target.textContent = "add to watched";
+  }
+  if (!removeBtn){
+    resultsSearch.find(object => {
+      if (object.id === currentMoviesId) {
+        arrWatchedMovies.push(object);
+        // console.log(load(LOCAL_KEY, arrWatchedMovies));
 
-      console.log(arrWatchedMovies);
+        console.log(arrWatchedMovies);
 
-      save(LOCAL_KEY, arrWatchedMovies);
-      console.log(object);
-    }
-  });
+        save(LOCAL_KEY, arrWatchedMovies);
+        console.log(object);
+      }
+    });
+    e.target.textContent = "remove from watched";
+  } 
 }
 
 export { arrWatchedMovies };
