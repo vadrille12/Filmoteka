@@ -1,30 +1,15 @@
 import photo from '../images/header/photo.jpg';
-// import { refs } from '../js/refs';
+import { refs } from '../js/refs';
 import { load, save } from './localStorage';
 import { fetchTrailer } from './fetchAPI';
 import { onClickTrailer } from './trailer';
 import { invalidSearchTrailer } from './trailer';
 
-const refs = {
-  cardsList: document.querySelector('.cards__list'),
-  backdrop: document.querySelector('.backdrop'),
-  closeBtn: document.querySelector('.btn-modal-close'),
-  modal: document.querySelector('.modal'),
-  wrapperForBtns: document.querySelector('.modal-movie-btn'),
-  watchedBtn: document.querySelector('.btn-modal__watched'),
-  queueBtn: document.querySelector('.btn-modal__queue'),
-};
-
 refs.cardsList.addEventListener('click', onClickItem);
-// refs.watchedBtn.addEventListener('click', onClickWatched);
-
-console.log(refs.modalContent);
-
-// console.log(refs.wrapperForBtns);
 
 let arrWatchedMovies = [];
-
 const LOCAL_KEY = 'watched-movies';
+save(LOCAL_KEY, []);
 
 function renderCardOfMovie({
   title,
@@ -41,9 +26,7 @@ function renderCardOfMovie({
     return localStorage.getItem(genre);
   });
 
-  const markup = `
-    <div class='modal-movie'>
-    <img
+  const markupForModalMovie = `  <img
           class='modal-movie__img'
 
           ${
@@ -64,9 +47,9 @@ function renderCardOfMovie({
   `
           }
         />
-        <button type="button" class="btn__open-trailer js-open-trailer"></button>
-    </div>
-    <div class='modal__content'>
+        <button type="button" class="btn__open-trailer js-open-trailer"></button>`;
+
+  const markupForModalContent = `
         <h2 class='modal__title'>${title}</h2>
           <table class='modal-info'>
             <tr>${
@@ -126,29 +109,17 @@ function renderCardOfMovie({
               }
             </tr>
           </table>
-
           <div class='modal-about'>
             ${overview ? `<h3 class='modal-about__title'>About</h3>` : ''}
             ${overview ? `<p class='modal-about__desc'>${overview}</p>` : ''}
-          </div>
-          <div class="modal-movie-btn">
-          <button class="btn-modal btn-modal__watched">add to Watched</button>
-          <button class="btn-modal btn-modal__queue">add to queue</button>
-        </div>
-    </div>
-        `;
-  // refs.watchedBtn.addEventListener('click', onClickWatched);
+          </div>`;
+
   refs.modal.setAttribute('data-id', id);
-  refs.modal.insertAdjacentHTML('afterbegin', markup);
+  refs.modalMovie.insertAdjacentHTML('afterbegin', markupForModalMovie);
+  refs.modalContent.insertAdjacentHTML('afterbegin', markupForModalContent);
 }
 
 function onClickItem(e) {
-  // console.log(e.target);
-  // console.log(e.currentTarget.children);
-  // const childrenOfUl = e.currentTarget.childNodes;
-  // console.log(childrenOfUl);
-  // childrenOfUl.forEach(child => console.log(child.id));
-
   if (e.target.parentNode.nodeName != 'LI') {
     console.log('not li');
     return;
@@ -157,41 +128,30 @@ function onClickItem(e) {
   const itemId = Number(e.target.parentNode.id);
 
   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
-
   const resultsSearch = parsedDataSearch.results;
-  // console.log(resultsSearch);
-
   const cardSearch = resultsSearch.find(object => {
-    // console.log(object);
-
     if (object.id === itemId) {
-      // arrWatchedMovies.push(object);
-      // console.log(arrWatchedMovies);
-      // localStorage.setItem('watched-movies', JSON.stringify(arrWatchedMovies));
-      // console.log(object);
       return object;
     }
   });
 
   renderCardOfMovie(cardSearch);
   arrWatchedMovies = load(LOCAL_KEY);
-  
-  
-
 
   refs.backdrop.classList.remove('is-hidden');
   refs.closeBtn.addEventListener('click', onCloseModal);
   refs.backdrop.addEventListener('click', onCloseModal);
   window.addEventListener('keydown', onCloseModayByEsc);
-  console.log(refs.watchedBtn);
-  const addWatchedBtn = document.querySelector(".btn-modal__watched");
+  const addWatchedBtn = document.querySelector('.btn-modal__watched');
   addWatchedBtn.addEventListener('click', onClickWatched);
-  // refs.watchedBtn.addEventListener('click', onClickWatched);
-  const isFilmInLocalStorage = arrWatchedMovies.some(film => film.id === itemId);
-  if (isFilmInLocalStorage){
-    addWatchedBtn.textContent = "remove from watched";
-    addWatchedBtn.classList.add("active");
-  } 
+
+  const isFilmInLocalStorage = arrWatchedMovies.some(
+    film => film.id === itemId
+  );
+  if (isFilmInLocalStorage) {
+    addWatchedBtn.textContent = 'remove from watched';
+    addWatchedBtn.classList.add('active');
+  }
 
   document.body.style.overflow = 'hidden';
 
@@ -246,18 +206,8 @@ function onCloseModal(e) {
     refs.backdrop.removeEventListener('click', onCloseModal);
     window.removeEventListener('keydown', onCloseModayByEsc);
 
-    // const markup = `<button class="btn-modal-close" type="button">
-    // </button><div class="modal-movie-btn">
-    //   <button type="button" class="btn-modal btn-modal__watched">
-    //     add to Watched
-    //   </button>
-    //   <button type="button" class="btn-modal btn-modal__queue">
-    //     add to queue
-    //   </button>
-    // </div>`;
-
-    // refs.modal.innerHTML = markup;
-    refs.modal.innerHTML = '';
+    refs.modalMovie.innerHTML = '';
+    refs.modalContent.innerHTML = '';
   }
 }
 
@@ -266,59 +216,43 @@ function onCloseModayByEsc(e) {
   if (e.code === 'Escape') {
     refs.backdrop.classList.add('is-hidden');
     document.body.style.overflow = '';
-    // refs.closeBtn.removeEventListener('click', onCloseModal);
-    // refs.backdrop.removeEventListener('click', onCloseModal);
+    refs.closeBtn.removeEventListener('click', onCloseModal);
+    refs.backdrop.removeEventListener('click', onCloseModal);
     window.removeEventListener('keydown', onCloseModayByEsc);
 
-    // const markup = `<button class="btn-modal-close" type="button">
-    //   <svg class="btn-modal__icon">
-    //     <use href="./images/icons.svg#icon-close"></use>
-    //   </svg>
-    // </button>
-    // <div class="modal-movie-btn">
-    //   <button type="button" class="btn-modal btn-modal__watched">
-    //     add to Watched
-    //   </button>
-    //   <button type="button" class="btn-modal btn-modal__queue">
-    //     add to queue
-    //   </button>`;
-
-    // refs.modal.innerHTML = '';
-    // refs.modal.innerHTML = '';
-    // refs.modalContentinnerHTML = '';
+    refs.modalMovie.innerHTML = '';
+    refs.modalContent.innerHTML = '';
   }
 }
 
 function onClickWatched(e) {
-  // const watchedMoviesId = Number(e.target.parentNode.dataset.id);
-  const removeBtn = document.querySelector(".active");
-  e.target.classList.toggle("active");
- 
+  const removeBtn = document.querySelector('.active');
+  e.target.classList.toggle('active');
+
   const currentMoviesId = Number(refs.modal.dataset.id);
 
   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
   const resultsSearch = parsedDataSearch.results;
   arrWatchedMovies = load(LOCAL_KEY);
 
-  if (removeBtn){ 
-    const newMoviesArr = arrWatchedMovies.filter(film => film.id != currentMoviesId);    
+  if (removeBtn) {
+    const newMoviesArr = arrWatchedMovies.filter(
+      film => film.id != currentMoviesId
+    );
     save(LOCAL_KEY, newMoviesArr);
-    e.target.textContent = "add to watched";
+    e.target.textContent = 'add to watched';
   }
-  if (!removeBtn){
+  if (!removeBtn) {
     resultsSearch.find(object => {
       if (object.id === currentMoviesId) {
         arrWatchedMovies.push(object);
-        // console.log(load(LOCAL_KEY, arrWatchedMovies));
-
         console.log(arrWatchedMovies);
-
         save(LOCAL_KEY, arrWatchedMovies);
         console.log(object);
       }
     });
-    e.target.textContent = "remove from watched";
-  } 
+    e.target.textContent = 'remove from watched';
+  }
 }
 
 export { arrWatchedMovies };
