@@ -1,3 +1,4 @@
+import './watched';
 import fotoUrl from '../images/movies.jpg';
 
 const container = document.querySelector('.empty-library');

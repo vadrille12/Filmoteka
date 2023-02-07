@@ -212,15 +212,18 @@
       height: 42px;
     }
   }
-  &__activ {
-    background-color: $main-accent-color;
-  }
+  
   &__btn:hover {
     background-color: $main-accent-color;
   }
   &__btn:focus {
     background-color: $main-accent-color;
   }
+}
+
+.js-active {
+  background-color: $main-accent-color;
+  border-color: transparent;
 }
 
 // // // ============ Стили background ========================

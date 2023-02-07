@@ -1,84 +1,141 @@
 const watchedBtn = document.querySelector('.watched-list-btn');
-
-const itemsPerPage = 20;
-
-let watchedMovies = [];
-getWatchedMovies();
-
-async function getWatchedMovies() {
-  main.innerHTML = '';
-  if (JSON.parse(localStorage.getItem('added-to-watched')) !== null) {
-    let watchedMoviesNumber = JSON.parse(
-      localStorage.getItem('added-to-watched')
-    ).length;
-
-    if (JSON.parse(localStorage.getItem('added-to-watched')).length === 0) {
-      main.insertAdjacentHTML(
-        'beforeend',
-        `<p class="alert">There are no movies in your watched list!</p>`
-      );
-      watchedBtn.textContent = `WATCHED`;
-    } else {
-      main.innerHTML = '';
-      watchedMovies = JSON.parse(localStorage.getItem('added-to-watched'));
-
-      let watchedMoviesList = [];
-
-      for (let i = 0; i < watchedMovies.length; i++) {
-        let watchedMovieId = watchedMovies[i];
-
-        let watchedMoviesItem = await getMoviesbyId(watchedMovieId);
-
-        watchedMoviesList.push(watchedMoviesItem);
-      }
-
-      totalPages = Math.ceil(watchedMoviesList.length / itemsPerPage);
-
-      watchedBtn.textContent = `WATCHED : ${watchedMoviesNumber}`;
-    }
-  } else {
-    main.insertAdjacentHTML(
-      'beforeend',
-      `<p class="alert">There are no movies in your watched list!</p>`
-    );
-    watchedBtn.textContent = `WATCHED`;
-  }
-  watchedBtn.setAttribute('disabled', true);
-}
-
-watchedBtn.addEventListener('click', event => {
-  event.preventDefault();
-  getWatchedMovies();
-});
-
-const options = document.querySelectorAll('.header-library__btn');
-const optionsActive = document.querySelectorAll('.header-library__activ');
 const queueBtn = document.querySelector('.queue-list-btn');
 
-// options.forEach(function(element) {
-//   element.addEventListener('click', activ);
-// });
+watchedBtn.addEventListener('click', onWatched);
+queueBtn.addEventListener('click', onQueueBtn);
 
-// function activ (event) {
-//   const targetElement = event.target;
+function onWatched() {
+    watchedBtn.classList.add('js-active');
+    queueBtn.classList.remove('js-active');
+}
+function onQueueBtn() {
+    queueBtn.classList.add('js-active');
+    watchedBtn.classList.remove('js-active');
+}
 
-//   options.forEach(function(element) {
-//     element.classList.remove('active');
-//   });
+// // создание 
 
-//   targetElement.classList.add('active');
+// import { API_KEY, BASE_URL, TREND_URL, SEARCH_URL } from './api-vars.js';
 
-//   if (options !== optionsActive) {
-//     targetElement.classList.remove('active');
+// function createLibraryMarkup({
+//   genres,
+//   poster_path,
+//   title,
+//   release_date,
+//   id,
+//   vote_average
+// }) {
+//   let genresArr = [];
+//   genres.map((genre) =>
+//     genresArr.push(genre.name));
+//   if (genresArr.length > 3) {
+//     const changedArr = genresArr.slice(0, 2);
+//     changedArr.push('Other');
+//     genresArr = changedArr;
+//   }
+//   const genresStr = genresArr.join(', ');
+//   const year = release_date.slice(0, 4);
+//   const rating = vote_average.toFixed(1);
+//   return `<li class="grid__item film-card ">
+//         <a href="#" data-id="${id}" class="list">
+//           <div class="film-card__thumb">
+//             <img
+//               class="film-card__img"
+//               src="${API_KEY}${poster_path}"
+//               alt="Movie poster"
+//               loading="lazy"
+//               id=${id}
+//             />
+//           </div>
+//           <h2 class="film-card__header">${title}</h2>
+//         </a>
+//         <p class="film-card__genres">${genresStr}</p>
+//         <span class="film-card__year">${year}</span>
+//         <span class="film-card__rating">${rating}</span>
+//       </li>`;
+// }
+
+// // рендер
+// const emptyLibrary = document.querySelector('.empty-library');
+// const listLib = document.querySelector('.film-list-lib-js');
+
+// const LOCAL_STORAGE_KEY_WATCHED = 'watched';
+// const LOCAL_STORAGE_KEY_QUEUE = 'queue';
+// const saveDataWatched = JSON.parse(
+//   localStorage.getItem(LOCAL_STORAGE_KEY_WATCHED)
+// );
+// const saveDataQueue = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_QUEUE));
+// const saveDataAll = saveDataWatched.concat(saveDataQueue);
+// const savedDataAllQniue = saveDataAll.filter(
+//   (data, index, array) => array.indexOf(data) === index
+// );
+// const loadingParams = {
+//   svgColor: '#FF6B08',
+// };
+
+// init();
+
+// watchedBtn.addEventListener('click', onWatchedClick);
+// queueBtn.addEventListener('click', onQueueClick);
+
+// if (!savedDataAllQniue.length) {
+//   emptyLibrary.classList.remove('is-hidden');
+// }
+
+// export function init() {
+//   if (saveDataAll) {
+//     try {
+//       Loading.pulse(loadingParams);
+//       savedDataAllQniue.map(id => {
+//         fetch.getFilmDetails(id).then(promise => {
+//           const markup = createLibraryMarkup(promise);
+//           listLib.insertAdjacentHTML('beforeend', markup);
+//         });
+//       });
+//     } catch (error) {
+//       console.log(error.message);
+//     } finally {
+//       Loading.remove();
+//     }
 //   }
 // }
 
-function getWatched() {
-    const fromLS = localStorage.getItem('watched');
-    queueBtn.classList.remove('btn-header--active');
-    watchedBtn.classList.add('btn-header--active');
-    // clear();
-    if (fromLS === '[]' || fromLS === null) {
-      clear();
-    }
-}
+// function onWatchedClick() {
+//   if (saveDataAll) {
+//       const saveDataWatched = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_WATCHED));
+//       listLib.innerHTML = '';
+//       try {
+//       Loading.pulse(loadingParams);
+//       saveDataWatched.map(id => {
+//         fetch.getFilmDetails(id).then(promise => {
+//           const markup = createLibraryMarkup(promise);
+//           listLib.insertAdjacentHTML('beforeend', markup);
+//         });
+//       });
+//     } catch (error) {
+//       console.log(error.message);
+//     } finally {
+//       Loading.remove();
+//     }
+//   }
+// }
+
+// function onQueueClick() {
+//   if (saveDataAll) {
+//       const saveDataQueue = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_QUEUE));
+//         listLib.innerHTML = '';
+//     try {
+//       Loading.pulse(loadingParams);
+//       saveDataQueue.map(id => {
+//         fetch.getFilmDetails(id).then(promise => {
+//           const markup = createLibraryMarkup(promise);
+//           listLib.insertAdjacentHTML('beforeend', markup);
+//         });
+//       });
+//     } catch (error) {
+//       console.log(error.message);
+//     } finally {
+//       Loading.remove();
+//     }
+//   }
+// }

@@ -14,3 +14,4 @@ import './js/localStorage';
 import './js/backToTopBtn';
 import './js/switchDayNight';
 import './js/trailer';
+import './js/watched';
