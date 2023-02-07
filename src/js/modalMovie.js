@@ -11,6 +11,14 @@ const LOCAL_KEY_QUEUE = 'queue-movies';
 let arrWatchedMovies = [];
 let arrQueueMovies = [];
 
+if (!load(LOCAL_KEY_WATCHED)) {
+  save(LOCAL_KEY_WATCHED, arrWatchedMovies);
+}
+
+if (!load(LOCAL_KEY_QUEUE)) {
+  save(LOCAL_KEY_QUEUE, arrQueueMovies);
+}
+
 function renderCardOfMovie({
   title,
   vote_average,
@@ -132,6 +140,7 @@ export function onClickItem(e) {
 
   renderCardOfMovie(cardSearch);
   arrWatchedMovies = load(LOCAL_KEY_WATCHED);
+  arrQueueMovies = load(LOCAL_KEY_QUEUE);
 
   refs.backdrop.classList.remove('is-hidden');
   refs.closeBtn.addEventListener('click', onCloseModal);
