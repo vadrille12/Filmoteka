@@ -15,127 +15,119 @@ function onQueueBtn() {
 
 // // создание 
 
-// import { API_KEY, BASE_URL, TREND_URL, SEARCH_URL } from './api-vars.js';
+import { API_KEY, BASE_URL, TREND_URL, SEARCH_URL } from './api-vars.js';
 
-// function createLibraryMarkup({
-//   genres,
-//   poster_path,
-//   title,
-//   release_date,
-//   id,
-//   vote_average
-// }) {
-//   let genresArr = [];
-//   genres.map((genre) =>
-//     genresArr.push(genre.name));
-//   if (genresArr.length > 3) {
-//     const changedArr = genresArr.slice(0, 2);
-//     changedArr.push('Other');
-//     genresArr = changedArr;
-//   }
-//   const genresStr = genresArr.join(', ');
-//   const year = release_date.slice(0, 4);
-//   const rating = vote_average.toFixed(1);
-//   return `<li class="grid__item film-card ">
-//         <a href="#" data-id="${id}" class="list">
-//           <div class="film-card__thumb">
-//             <img
-//               class="film-card__img"
-//               src="${API_KEY}${poster_path}"
-//               alt="Movie poster"
-//               loading="lazy"
-//               id=${id}
-//             />
-//           </div>
-//           <h2 class="film-card__header">${title}</h2>
-//         </a>
-//         <p class="film-card__genres">${genresStr}</p>
-//         <span class="film-card__year">${year}</span>
-//         <span class="film-card__rating">${rating}</span>
-//       </li>`;
-// }
+function createLibraryMarkup({
+  genres,
+  poster_path,
+  title,
+  release_date,
+  id,
+  vote_average
+}) {
+  let genresArr = [];
+  genres.map((genre) =>
+    genresArr.push(genre.name));
+  if (genresArr.length > 3) {
+    const changedArr = genresArr.slice(0, 2);
+    changedArr.push('Other');
+    genresArr = changedArr;
+  }
+  const genresStr = genresArr.join(', ');
+  const year = release_date.slice(0, 4);
+  const rating = vote_average.toFixed(1);
+  return `<li class="grid__item film-card ">
+        <a href="#" data-id="${id}" class="list">
+          <div class="film-card__thumb">
+            <img
+              class="film-card__img"
+              src="${API_KEY}${poster_path}"
+              alt="Movie poster"
+              loading="lazy"
+              id=${id}
+            />
+          </div>
+          <h2 class="film-card__header">${title}</h2>
+        </a>
+        <p class="film-card__genres">${genresStr}</p>
+        <span class="film-card__year">${year}</span>
+        <span class="film-card__rating">${rating}</span>
+      </li>`;
+}
 
-// // рендер
-// const emptyLibrary = document.querySelector('.empty-library');
-// const listLib = document.querySelector('.film-list-lib-js');
+// рендер
+const emptyLibrary = document.querySelector('.empty-library');
+const listLib = document.querySelector('.film-list-lib-js');
 
-// const LOCAL_STORAGE_KEY_WATCHED = 'watched';
-// const LOCAL_STORAGE_KEY_QUEUE = 'queue';
-// const saveDataWatched = JSON.parse(
-//   localStorage.getItem(LOCAL_STORAGE_KEY_WATCHED)
-// );
-// const saveDataQueue = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_QUEUE));
-// const saveDataAll = saveDataWatched.concat(saveDataQueue);
-// const savedDataAllQniue = saveDataAll.filter(
-//   (data, index, array) => array.indexOf(data) === index
-// );
-// const loadingParams = {
-//   svgColor: '#FF6B08',
-// };
+const LOCAL_STORAGE_KEY_WATCHED = 'watched-movies';
+const LOCAL_STORAGE_KEY_QUEUE = 'queue-movies';
+const saveDataWatched = JSON.parse(
+  localStorage.getItem(LOCAL_STORAGE_KEY_WATCHED)
+);
+const saveDataQueue = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_QUEUE));
+const saveDataAll = saveDataWatched.concat(saveDataQueue);
+const savedDataAllQniue = saveDataAll.filter(
+  (data, index, array) => array.indexOf(data) === index
+);
 
-// init();
 
-// watchedBtn.addEventListener('click', onWatchedClick);
-// queueBtn.addEventListener('click', onQueueClick);
+init();
 
-// if (!savedDataAllQniue.length) {
-//   emptyLibrary.classList.remove('is-hidden');
-// }
+watchedBtn.addEventListener('click', onWatchedClick);
+queueBtn.addEventListener('click', onQueueClick);
 
-// export function init() {
-//   if (saveDataAll) {
-//     try {
-//       Loading.pulse(loadingParams);
-//       savedDataAllQniue.map(id => {
-//         fetch.getFilmDetails(id).then(promise => {
-//           const markup = createLibraryMarkup(promise);
-//           listLib.insertAdjacentHTML('beforeend', markup);
-//         });
-//       });
-//     } catch (error) {
-//       console.log(error.message);
-//     } finally {
-//       Loading.remove();
-//     }
-//   }
-// }
+if (!savedDataAllQniue.length) {
+  emptyLibrary.classList.remove('is-hidden');
+}
 
-// function onWatchedClick() {
-//   if (saveDataAll) {
-//       const saveDataWatched = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_WATCHED));
-//       listLib.innerHTML = '';
-//       try {
-//       Loading.pulse(loadingParams);
-//       saveDataWatched.map(id => {
-//         fetch.getFilmDetails(id).then(promise => {
-//           const markup = createLibraryMarkup(promise);
-//           listLib.insertAdjacentHTML('beforeend', markup);
-//         });
-//       });
-//     } catch (error) {
-//       console.log(error.message);
-//     } finally {
-//       Loading.remove();
-//     }
-//   }
-// }
+export function init() {
+  if (saveDataAll) {
+    try {
+      
+      savedDataAllQniue.map(id => {
+        fetch.getFilmDetails(id).then(promise => {
+          const markup = createLibraryMarkup(promise);
+          listLib.insertAdjacentHTML('beforeend', markup);
+        });
+      });
+    } catch (error) {
+      console.log(error.message);
+    } 
+  }
+}
 
-// function onQueueClick() {
-//   if (saveDataAll) {
-//       const saveDataQueue = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_QUEUE));
-//         listLib.innerHTML = '';
-//     try {
-//       Loading.pulse(loadingParams);
-//       saveDataQueue.map(id => {
-//         fetch.getFilmDetails(id).then(promise => {
-//           const markup = createLibraryMarkup(promise);
-//           listLib.insertAdjacentHTML('beforeend', markup);
-//         });
-//       });
-//     } catch (error) {
-//       console.log(error.message);
-//     } finally {
-//       Loading.remove();
-//     }
-//   }
-// }
+function onWatchedClick() {
+  if (saveDataAll) {
+      const saveDataWatched = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_WATCHED));
+      listLib.innerHTML = '';
+      try {
+      
+      saveDataWatched.map(id => {
+        fetch.getFilmDetails(id).then(promise => {
+          const markup = createLibraryMarkup(promise);
+          listLib.insertAdjacentHTML('beforeend', markup);
+        });
+      });
+    } catch (error) {
+      console.log(error.message);
+    } 
+  }
+}
+
+function onQueueClick() {
+  if (saveDataAll) {
+      const saveDataQueue = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_QUEUE));
+        listLib.innerHTML = '';
+    try {
+     
+      saveDataQueue.map(id => {
+        fetch.getFilmDetails(id).then(promise => {
+          const markup = createLibraryMarkup(promise);
+          listLib.insertAdjacentHTML('beforeend', markup);
+        });
+      });
+    } catch (error) {
+      console.log(error.message);
+    } 
+  }
+}
