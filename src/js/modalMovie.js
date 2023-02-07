@@ -153,19 +153,19 @@ export function onClickItem(e) {
 
   if (isFilmInWatched) {
     refs.addWatchedBtn.textContent = 'remove from watched';
-    refs.addWatchedBtn.classList.add('active');
+    refs.addWatchedBtn.classList.add('active-watched');
   } else {
     refs.addWatchedBtn.textContent = 'add to watched';
-    refs.addWatchedBtn.classList.remove('active');
+    refs.addWatchedBtn.classList.remove('active-watched');
   }
 
   const isFilmInQueue = arrQueueMovies.some(film => film.id === itemId);
   if (isFilmInQueue) {
     refs.addQueueBtn.textContent = 'remove from queue';
-    refs.addQueueBtn.classList.add('active');
+    refs.addQueueBtn.classList.add('active-queue');
   } else {
     refs.addQueueBtn.textContent = 'add to queue';
-    refs.addQueueBtn.classList.remove('active');
+    refs.addQueueBtn.classList.remove('active-queue');
   }
 
   document.body.style.overflowY = 'scroll';
