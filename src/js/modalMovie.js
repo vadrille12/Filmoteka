@@ -131,18 +131,25 @@ function renderCardOfMovie({
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function onClickItem(e) {
   const itemId = Number(e.currentTarget.id);
+  arrWatchedMovies = load(LOCAL_KEY_WATCHED);
+  arrQueueMovies = load(LOCAL_KEY_QUEUE);
   console.log(itemId);
   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
   const resultsSearch = parsedDataSearch.results;
-  const cardSearch = resultsSearch.find(object => {
+  // const cardSearch = resultsSearch.find(object => {
+  //   if (object.id === itemId) {
+  //     return object;
+  //   }
+  // });
+  const saveDataAll = arrWatchedMovies.concat(arrQueueMovies).concat(resultsSearch)
+  const cardSearchOnLibrary = saveDataAll.find(object => {
     if (object.id === itemId) {
       return object;
     }
   });
+  // console.log(cardSearch);
+  renderCardOfMovie(cardSearchOnLibrary);
 
-  renderCardOfMovie(cardSearch);
-  arrWatchedMovies = load(LOCAL_KEY_WATCHED);
-  arrQueueMovies = load(LOCAL_KEY_QUEUE);
 
   refs.backdrop.classList.remove('is-hidden');
   refs.closeBtn.addEventListener('click', onCloseModal);
