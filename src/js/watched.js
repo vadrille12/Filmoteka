@@ -71,7 +71,7 @@ const savedDataAllQniue = saveDataAll.filter(
 );
 
 
-init();
+// init();
 
 watchedBtn.addEventListener('click', onWatchedClick);
 queueBtn.addEventListener('click', onQueueClick);
@@ -80,34 +80,83 @@ if (!savedDataAllQniue.length) {
   emptyLibrary.classList.remove('is-hidden');
 }
 
-export function init() {
-  if (saveDataAll) {
-    try {
+// export function init() {
+//   if (saveDataAll) {
+//     try {
       
-      savedDataAllQniue.map(id => {
-        fetch.getFilmDetails(id).then(promise => {
-          const markup = createLibraryMarkup(promise);
-          listLib.insertAdjacentHTML('beforeend', markup);
-        });
-      });
-    } catch (error) {
-      console.log(error.message);
-    } 
-  }
-}
+//       savedDataAllQniue.map(id => {
+//         fetch.getFilmDetails(id).then(promise => {
+//           const markup = createLibraryMarkup(promise);
+//           listLib.insertAdjacentHTML('beforeend', markup);
+//         });
+//       });
+//     } catch (error) {
+//       console.log(error.message);
+//     } 
+//   }
+// }
+
+
+// export function init() {
+//   if (saveDataAll) {
+//     try {
+      
+//       savedDataAllQniue.map(id => {
+
+//           const markup = createLibraryMarkup(promise);
+//           listLib.insertAdjacentHTML('beforeend', markup);
+//       });
+//     } catch (error) {
+//       console.log(error.message);
+//     } 
+//   }
+// }
+
+// function onWatchedClick() {
+//   if (saveDataAll) {
+//       const saveDataWatched = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_WATCHED));
+//       listLib.innerHTML = '';
+//       try {
+      
+//       saveDataWatched.map(id => {
+//         fetch.getFilmDetails(id).then(promise => {
+//           const markup = createLibraryMarkup(promise);
+//           listLib.insertAdjacentHTML('beforeend', markup);
+//         });
+//       });
+//     } catch (error) {
+//       console.log(error.message);
+//     } 
+//   }
+// }
+
+// function onQueueClick() {
+//   if (saveDataAll) {
+//       const saveDataQueue = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_QUEUE));
+//         listLib.innerHTML = '';
+//     try {
+     
+//       saveDataQueue.map(id => {
+//         fetch.getFilmDetails(id).then(promise => {
+//           const markup = createLibraryMarkup(promise);
+//           listLib.insertAdjacentHTML('beforeend', markup);
+//         });
+//       });
+//     } catch (error) {
+//       console.log(error.message);
+//     } 
+//   }
+// }
+
+import { renderTrendingMovies } from './filmCard';
 
 function onWatchedClick() {
   if (saveDataAll) {
       const saveDataWatched = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_WATCHED));
       listLib.innerHTML = '';
-      try {
       
-      saveDataWatched.map(id => {
-        fetch.getFilmDetails(id).then(promise => {
-          const markup = createLibraryMarkup(promise);
-          listLib.insertAdjacentHTML('beforeend', markup);
-        });
-      });
+      try {
+        renderTrendingMovies(saveDataWatched);
     } catch (error) {
       console.log(error.message);
     } 
@@ -119,13 +168,8 @@ function onQueueClick() {
       const saveDataQueue = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_QUEUE));
         listLib.innerHTML = '';
     try {
-     
-      saveDataQueue.map(id => {
-        fetch.getFilmDetails(id).then(promise => {
-          const markup = createLibraryMarkup(promise);
-          listLib.insertAdjacentHTML('beforeend', markup);
-        });
-      });
+      renderTrendingMovies(saveDataQueue);
+      
     } catch (error) {
       console.log(error.message);
     } 
