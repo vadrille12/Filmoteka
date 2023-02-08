@@ -1,5 +1,5 @@
 import { API_KEY, BASE_URL, TREND_URL, TRAILER_URL } from './/api-vars.js';
-import showTrendingMovies from './/filmCard';
+// import showTrendingMovies from './/filmCard';
 import { save } from './localStorage';
 
 export async function fetchTrendingMovies(page = 1) {
