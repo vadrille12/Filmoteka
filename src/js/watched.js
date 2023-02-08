@@ -3,17 +3,18 @@ import { emptyLibrary } from './library';
 const watchedBtn = document.querySelector('.watched-list-btn');
 const queueBtn = document.querySelector('.queue-list-btn');
 
-watchedBtn.addEventListener('click', onWatched);
-queueBtn.addEventListener('click', onQueueBtn);
+// watchedBtn.addEventListener('click', onWatched);
+// queueBtn.addEventListener('click', onQueueBtn);
 
-function onWatched() {
-  watchedBtn.classList.add('js-active');
-  queueBtn.classList.remove('js-active');
-}
-function onQueueBtn() {
-  queueBtn.classList.add('js-active');
-  watchedBtn.classList.remove('js-active');
-}
+// function onWatched() {
+//   watchedBtn.classList.add('js-active');
+//   queueBtn.classList.remove('js-active');
+// }
+// function onQueueBtn() {
+//   queueBtn.classList.add('js-active');
+//   watchedBtn.classList.remove('js-active');
+
+// }
 
 // // создание
 
@@ -61,7 +62,8 @@ function createLibraryMarkup({
 const container = document.querySelector('.empty-library');
 const listLib = document.querySelector('.film-list-lib-js');
 const listCardsLibrary = document.querySelector('.card__list--library');
-console.log(listCardsLibrary);
+const libraryBtn = document.querySelector('.library-default');
+// console.log(listCardsLibrary);
 
 const LOCAL_STORAGE_KEY_WATCHED = 'watched-movies';
 const LOCAL_STORAGE_KEY_QUEUE = 'queue-movies';
@@ -80,6 +82,7 @@ console.log(saveDataAll);
 
 watchedBtn.addEventListener('click', onWatchedClick);
 queueBtn.addEventListener('click', onQueueClick);
+libraryBtn.addEventListener('click', onWatchedClick);
 
 // if (!savedDataAllQniue.length) {
 //   emptyLibrary.classList.remove('is-hidden');
@@ -88,8 +91,10 @@ queueBtn.addEventListener('click', onQueueClick);
 import { renderTrendingMovies } from './filmCard';
 
 function onWatchedClick() {
+ 
   if (saveDataWatched.length === 0) {
     emptyLibrary();
+    
   }
   if (saveDataAll.length > 0) {
     const saveDataWatched = JSON.parse(
