@@ -1,6 +1,8 @@
 import { waitingLi } from './modalMovie';
 import { emptyLibrary } from './library';
+import { refs } from './refs';
 const watchedBtn = document.querySelector('.watched-list-btn');
+
 const queueBtn = document.querySelector('.queue-list-btn');
 
 // watchedBtn.addEventListener('click', onWatched);
@@ -77,12 +79,51 @@ const saveDataAll = saveDataWatched.concat(saveDataQueue);
 const savedDataAllQniue = saveDataAll.filter(
   (data, index, array) => array.indexOf(data) === index
 );
-console.log(saveDataAll);
-// init();
+
+renderMoviesFromLibrary(saveDataWatched);
+
+refs.addWatchedBtn.addEventListener('click', e => {
+  const forDeleteId = Number(e.target.dataset.id);
+  // console.log(forDeleteId);
+
+  // const forRemovingFilm = saveDataWatched.filter(film => {
+  //   if (forDeleteId === film.id) {
+  //     console.log(film);
+  //   }
+  // });
+
+  const forRemovingFilm = saveDataWatched.find(film => {
+    if (forDeleteId === film.id) {
+      // console.log(film);
+      return film;
+    }
+  });
+
+  console.log(forRemovingFilm.id);
+
+  const arrActualLibrary = saveDataWatched.filter(film => {
+    if (forRemovingFilm.id !== film.id) {
+      // console.log(film);
+      return film;
+    }
+    // console.log(film.id);
+  });
+
+  console.log(arrActualLibrary);
+
+  // let arrRemovedFilm = [];
+  // arrRemovedFilm.push(forRemovingFilm);
+  // console.log(arrRemovedFilm);
+
+  renderMoviesFromLibrary(arrActualLibrary);
+  // console.log(saveDataWatched);
+});
 
 watchedBtn.addEventListener('click', onWatchedClick);
+console.log(watchedBtn);
 queueBtn.addEventListener('click', onQueueClick);
 libraryBtn.addEventListener('click', onWatchedClick);
+console.log(watchedBtn);
 
 // if (!savedDataAllQniue.length) {
 //   emptyLibrary.classList.remove('is-hidden');
@@ -90,11 +131,9 @@ libraryBtn.addEventListener('click', onWatchedClick);
 
 import { renderTrendingMovies } from './filmCard';
 
-function onWatchedClick() {
- 
+export function onWatchedClick() {
   if (saveDataWatched.length === 0) {
     emptyLibrary();
-    
   }
   if (saveDataAll.length > 0) {
     const saveDataWatched = JSON.parse(
@@ -132,6 +171,7 @@ function getGenres(genresArr) {
   return genresArr.map(genre => localStorage.getItem(genre)).join(', ');
 }
 
+console.log('heloo');
 function renderMoviesFromLibrary(data) {
   const urlImage = 'https://image.tmdb.org/t/p/w500/';
   let genresName = '';
@@ -206,6 +246,5 @@ function renderMoviesFromLibrary(data) {
       }
     )
     .join('');
-  console.log(cardMarkupLibrary);
   listCardsLibrary.innerHTML = cardMarkupLibrary;
 }

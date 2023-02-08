@@ -123,6 +123,7 @@ function renderCardOfMovie({
           </div>`;
 
   refs.modal.setAttribute('data-id', id);
+  refs.addWatchedBtn.setAttribute('data-id', id);
   refs.modalMovie.insertAdjacentHTML('afterbegin', markupForModalMovie);
   refs.modalText.insertAdjacentHTML('afterbegin', markupForModalContent);
 }
@@ -248,7 +249,6 @@ function onCloseModayByEsc(e) {
 function onClickWatched(e) {
   const removeBtn = document.querySelector('.active-watched');
   e.target.classList.toggle('active-watched');
-
   const currentMoviesId = Number(refs.modal.dataset.id);
 
   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
