@@ -5,18 +5,18 @@ const watchedBtn = document.querySelector('.watched-list-btn');
 
 const queueBtn = document.querySelector('.queue-list-btn');
 
-// watchedBtn.addEventListener('click', onWatched);
-// queueBtn.addEventListener('click', onQueueBtn);
+watchedBtn.addEventListener('click', onWatched);
+queueBtn.addEventListener('click', onQueueBtn);
 
-// function onWatched() {
-//   watchedBtn.classList.add('js-active');
-//   queueBtn.classList.remove('js-active');
-// }
-// function onQueueBtn() {
-//   queueBtn.classList.add('js-active');
-//   watchedBtn.classList.remove('js-active');
+function onWatched() {
+  watchedBtn.classList.add('js-active');
+  queueBtn.classList.remove('js-active');
+}
+function onQueueBtn() {
+  queueBtn.classList.add('js-active');
+  watchedBtn.classList.remove('js-active');
 
-// }
+}
 
 // // создание
 
@@ -132,6 +132,7 @@ window.onload = onWatchedClick()
 import { renderTrendingMovies } from './filmCard';
 
 export function onWatchedClick() {
+  container.innerHTML = '';
   if (saveDataWatched.length === 0) {
     emptyLibrary();
   }
@@ -151,6 +152,7 @@ export function onWatchedClick() {
 }
 
 function onQueueClick() {
+  container.innerHTML ='';
   if (saveDataQueue.length === 0) {
     emptyLibrary();
   }
