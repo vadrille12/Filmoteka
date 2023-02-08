@@ -2,8 +2,11 @@ import { waitingLi } from './modalMovie';
 import { emptyLibrary } from './library';
 import { refs } from './refs';
 const watchedBtn = document.querySelector('.watched-list-btn');
-
 const queueBtn = document.querySelector('.queue-list-btn');
+refs.addWatchedBtn.addEventListener('click', removeMovieFromWatched);
+refs.addQueueBtn.addEventListener('click', removeMovieFromQueue);
+watchedBtn.addEventListener('click', onWatchedClick);
+queueBtn.addEventListener('click', onQueueClick);
 
 // watchedBtn.addEventListener('click', onWatched);
 // queueBtn.addEventListener('click', onQueueBtn);
@@ -15,10 +18,7 @@ const queueBtn = document.querySelector('.queue-list-btn');
 // function onQueueBtn() {
 //   queueBtn.classList.add('js-active');
 //   watchedBtn.classList.remove('js-active');
-
 // }
-
-// // создание
 
 import { API_KEY, BASE_URL, TREND_URL, SEARCH_URL } from './api-vars.js';
 
@@ -82,52 +82,41 @@ const savedDataAllQniue = saveDataAll.filter(
 
 renderMoviesFromLibrary(saveDataWatched);
 
-refs.addWatchedBtn.addEventListener('click', e => {
+function removeObjectWithId(arr, id) {
+  const objWithIdIndex = arr.findIndex(obj => obj.id === id);
+
+  if (objWithIdIndex > -1) {
+    arr.splice(objWithIdIndex, 1);
+  }
+
+  return arr;
+}
+
+function removeMovieFromWatched(e) {
   const forDeleteId = Number(e.target.dataset.id);
-  // console.log(forDeleteId);
-
-  // const forRemovingFilm = saveDataWatched.filter(film => {
-  //   if (forDeleteId === film.id) {
-  //     console.log(film);
-  //   }
-  // });
-
-  const forRemovingFilm = saveDataWatched.find(film => {
+  const idforRemovingFilm = saveDataWatched.find(film => {
     if (forDeleteId === film.id) {
-      // console.log(film);
-      return film;
+      console.log(film.id);
+      return film.id;
     }
   });
 
-  console.log(forRemovingFilm.id);
+  removeObjectWithId(saveDataWatched, idforRemovingFilm.id);
+  renderMoviesFromLibrary(saveDataWatched);
+}
 
-  const arrActualLibrary = saveDataWatched.filter(film => {
-    if (forRemovingFilm.id !== film.id) {
-      // console.log(film);
-      return film;
+function removeMovieFromQueue(e) {
+  const forDeleteId = Number(e.target.dataset.id);
+  const idforRemovingFilm = saveDataQueue.find(film => {
+    if (forDeleteId === film.id) {
+      console.log(film.id);
+      return film.id;
     }
-    // console.log(film.id);
   });
 
-  console.log(arrActualLibrary);
-
-  // let arrRemovedFilm = [];
-  // arrRemovedFilm.push(forRemovingFilm);
-  // console.log(arrRemovedFilm);
-
-  renderMoviesFromLibrary(arrActualLibrary);
-  // console.log(saveDataWatched);
-});
-
-watchedBtn.addEventListener('click', onWatchedClick);
-console.log(watchedBtn);
-queueBtn.addEventListener('click', onQueueClick);
-libraryBtn.addEventListener('click', onWatchedClick);
-
-window.onload = onWatchedClick() 
-// if (!savedDataAllQniue.length) {
-//   emptyLibrary.classList.remove('is-hidden');
-// }
+  removeObjectWithId(saveDataQueue, idforRemovingFilm.id);
+  renderMoviesFromLibrary(saveDataQueue);
+}
 
 import { renderTrendingMovies } from './filmCard';
 
@@ -171,7 +160,6 @@ function getGenres(genresArr) {
   return genresArr.map(genre => localStorage.getItem(genre)).join(', ');
 }
 
-console.log('heloo');
 function renderMoviesFromLibrary(data) {
   const urlImage = 'https://image.tmdb.org/t/p/w500/';
   let genresName = '';
