@@ -1,0 +1,37 @@
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* z-index: 100;*/
+  transition: 500ms;
+  animation: loading 500ms linear infinite;
+}
+
+.loader-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader::after {
+  content: '';
+  width: 100px;
+  height: 100px;
+
+  animation: loader 500ms linear infinite;
+  border: 15px solid $main-accent-color;
+  border-top-color: $body-background-color;
+  border-bottom-color: $body-background-color;
+  border-radius: 50%;
+
+  animation: loading 075s ease infinite;
+}
+@keyframes loading {
+  100% {
+    transform: rotate(360deg);
+  }
+}

@@ -17,4 +17,4 @@ import './js/trailer';
 // import './js/watched';
 import './js/AddToWatched';
 // import './js/library';
-
+import './js/loader';
