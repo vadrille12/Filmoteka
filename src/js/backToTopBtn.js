@@ -1,4 +1,4 @@
-const btnToTop = document.querySelector('#btn--to_top');
+export const btnToTop = document.querySelector('#btn--to_top');
 
 document.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('scroll', function () {

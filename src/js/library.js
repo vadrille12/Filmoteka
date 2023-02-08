@@ -1,4 +1,5 @@
 import './switchDayNight';
+import './backToTopBtn';
 // import './watched';
 import fotoUrl from '../images/movies.png';
 
