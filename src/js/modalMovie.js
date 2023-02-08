@@ -168,8 +168,8 @@ export function onClickItem(e) {
     refs.addQueueBtn.classList.remove('active-queue');
   }
 
-  document.body.style.overflowY = 'scroll';
-  refs.body.classList.add('body-lock');
+  // document.body.style.overflowY = 'scroll';
+  // refs.body.classList.add('body-lock');
 
   // ************* show trailer on YouTube**start*****
   const trailerButton = document.querySelector('.js-open-trailer');
