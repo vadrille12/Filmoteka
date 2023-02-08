@@ -83,7 +83,7 @@ console.log(saveDataAll);
 watchedBtn.addEventListener('click', onWatchedClick);
 queueBtn.addEventListener('click', onQueueClick);
 libraryBtn.addEventListener('click', onWatchedClick);
-
+window.onload = onWatchedClick() 
 // if (!savedDataAllQniue.length) {
 //   emptyLibrary.classList.remove('is-hidden');
 // }
