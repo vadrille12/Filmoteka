@@ -1,3 +1,4 @@
+import photo from '../images/header/photo.jpg';
 import { waitingLi } from './modalMovie';
 import { emptyLibrary } from './library';
 import { refs } from './refs';
@@ -10,7 +11,6 @@ queueBtn.addEventListener('click', onQueueClick);
 
 watchedBtn.addEventListener('click', onWatched);
 queueBtn.addEventListener('click', onQueueBtn);
-
 
 function onWatched() {
   watchedBtn.classList.add('js-active');
@@ -83,6 +83,9 @@ const savedDataAllQniue = saveDataAll.filter(
 );
 
 renderMoviesFromLibrary(saveDataWatched);
+if (saveDataWatched.length === 0) {
+  emptyLibrary();
+}
 
 function removeObjectWithId(arr, id) {
   const objWithIdIndex = arr.findIndex(obj => obj.id === id);
@@ -105,6 +108,11 @@ function removeMovieFromWatched(e) {
 
   removeObjectWithId(saveDataWatched, idforRemovingFilm.id);
   renderMoviesFromLibrary(saveDataWatched);
+  if (saveDataWatched.length === 0) {
+    emptyLibrary();
+  }
+
+  // emptyLibrary();
 }
 
 function removeMovieFromQueue(e) {
@@ -118,6 +126,9 @@ function removeMovieFromQueue(e) {
 
   removeObjectWithId(saveDataQueue, idforRemovingFilm.id);
   renderMoviesFromLibrary(saveDataQueue);
+  if (saveDataQueue.length === 0) {
+    emptyLibrary();
+  }
 }
 
 import { renderTrendingMovies } from './filmCard';
@@ -143,7 +154,7 @@ export function onWatchedClick() {
 }
 
 function onQueueClick() {
-  container.innerHTML ='';
+  container.innerHTML = '';
   if (saveDataQueue.length === 0) {
     emptyLibrary();
   }
