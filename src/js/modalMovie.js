@@ -124,6 +124,7 @@ function renderCardOfMovie({
 
   refs.modal.setAttribute('data-id', id);
   refs.addWatchedBtn.setAttribute('data-id', id);
+  refs.addQueueBtn.setAttribute('data-id', id);
   refs.modalMovie.insertAdjacentHTML('afterbegin', markupForModalMovie);
   refs.modalText.insertAdjacentHTML('afterbegin', markupForModalContent);
 }
