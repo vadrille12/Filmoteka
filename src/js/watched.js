@@ -110,6 +110,8 @@ function removeMovieFromQueue(e) {
 }
 
 export function onWatchedClick() {
+
+
   container.innerHTML = '';
   if (saveDataWatched.length === 0) {
     emptyLibrary();
@@ -157,6 +159,10 @@ function getGenres(genresArr) {
 }
 
 export function renderMoviesFromLibrary(data) {
+
+
+  console.log('renderMoviesFromLibrary', data)
+
   if (saveDataWatched.length === 0 && saveDataQueue.length === 0) {
     emptyLibrary();
   }
@@ -239,7 +245,19 @@ export function renderMoviesFromLibrary(data) {
 }
 
 function paginationWatched() {
-  renderMoviesFromLibrary(saveDataWatched.slice(0, ITEM_PER_PAGE));
+
+
+
+  setTimeout(() => {
+    if (!queueBtn.classList.contains('js-active')) {
+      console.log('call render queue')
+      renderMoviesFromLibrary(saveDataWatched.slice(0, ITEM_PER_PAGE));
+    }
+
+  }, 1)
+
+
+  console.log('paginationWatched')
 
   makeTuiPaginationInLibrary(saveDataWatched.length).on(
     'afterMove',
@@ -256,7 +274,14 @@ function paginationWatched() {
 }
 
 function paginationQueue() {
-  renderMoviesFromLibrary(saveDataQueue.slice(0, ITEM_PER_PAGE));
+
+  setTimeout(() => {
+    if (!watchedBtn.classList.contains('js-active')) {
+      console.log('call render queue')
+      renderMoviesFromLibrary(saveDataQueue.slice(0, ITEM_PER_PAGE));
+    }
+
+  }, 1)
 
   makeTuiPaginationInLibrary(saveDataQueue.length).on(
     'afterMove',
