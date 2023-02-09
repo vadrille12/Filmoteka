@@ -8,6 +8,8 @@ import { invalidSearchTrailer } from './trailer';
 const LOCAL_KEY_WATCHED = 'watched-movies';
 const LOCAL_KEY_QUEUE = 'queue-movies';
 
+const modalM = document.querySelector('[data-modal]');
+
 let arrWatchedMovies = [];
 let arrQueueMovies = [];
 
@@ -130,6 +132,8 @@ function renderCardOfMovie({
 }
 // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 export function onClickItem(e) {
+  modalM.classList.toggle('is-hidden');
+  document.body.classList.add('modal-open');
   const itemId = Number(e.currentTarget.id);
   arrWatchedMovies = load(LOCAL_KEY_WATCHED);
   arrQueueMovies = load(LOCAL_KEY_QUEUE);
@@ -221,6 +225,8 @@ export function onClickItem(e) {
 }
 
 function onCloseModal(e) {
+  document.body.classList.remove('modal-open');
+
   if (
     e.target.classList.value === 'btn-modal-close' ||
     e.target === e.currentTarget
@@ -239,6 +245,8 @@ function onCloseModal(e) {
 }
 
 function onCloseModayByEsc(e) {
+  document.body.classList.remove('modal-open');
+
   // console.log(e.code);
   if (e.code === 'Escape') {
     refs.backdrop.classList.add('is-hidden');
