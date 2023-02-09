@@ -2,6 +2,10 @@ import photo from '../images/header/photo.jpg';
 import { waitingLi } from './modalMovie';
 import { emptyLibrary } from './library';
 import { refs } from './refs';
+import scrollToTop from './scrollToTop';
+import { makeTuiPaginationInLibrary } from './pagination';
+import { ITEM_PER_PAGE } from './pagination';
+
 const watchedBtn = document.querySelector('.watched-list-btn');
 const queueBtn = document.querySelector('.queue-list-btn');
 refs.addWatchedBtn.addEventListener('click', removeMovieFromWatched);
@@ -40,7 +44,7 @@ const savedDataAllQniue = saveDataAll.filter(
   (data, index, array) => array.indexOf(data) === index
 );
 
-renderMoviesFromLibrary(saveDataWatched);
+paginationWatched();
 
 function removeObjectWithId(arr, id) {
   const objWithIdIndex = arr.findIndex(obj => obj.id === id);
@@ -73,10 +77,10 @@ function removeMovieFromWatched(e) {
     });
 
     removeObjectWithId(saveDataWatched, idforRemovingFilm.id);
-    renderMoviesFromLibrary(saveDataWatched);
+    paginationWatched();
   } else {
     saveDataWatched.push(idforRemovingFilm);
-    renderMoviesFromLibrary(saveDataWatched);
+    paginationWatched();
     const refEmptyLibrary = document.querySelector('.empty-library');
     refEmptyLibrary.innerHTML = '';
   }
@@ -96,10 +100,10 @@ function removeMovieFromQueue(e) {
       }
     });
     removeObjectWithId(saveDataQueue, idForRemovinigFilmQueue.id);
-    renderMoviesFromLibrary(saveDataQueue);
+    paginationQueue();
   } else {
     saveDataQueue.push(idForRemovinigFilmQueue);
-    renderMoviesFromLibrary(saveDataQueue);
+    paginationQueue();
     const refEmptyLibrary = document.querySelector('.empty-library');
     refEmptyLibrary.innerHTML = '';
   }
@@ -109,6 +113,7 @@ export function onWatchedClick() {
   container.innerHTML = '';
   if (saveDataWatched.length === 0) {
     emptyLibrary();
+    refs.paginationEl.style.display = 'none';
   }
   if (saveDataAll.length > 0) {
     const saveDataWatched = JSON.parse(
@@ -117,7 +122,8 @@ export function onWatchedClick() {
     listCardsLibrary.innerHTML = '';
 
     try {
-      renderMoviesFromLibrary(saveDataWatched);
+      //renderMoviesFromLibrary(saveDataWatched);
+      paginationWatched();
     } catch (error) {
       console.log(error.message);
     }
@@ -128,6 +134,7 @@ function onQueueClick() {
   container.innerHTML = '';
   if (saveDataQueue.length === 0) {
     emptyLibrary();
+    refs.paginationEl.style.display = 'none';
   }
 
   if (saveDataAll) {
@@ -137,7 +144,8 @@ function onQueueClick() {
 
     listCardsLibrary.innerHTML = '';
     try {
-      renderMoviesFromLibrary(saveDataQueue);
+      //renderMoviesFromLibrary(saveDataQueue);
+      paginationQueue();
     } catch (error) {
       console.log(error.message);
     }
@@ -228,4 +236,38 @@ export function renderMoviesFromLibrary(data) {
     .join('');
 
   listCardsLibrary.innerHTML = cardMarkupLibrary;
+}
+
+function paginationWatched() {
+  renderMoviesFromLibrary(saveDataWatched.slice(0, ITEM_PER_PAGE));
+
+  makeTuiPaginationInLibrary(saveDataWatched.length).on(
+    'afterMove',
+    ({ page }) => {
+      renderMoviesFromLibrary(
+        saveDataWatched.slice(
+          page === 1 ? 0 : (page - 1) * ITEM_PER_PAGE,
+          page * ITEM_PER_PAGE
+        )
+      );
+      scrollToTop();
+    }
+  );
+}
+
+function paginationQueue() {
+  renderMoviesFromLibrary(saveDataQueue.slice(0, ITEM_PER_PAGE));
+
+  makeTuiPaginationInLibrary(saveDataQueue.length).on(
+    'afterMove',
+    ({ page }) => {
+      renderMoviesFromLibrary(
+        saveDataQueue.slice(
+          page === 1 ? 0 : (page - 1) * ITEM_PER_PAGE,
+          page * ITEM_PER_PAGE
+        )
+      );
+      scrollToTop();
+    }
+  );
 }
