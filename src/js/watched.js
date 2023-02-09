@@ -22,52 +22,10 @@ function onQueueBtn() {
   watchedBtn.classList.remove('js-active');
 }
 
-import { API_KEY, BASE_URL, TREND_URL, SEARCH_URL } from './api-vars.js';
-
-function createLibraryMarkup({
-  genres,
-  poster_path,
-  title,
-  release_date,
-  id,
-  vote_average,
-}) {
-  let genresArr = [];
-  genres.map(genre => genresArr.push(genre.name));
-  if (genresArr.length > 3) {
-    const changedArr = genresArr.slice(0, 2);
-    changedArr.push('Other');
-    genresArr = changedArr;
-  }
-  const genresStr = genresArr.join(', ');
-  const year = release_date.slice(0, 4);
-  const rating = vote_average.toFixed(1);
-  return `<li class="grid__item film-card ">
-        <a href="#" data-id="${id}" class="list">
-          <div class="film-card__thumb">
-            <img
-              class="film-card__img"
-              src="${API_KEY}${poster_path}"
-              alt="Movie poster"
-              loading="lazy"
-              id=${id}
-            />
-          </div>
-          <h2 class="film-card__header">${title}</h2>
-        </a>
-        <p class="film-card__genres">${genresStr}</p>
-        <span class="film-card__year">${year}</span>
-        <span class="film-card__rating">${rating}</span>
-      </li>`;
-}
-
-// рендер
-//const emptyLibrary = document.querySelector('.empty-library');
 const container = document.querySelector('.empty-library');
 const listLib = document.querySelector('.film-list-lib-js');
 const listCardsLibrary = document.querySelector('.card__list--library');
 const libraryBtn = document.querySelector('.library-default');
-// console.log(listCardsLibrary);
 
 const LOCAL_STORAGE_KEY_WATCHED = 'watched-movies';
 const LOCAL_STORAGE_KEY_QUEUE = 'queue-movies';
@@ -83,9 +41,6 @@ const savedDataAllQniue = saveDataAll.filter(
 );
 
 renderMoviesFromLibrary(saveDataWatched);
-if (saveDataWatched.length === 0) {
-  emptyLibrary();
-}
 
 function removeObjectWithId(arr, id) {
   const objWithIdIndex = arr.findIndex(obj => obj.id === id);
@@ -97,41 +52,58 @@ function removeObjectWithId(arr, id) {
   return arr;
 }
 
-function removeMovieFromWatched(e) {
-  const forDeleteId = Number(e.target.dataset.id);
-  const idforRemovingFilm = saveDataWatched.find(film => {
-    if (forDeleteId === film.id) {
-      console.log(film.id);
-      return film.id;
-    }
-  });
+let idforRemovingFilm = [];
+let idForRemovinigFilmQueue = [];
 
-  removeObjectWithId(saveDataWatched, idforRemovingFilm.id);
-  renderMoviesFromLibrary(saveDataWatched);
-  if (saveDataWatched.length === 0) {
+if (saveDataWatched.length === 0) {
+  emptyLibrary();
+}
+
+function removeMovieFromWatched(e) {
+  if (saveDataWatched.length === 1) {
     emptyLibrary();
   }
 
-  // emptyLibrary();
+  if (refs.addWatchedBtn.classList.contains('active-watched')) {
+    const forDeleteId = Number(e.target.dataset.id);
+    idforRemovingFilm = saveDataWatched.find(film => {
+      if (forDeleteId === film.id) {
+        return film;
+      }
+    });
+
+    removeObjectWithId(saveDataWatched, idforRemovingFilm.id);
+    renderMoviesFromLibrary(saveDataWatched);
+  } else {
+    saveDataWatched.push(idforRemovingFilm);
+    renderMoviesFromLibrary(saveDataWatched);
+    const refEmptyLibrary = document.querySelector('.empty-library');
+    refEmptyLibrary.innerHTML = '';
+  }
 }
 
 function removeMovieFromQueue(e) {
-  const forDeleteId = Number(e.target.dataset.id);
-  const idforRemovingFilm = saveDataQueue.find(film => {
-    if (forDeleteId === film.id) {
-      console.log(film.id);
-      return film.id;
-    }
-  });
-
-  removeObjectWithId(saveDataQueue, idforRemovingFilm.id);
-  renderMoviesFromLibrary(saveDataQueue);
-  if (saveDataQueue.length === 0) {
+  if (saveDataQueue.length === 1) {
     emptyLibrary();
   }
-}
 
-import { renderTrendingMovies } from './filmCard';
+  if (refs.addQueueBtn.classList.contains('active-queue')) {
+    const forDeleteId = Number(e.target.dataset.id);
+    idForRemovinigFilmQueue = saveDataQueue.find(film => {
+      if (forDeleteId === film.id) {
+        console.log(film.id);
+        return film;
+      }
+    });
+    removeObjectWithId(saveDataQueue, idForRemovinigFilmQueue.id);
+    renderMoviesFromLibrary(saveDataQueue);
+  } else {
+    saveDataQueue.push(idForRemovinigFilmQueue);
+    renderMoviesFromLibrary(saveDataQueue);
+    const refEmptyLibrary = document.querySelector('.empty-library');
+    refEmptyLibrary.innerHTML = '';
+  }
+}
 
 export function onWatchedClick() {
   container.innerHTML = '';
@@ -142,7 +114,6 @@ export function onWatchedClick() {
     const saveDataWatched = JSON.parse(
       localStorage.getItem(LOCAL_STORAGE_KEY_WATCHED)
     );
-    console.log(saveDataWatched);
     listCardsLibrary.innerHTML = '';
 
     try {
@@ -158,10 +129,12 @@ function onQueueClick() {
   if (saveDataQueue.length === 0) {
     emptyLibrary();
   }
+
   if (saveDataAll) {
     const saveDataQueue = JSON.parse(
       localStorage.getItem(LOCAL_STORAGE_KEY_QUEUE)
     );
+
     listCardsLibrary.innerHTML = '';
     try {
       renderMoviesFromLibrary(saveDataQueue);
@@ -175,7 +148,11 @@ function getGenres(genresArr) {
   return genresArr.map(genre => localStorage.getItem(genre)).join(', ');
 }
 
-function renderMoviesFromLibrary(data) {
+export function renderMoviesFromLibrary(data) {
+  if (saveDataWatched.length === 0 && saveDataQueue.length === 0) {
+    emptyLibrary();
+  }
+
   const urlImage = 'https://image.tmdb.org/t/p/w500/';
   let genresName = '';
   let releaseYear = '';
@@ -249,5 +226,6 @@ function renderMoviesFromLibrary(data) {
       }
     )
     .join('');
+
   listCardsLibrary.innerHTML = cardMarkupLibrary;
 }
