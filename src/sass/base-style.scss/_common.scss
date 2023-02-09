@@ -10,40 +10,35 @@ html {
 html.dark {
   transition: background-color 500ms cubic-bezier(0.175, 0.82, 0.165, 1);
   color: #ffffff;
-  background-color: rgba(73, 72, 72, 0.94);
+  background-color: rgba(22, 20, 20, 0.94);
   height: 100%;
   scroll-behavior: smooth;
 }
-// html.dark body {
-//   background-image: url('/src/images/grey3.jpg');
-//   color: #ffffff;
-// }
-
-// html.light body {
-//   background-image: url('/src/images/light.jpg');
-//   color: #000000;
-// }
 
 html.light header {
   box-shadow: 1px 13px 26px -2px rgba(4, 4, 4, 0.9);
 }
 
 html.dark header {
-   box-shadow: 1px 13px 26px -2px rgba(0, 0, 0, 0.527);
+  box-shadow: 1px 13px 26px -2px rgba(0, 0, 0, 0.527);
 }
 
 html.dark .footer {
-  background-color: #1a1919ad;
-  box-shadow: -1px -8px 33px 6px rgba(134, 133, 133, 0.25);
-}
-html.light .footer {
-  background-color: #ffffff69;
-  box-shadow: -1px -8px 33px 6px rgba(31, 30, 30, 0.26);
+  background-color: #272323ad;
+  box-shadow: -1px -8px 33px 6px rgba(7, 0, 0, 0.26);
 }
 
+html.dark .modal-info__value {
+  color: #000000;
+}
+html.dark .modal-movie-info__value {
+  color: #000000;
+}
+
+html.light .footer {
+  background-color: #ffffff69;
+}
 html.dark .theme-btn {
-  background-repeat: no-repeat;
-  background-size: cover;
   background: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="1em" height="1em" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24"%3E%3Cpath fill="white" d="M12 18a6 6 0 1 1 0-12a6 6 0 0 1 0 12zm0-2a4 4 0 1 0 0-8a4 4 0 0 0 0 8zM11 1h2v3h-2V1zm0 19h2v3h-2v-3zM3.515 4.929l1.414-1.414L7.05 5.636L5.636 7.05L3.515 4.93zM16.95 18.364l1.414-1.414l2.121 2.121l-1.414 1.414l-2.121-2.121zm2.121-14.85l1.414 1.415l-2.121 2.121l-1.414-1.414l2.121-2.121zM5.636 16.95l1.414 1.414l-2.121 2.121l-1.414-1.414l2.121-2.121zM23 11v2h-3v-2h3zM4 11v2H1v-2h3z"%2F%3E%3C%2Fsvg%3E');
   background-repeat: no-repeat;
   background-size: cover;

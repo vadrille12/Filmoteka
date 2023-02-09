@@ -4,6 +4,7 @@ import { makeTuiPagination } from './pagination';
 import photo from '../images/header/photo.jpg';
 import { save } from './localStorage';
 import scrollToTop from './scrollToTop';
+import { waitingLi } from './modalMovie';
 
 const moviesGallery = document.querySelector('.cards__list');
 
@@ -15,6 +16,7 @@ export async function showTrendingMovies(page = 1) {
     // console.log(data);
     renderTrendingMovies(data.results);
     save('search-storage', data);
+
     makeTuiPagination(data.total_results, data.total_pages).on(
       'afterMove',
       ({ page }) => {
@@ -40,7 +42,7 @@ export function renderTrendingMovies(data) {
   const urlImage = 'https://image.tmdb.org/t/p/w500/';
   let genresName = '';
   let releaseYear = '';
-
+  waitingLi();
   const cardMarkup = data
     .map(
       ({

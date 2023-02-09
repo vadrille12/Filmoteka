@@ -31,7 +31,7 @@ async function onFormSubmit(event) {
   event.preventDefault();
   page = 1;
   query = event.currentTarget.elements.searchQuery.value.trim();
-  console.log(query);
+  // console.log(query);
   refs.paginationEl.style.display = 'none';
 
   if (query === '') {
@@ -41,9 +41,9 @@ async function onFormSubmit(event) {
   }
   await fetchMovie(query, page)
     .then(data => {
-      console.log(data);
+      // console.log(data);
       const totalRes = data.total_results;
-      console.log(totalRes);
+      // console.log(totalRes);
       if (!totalRes) {
         invalidSearch(
           'Search result not successful. Enter the correct movie name and try again',
@@ -83,55 +83,15 @@ export function invalidSearch(message, showTime) {
   setTimeout(() => {
     notification.classList.toggle('is-hidden');
   }, showTime);
-    
-    showTrendingMovies(page);
+
+  showTrendingMovies(page);
 
   const removeNotification = setTimeout(() => {
     refs.form.lastElementChild.remove();
   }, 2000);
-    
 }
 
 function onClickLogo() {
   page = 1;
   showTrendingMovies(page);
 }
-
-///****************************************** */
-//***ORIGINAL */
-// async function onFormSubmit(event) {
-//     try {
-//         event.preventDefault();
-//         page = 1;
-//         query = event.currentTarget.elements.searchQuery.value.trim();
-//         //console.log(query)
-//         if (!query) {
-//             moviesGallery.innerHTML = "";
-//             return
-//         }
-
-//     const data = await fetchMovie(query, page);
-//     console.log(data);
-//         renderTrendingMovies(data.results);
-//         if (data.total_results === 0) {
-//         //console.log(data.total_results)
-//             invalidSearch();
-//             showTrendingMovies();
-//            return;
-//         }
-//     } catch(error) {
-//         console.error()
-// }
-// }
-
-// const invalidSearch = function () {
-//   const notification = `<p class="uncorrect-search">
-//     Search result was NOT successful. Enter the correct movie name and try again!
-//   </p>;`;
-//  refs.form.insertAdjacentHTML('beforeend', notification);
-//   const removeNotification = setTimeout(() => {
-//     refs.form.lastElementChild.remove();
-//     //console.log(refs.form.lastElementChild)
-//   }, 2000);
-//   removeNotification();
-// };

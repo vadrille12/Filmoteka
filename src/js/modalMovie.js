@@ -1,22 +1,25 @@
 import photo from '../images/header/photo.jpg';
 import { refs } from '../js/refs';
-import { save } from './localStorage';
+import { load, save } from './localStorage';
+import { fetchTrailer } from './fetchAPI';
+import { onClickTrailer } from './trailer';
+import { invalidSearchTrailer } from './trailer';
 
-// const refs = {
-//   cardsList: document.querySelector('.cards__list'),
-//   backdrop: document.querySelector('.backdrop'),
-//   closeBtn: document.querySelector('.btn-modal-close'),
-//   modal: document.querySelector('.modal'),
-//   wrapperForBtns: document.querySelector('.modal-movie-btn'),
-//   watchedBtn: document.querySelector('.btn-modal__watched'),
-//   queueBtn: document.querySelector('.btn-modal__queue'),
-// };
+const LOCAL_KEY_WATCHED = 'watched-movies';
+const LOCAL_KEY_QUEUE = 'queue-movies';
 
-refs.cardsList.addEventListener('click', onClickItem);
-refs.watchedBtn.addEventListener('click', onClickWatched);
+const modalM = document.querySelector('[data-modal]');
 
 let arrWatchedMovies = [];
-const LOCAL_KEY = 'watched-movies';
+let arrQueueMovies = [];
+
+if (!load(LOCAL_KEY_WATCHED)) {
+  save(LOCAL_KEY_WATCHED, arrWatchedMovies);
+}
+
+if (!load(LOCAL_KEY_QUEUE)) {
+  save(LOCAL_KEY_QUEUE, arrQueueMovies);
+}
 
 function renderCardOfMovie({
   title,
@@ -33,9 +36,7 @@ function renderCardOfMovie({
     return localStorage.getItem(genre);
   });
 
-  const markup = `
-    <div class='modal-movie'>
-    <img
+  const markupForModalMovie = `  <img
           class='modal-movie__img'
 
           ${
@@ -56,9 +57,9 @@ function renderCardOfMovie({
   `
           }
         />
-        <button type="button" class="btn__open-trailer js-open-trailer"></button>
-    </div>
-    <div class='modal__content'>
+        <button type="button" class="btn__open-trailer js-open-trailer"></button>`;
+
+  const markupForModalContent = `
         <h2 class='modal__title'>${title}</h2>
           <table class='modal-info'>
             <tr>${
@@ -118,62 +119,114 @@ function renderCardOfMovie({
               }
             </tr>
           </table>
-
           <div class='modal-about'>
             ${overview ? `<h3 class='modal-about__title'>About</h3>` : ''}
             ${overview ? `<p class='modal-about__desc'>${overview}</p>` : ''}
-          </div>
-          
-    </div>
-        `;
-  refs.wrapperForBtns.setAttribute('data-id', id);
-  refs.modal.insertAdjacentHTML('afterbegin', markup);
+          </div>`;
+
+  refs.modal.setAttribute('data-id', id);
+  refs.addWatchedBtn.setAttribute('data-id', id);
+  refs.addQueueBtn.setAttribute('data-id', id);
+  refs.modalMovie.insertAdjacentHTML('afterbegin', markupForModalMovie);
+  refs.modalText.insertAdjacentHTML('afterbegin', markupForModalContent);
 }
-
-function onClickItem(e) {
-  // console.log(e.target);
-  // console.log(e.currentTarget.children);
-  // const childrenOfUl = e.currentTarget.childNodes;
-  // console.log(childrenOfUl);
-  // childrenOfUl.forEach(child => console.log(child.id));
-
-  if (e.target.parentNode.nodeName != 'LI') {
-    console.log('not li');
-    return;
-  }
-
-  const itemId = Number(e.target.parentNode.id);
-
+// ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export function onClickItem(e) {
+  modalM.classList.toggle('is-hidden');
+  document.body.classList.add('modal-open');
+  const itemId = Number(e.currentTarget.id);
+  arrWatchedMovies = load(LOCAL_KEY_WATCHED);
+  arrQueueMovies = load(LOCAL_KEY_QUEUE);
+  // console.log(itemId);
   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
-
   const resultsSearch = parsedDataSearch.results;
-  // console.log(resultsSearch);
-
-  const cardSearch = resultsSearch.find(object => {
-    // console.log(object);
-
+  // const cardSearch = resultsSearch.find(object => {
+  //   if (object.id === itemId) {
+  //     return object;
+  //   }
+  // });
+  const saveDataAll = arrWatchedMovies.concat(arrQueueMovies).concat(resultsSearch)
+  const cardSearchOnLibrary = saveDataAll.find(object => {
     if (object.id === itemId) {
-      // arrWatchedMovies.push(object);
-      // console.log(arrWatchedMovies);
-      // localStorage.setItem('watched-movies', JSON.stringify(arrWatchedMovies));
-      // console.log(object);
       return object;
     }
   });
+  // console.log(cardSearch);
+  renderCardOfMovie(cardSearchOnLibrary);
 
-  renderCardOfMovie(cardSearch);
 
   refs.backdrop.classList.remove('is-hidden');
   refs.closeBtn.addEventListener('click', onCloseModal);
   refs.backdrop.addEventListener('click', onCloseModal);
   window.addEventListener('keydown', onCloseModayByEsc);
-  console.log(refs.watchedBtn);
-  refs.watchedBtn.addEventListener('click', onClickWatched);
+  refs.addWatchedBtn.addEventListener('click', onClickWatched);
+  refs.addQueueBtn.addEventListener('click', onClickQueue);
 
-  document.body.style.overflow = 'hidden';
+  const isFilmInWatched = arrWatchedMovies.some(film => film.id === itemId);
+
+  if (isFilmInWatched) {
+    refs.addWatchedBtn.textContent = 'remove from watched';
+    refs.addWatchedBtn.classList.add('active-watched');
+  } else {
+    refs.addWatchedBtn.textContent = 'add to watched';
+    refs.addWatchedBtn.classList.remove('active-watched');
+  }
+
+  const isFilmInQueue = arrQueueMovies.some(film => film.id === itemId);
+  if (isFilmInQueue) {
+    refs.addQueueBtn.textContent = 'remove from queue';
+    refs.addQueueBtn.classList.add('active-queue');
+  } else {
+    refs.addQueueBtn.textContent = 'add to queue';
+    refs.addQueueBtn.classList.remove('active-queue');
+  }
+
+  // document.body.style.overflowY = 'scroll';
+  // refs.body.classList.add('body-lock');
+
+  // ************* show trailer on YouTube**start*****
+  const trailerButton = document.querySelector('.js-open-trailer');
+  trailerButton.addEventListener(`click`, onClickTrailer);
+  async function onClickTrailer(e) {
+    try {
+      const data = await fetchTrailer(itemId);
+      // console.log(data.results.length);
+      if (data.results.length > 0) {
+        window.open(
+          `https://www.youtube.com/watch?v=${data.results[0].key}`,
+          '_blank'
+        );
+      } else {
+        function invalidSearchTrailer() {
+          const modalMovie = document.querySelector('.modal-movie');
+          modalMovie.insertAdjacentHTML(
+            'afterbegin',
+            '<p class="trailer-search form__uncorrect-search is-hidden"></p>'
+          );
+          const notification = document.querySelector(
+            '.form__uncorrect-search'
+          );
+          notification.textContent =
+            'Sorry, but there is no trailer for this movie';
+          setTimeout(() => {
+            notification.classList.toggle('is-hidden');
+          }, 1000);
+          const removeNotification = setTimeout(() => {
+            modalMovie.firstElementChild.remove();
+          }, 2000);
+        }
+        invalidSearchTrailer();
+      }
+    } catch (error) {
+      error.message;
+    }
+  }
+  // ************* show trailer on YouTube**END*****
 }
 
 function onCloseModal(e) {
+  document.body.classList.remove('modal-open');
+
   if (
     e.target.classList.value === 'btn-modal-close' ||
     e.target === e.currentTarget
@@ -182,57 +235,98 @@ function onCloseModal(e) {
     document.body.style.overflow = '';
     refs.closeBtn.removeEventListener('click', onCloseModal);
     refs.backdrop.removeEventListener('click', onCloseModal);
+    refs.addWatchedBtn.removeEventListener('click', onClickWatched);
+    refs.addQueueBtn.removeEventListener('click', onClickQueue);
     window.removeEventListener('keydown', onCloseModayByEsc);
 
-    const markup = `<button class="btn-modal-close" type="button">
-    </button><div class="modal-movie-btn">
-      <button type="button" class="btn-modal btn-modal__watched">
-        add to Watched
-      </button>
-      <button type="button" class="btn-modal btn-modal__queue">
-        add to queue
-      </button>
-    </div>`;
-
-    refs.modal.innerHTML = markup;
+    refs.modalMovie.innerHTML = '';
+    refs.modalText.innerHTML = '';
   }
 }
 
 function onCloseModayByEsc(e) {
-  console.log(e.code);
+  document.body.classList.remove('modal-open');
+
+  // console.log(e.code);
   if (e.code === 'Escape') {
     refs.backdrop.classList.add('is-hidden');
     document.body.style.overflow = '';
     refs.closeBtn.removeEventListener('click', onCloseModal);
     refs.backdrop.removeEventListener('click', onCloseModal);
     window.removeEventListener('keydown', onCloseModayByEsc);
+    refs.addWatchedBtn.removeEventListener('click', onClickWatched);
+    refs.addQueueBtn.removeEventListener('click', onClickQueue);
 
-    const markup = `<button type="button" class="btn-modal-close">Close</button><div class="modal-movie-btn">
-      <button type="button" class="btn-modal btn-modal__watched">
-        add to Watched
-      </button>
-      <button type="button" class="btn-modal btn-modal__queue">
-        add to queue
-      </button>
-    </div>`;
-
-    refs.modal.innerHTML = markup;
+    refs.modalMovie.innerHTML = '';
+    refs.modalText.innerHTML = '';
   }
 }
 
 function onClickWatched(e) {
-  console.log('hello');
-  const watchedMoviesId = Number(e.target.parentNode.dataset.id);
+  const removeBtn = document.querySelector('.active-watched');
+  e.target.classList.toggle('active-watched');
+  const currentMoviesId = Number(refs.modal.dataset.id);
+
   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
   const resultsSearch = parsedDataSearch.results;
+  arrWatchedMovies = load(LOCAL_KEY_WATCHED);
 
-  resultsSearch.find(object => {
-    if (object.id === watchedMoviesId) {
-      arrWatchedMovies.push(object);
-      console.log(arrWatchedMovies);
-
-      save(LOCAL_KEY, arrWatchedMovies);
-      console.log(object);
-    }
-  });
+  if (removeBtn) {
+    const newMoviesArr = arrWatchedMovies.filter(
+      film => film.id != currentMoviesId
+    );
+    save(LOCAL_KEY_WATCHED, newMoviesArr);
+    e.target.textContent = 'add to watched';
+  }
+  if (!removeBtn) {
+    resultsSearch.find(object => {
+      if (object.id === currentMoviesId) {
+        arrWatchedMovies.push(object);
+        // console.log(arrWatchedMovies);
+        save(LOCAL_KEY_WATCHED, arrWatchedMovies);
+        // console.log(object);
+      }
+    });
+    e.target.textContent = 'remove from watched';
+  }
 }
+
+function onClickQueue(e) {
+  const removeBtn = document.querySelector('.active-queue');
+  e.target.classList.toggle('active-queue');
+
+  const currentMoviesId = Number(refs.modal.dataset.id);
+
+  const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
+  const resultsSearch = parsedDataSearch.results;
+  arrQueueMovies = load(LOCAL_KEY_QUEUE);
+
+  if (removeBtn) {
+    const newMoviesArr = arrQueueMovies.filter(
+      film => film.id != currentMoviesId
+    );
+    save(LOCAL_KEY_QUEUE, newMoviesArr);
+    e.target.textContent = 'add to queue';
+  }
+  if (!removeBtn) {
+    resultsSearch.find(object => {
+      if (object.id === currentMoviesId) {
+        arrQueueMovies.push(object);
+        // console.log(arrQueueMovies);
+        save(LOCAL_KEY_QUEUE, arrQueueMovies);
+        // console.log(object);
+      }
+    });
+    e.target.textContent = 'remove from queue';
+  }
+}
+
+function waitingLi() {
+  setTimeout(() => {
+    refs.cardsList.childNodes.forEach(card => {
+      card.addEventListener('click', onClickItem);
+    });
+  }, 200);
+}
+
+export { arrWatchedMovies, arrQueueMovies, waitingLi };

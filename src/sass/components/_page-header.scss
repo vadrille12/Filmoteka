@@ -101,7 +101,7 @@
     @media screen and (min-width: 768px) {
       width: 336px;
     }
-    @media screen and (min-width: 1200px) {
+    @media screen and (min-width: 1280px) {
       width: 394px;
     }
   }
@@ -145,21 +145,7 @@
     fill: $main-title-color;
   }
 }
-// .uncorrect-search {
-//   text-align: center;
-//   color: red;
-//   font-weight: 400;
-//   font-size: 14px;
-//   line-height: 1.14;
-//   margin-top: 20px;
 
-//   @media screen and (max-width: 767px) {
-//     margin-top: 5px;
-//     text-align: left;
-//     display: block;
-//     width: 150px;
-//   }
-// }
 .form__uncorrect-search {
   position: absolute;
   top: 40px;
@@ -212,15 +198,18 @@
       height: 42px;
     }
   }
-  &__activ {
-    background-color: $main-accent-color;
-  }
+
   &__btn:hover {
     background-color: $main-accent-color;
   }
   &__btn:focus {
     background-color: $main-accent-color;
   }
+}
+
+.js-active {
+  background-color: $main-accent-color;
+  border-color: transparent;
 }
 
 // // // ============ Стили background ========================
@@ -338,34 +327,14 @@
   }
 }
 
-
 .header-logo__link {
   position: relative;
 }
-.header-logo__link:hover,
-.header-logo__link:focus {
+.header-logo__text:hover,
+.header-logo__text:focus {
   color: $main-accent-color;
   transition: 1s ease;
   outline: none;
-}
-.header-logo__link::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 20px;
-  background: transparent;
-  height: 50%;
-  width: 100%;
-  transform: perspective(1em) rotateX(40deg) scale(1, 0.35);
-  filter: blur(8px);
-  transition: 1s ease;
-}
-.header-logo__link:hover::before,
-.header-logo__link:focus::before {
-  background: $body-background-color;
-  top: 40px;
-  left: 30px;
- 
 }
 
 .header-nav__link {
@@ -406,14 +375,14 @@
 
 .hi-icon-wrap {
   position: absolute;
- top: 210px;
- margin-left: 250px;
+  top: 200px;
+  margin-left: 250px;
   @media screen and (min-width: 768px) {
     margin-left: 680px;
-  } 
+  }
   @media screen and (min-width: 1280px) {
-    margin-left: 1200px;
-  } 
+    margin-left: 1150px;
+  }
 }
 .theme-btn {
   // display: inline-block;
@@ -423,7 +392,6 @@
   // position: relative;
   z-index: 1;
   color: $main-title-color;
-  
 }
 
 .theme-btn:after {
@@ -458,7 +426,6 @@
   -webkit-transition: opacity 0.2s;
   -moz-transition: opacity 0.2s;
   transition: opacity 0.2s, transform 0.2s;
-  
 }
 // .hi-icon-effect .theme-btn:active::after {
 //   opacity: 0;
@@ -486,7 +453,7 @@
   transition: transform 0.2s, opacity 0.2s;
 }
 
-.hi-icon-effect .theme-btn:hover::before  {
+.hi-icon-effect .theme-btn:hover::before {
   display: inline-block;
   text-align: center;
   -webkit-transform: scale(1);

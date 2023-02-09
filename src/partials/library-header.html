@@ -1,4 +1,4 @@
-<header class="library-bg library-header-bcg">
+<header class="library-bg library-header-bcg header-library">
   <div id="header" class="container home">
     <div class="header-logo">
       <div class="header-logo__wrap">
@@ -17,7 +17,7 @@
             </a>
           </li>
           <li class="header-list__item">
-            <a class="header-list__link" href="#">
+            <a class="header-list__link library-default" href="#">
               <span class="current-page">My library</span>
             </a>
           </li>
@@ -29,8 +29,9 @@
         <li class="header-library__item">
           <button
             id="library-watched__button"
-            class="header-library__btn watched-list-btn header-library__activ"
+            class="header-library__btn watched-list-btn js-active"
             type="button"
+            aria-label="watched"
           >
             WATCHED
           </button>
@@ -40,14 +41,15 @@
             id="library-queue__button"
             class="header-library__btn queue-list-btn"
             type="button"
+            aria-label="queue"
           >
             QUEUE
           </button>
         </li>
       </ul>
-      <!-- <div class="hi-icon-wrap hi-icon-effect">
+      <div class="hi-icon-wrap hi-icon-effect">
         <button class="theme-btn toggler text-focus-in"></button>
-      </div> -->
+      </div>
     </div>
   </div>
 </header>
