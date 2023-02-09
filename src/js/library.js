@@ -8,5 +8,4 @@ function emptyLibrary() {
   <p class="empty-library__title">WTF!?</p>
   <img class="empty-library__img"  src="${fotoUrl}" " alt ="стрічка фільму" width="780" >
   </div> `;
-  container.insertAdjacentHTML('beforeend', markup);
-}
+  container.insertAdjacentHTML('beforeend', markup);}
