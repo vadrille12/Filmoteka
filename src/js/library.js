@@ -10,6 +10,7 @@ export function emptyLibrary() {
   <p class="empty-library__title">WTF!?</p>
   <img class="empty-library__img" src="${fotoUrl}" alt ="стрічка фільму" width="780" >
   </div> `;
+  
   containerTravolta.innerHTML = markup;
   // containerTravolta.insertAdjacentHTML('beforeend', markup);
 }
