@@ -31,7 +31,7 @@ async function onFormSubmit(event) {
   event.preventDefault();
   page = 1;
   query = event.currentTarget.elements.searchQuery.value.trim();
-  console.log(query);
+  // console.log(query);
   refs.paginationEl.style.display = 'none';
 
   if (query === '') {
@@ -41,9 +41,9 @@ async function onFormSubmit(event) {
   }
   await fetchMovie(query, page)
     .then(data => {
-      console.log(data);
+      // console.log(data);
       const totalRes = data.total_results;
-      console.log(totalRes);
+      // console.log(totalRes);
       if (!totalRes) {
         invalidSearch(
           'Search result not successful. Enter the correct movie name and try again',

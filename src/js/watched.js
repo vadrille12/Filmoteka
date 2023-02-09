@@ -91,7 +91,7 @@ function removeMovieFromQueue(e) {
     const forDeleteId = Number(e.target.dataset.id);
     idForRemovinigFilmQueue = saveDataQueue.find(film => {
       if (forDeleteId === film.id) {
-        console.log(film.id);
+        // console.log(film.id);
         return film;
       }
     });

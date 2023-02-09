@@ -12,7 +12,7 @@ import { fetchTrailer } from './fetchAPI.js';
 export async function onClickTrailer(e) {
   try {
     const data = await fetchTrailer(itemId);
-    console.log(data.results.length);
+    // console.log(data.results.length);
     if (data.results.length > 0) {
       window.open(
         `https://www.youtube.com/watch?v=${data.results[0].key}`,

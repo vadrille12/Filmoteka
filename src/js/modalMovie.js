@@ -133,7 +133,7 @@ export function onClickItem(e) {
   const itemId = Number(e.currentTarget.id);
   arrWatchedMovies = load(LOCAL_KEY_WATCHED);
   arrQueueMovies = load(LOCAL_KEY_QUEUE);
-  console.log(itemId);
+  // console.log(itemId);
   const parsedDataSearch = JSON.parse(localStorage.getItem('search-storage'));
   const resultsSearch = parsedDataSearch.results;
   // const cardSearch = resultsSearch.find(object => {
@@ -186,7 +186,7 @@ export function onClickItem(e) {
   async function onClickTrailer(e) {
     try {
       const data = await fetchTrailer(itemId);
-      console.log(data.results.length);
+      // console.log(data.results.length);
       if (data.results.length > 0) {
         window.open(
           `https://www.youtube.com/watch?v=${data.results[0].key}`,
@@ -239,7 +239,7 @@ function onCloseModal(e) {
 }
 
 function onCloseModayByEsc(e) {
-  console.log(e.code);
+  // console.log(e.code);
   if (e.code === 'Escape') {
     refs.backdrop.classList.add('is-hidden');
     document.body.style.overflow = '';
@@ -274,9 +274,9 @@ function onClickWatched(e) {
     resultsSearch.find(object => {
       if (object.id === currentMoviesId) {
         arrWatchedMovies.push(object);
-        console.log(arrWatchedMovies);
+        // console.log(arrWatchedMovies);
         save(LOCAL_KEY_WATCHED, arrWatchedMovies);
-        console.log(object);
+        // console.log(object);
       }
     });
     e.target.textContent = 'remove from watched';
@@ -304,9 +304,9 @@ function onClickQueue(e) {
     resultsSearch.find(object => {
       if (object.id === currentMoviesId) {
         arrQueueMovies.push(object);
-        console.log(arrQueueMovies);
+        // console.log(arrQueueMovies);
         save(LOCAL_KEY_QUEUE, arrQueueMovies);
-        console.log(object);
+        // console.log(object);
       }
     });
     e.target.textContent = 'remove from queue';
