@@ -161,7 +161,7 @@ function getGenres(genresArr) {
 export function renderMoviesFromLibrary(data) {
 
 
-  console.log('renderMoviesFromLibrary', data)
+  // console.log('renderMoviesFromLibrary', data)
 
   if (saveDataWatched.length === 0 && saveDataQueue.length === 0) {
     emptyLibrary();
@@ -250,14 +250,14 @@ function paginationWatched() {
 
   setTimeout(() => {
     if (!queueBtn.classList.contains('js-active')) {
-      console.log('call render queue')
+      // console.log('call render queue')
       renderMoviesFromLibrary(saveDataWatched.slice(0, ITEM_PER_PAGE));
     }
 
   }, 1)
 
 
-  console.log('paginationWatched')
+  // console.log('paginationWatched')
 
   makeTuiPaginationInLibrary(saveDataWatched.length).on(
     'afterMove',
@@ -277,7 +277,7 @@ function paginationQueue() {
 
   setTimeout(() => {
     if (!watchedBtn.classList.contains('js-active')) {
-      console.log('call render queue')
+      // console.log('call render queue')
       renderMoviesFromLibrary(saveDataQueue.slice(0, ITEM_PER_PAGE));
     }
 
