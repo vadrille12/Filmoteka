@@ -32,7 +32,7 @@ export async function showTrendingMovies(page = 1) {
   }
 }
 
-showTrendingMovies().then(console.log);
+showTrendingMovies()
 
 function getGenres(genresArr) {
   return genresArr.map(genre => localStorage.getItem(genre)).join(', ');
